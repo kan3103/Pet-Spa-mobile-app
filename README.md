@@ -7,8 +7,7 @@ Welcome to the Pet Spa app Project - Software Project (CO3103)! This repository 
 
 - [Introduction](#introduction)
 - [Team Members](#team-members)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
+
 
 ## Introduction
 
