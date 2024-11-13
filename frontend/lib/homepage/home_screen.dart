@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/homepage/homepage.dart';
+import 'package:frontend/view_model/itemView.dart';
 
 class HomeScreen extends StatefulWidget {
   
@@ -207,11 +208,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    _buildBestSellerServiceItem(
+                    buildBestSellerItem(
                         'assets/images/image 29.png','Combo: Dịch vụ tắm, vệ sinh và tỉa lông', '500.000'),
-                    _buildBestSellerServiceItem(
+                    buildBestSellerItem(
                         'assets/images/image 30.png','Dịch vụ: Tiêm vacxin, xổ lãi, triệt sản', '300.000 - 1.000.000'),
-                    _buildBestSellerServiceItem(
+                    buildBestSellerItem(
                         'assets/images/image 31.png','Dịch vụ: Điều trị bệnh ngoài da, ghẻ, nấm', '300.000 - 1.000.000'),
                   ],
                 ),
@@ -241,9 +242,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
-                    _buildBestSellerProductItem(
+                    buildBestSellerItem(
                         'assets/images/image 32.png','Pate cho mèo Whiskas 80g hương Cá Biển', '12.500'),
-                    _buildBestSellerProductItem(
+                    buildBestSellerItem(
                         'assets/images/image 33.png','Cát vệ sinh cho mèo Mooncat', '55.000'),
                   ],
                 ),
@@ -276,94 +277,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     ],
   );
-  }
-
-  // Function to create Best Seller Service Item
-  Widget _buildBestSellerServiceItem(String image_link, String title, String price) {
-    return Container(
-      width: 146,
-      //height: 300,
-      margin: EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-        color: Color(0xFFFFF5F5),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-             // color: Color(0xFFFFF5F5),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Image.asset(
-              image_link,
-              height: 124,
-              width: 146,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.bold),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              '₫ $price',
-              style: TextStyle(color: Colors.red),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Function to create Best Seller Product Item
-  Widget _buildBestSellerProductItem(String image_link, String title, String price) {
-    return Container(
-      width: 146,
-      margin: EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-        color: Color(0xFFFFF5F5),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.asset(
-            image_link, // Hình ảnh sản phẩm (thay bằng ảnh của bạn)
-            height: 124,
-            width: 146,
-            fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.bold),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              '₫ $price',
-              style: TextStyle(color: Colors.red),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
