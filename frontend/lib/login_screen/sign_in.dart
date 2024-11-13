@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/login_screen/header_section.dart';
 import 'package:frontend/login_screen/tab_selection.dart';
 import 'package:frontend/login_screen/forgot_password.dart';
+import 'package:frontend/login_screen/create_username.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -141,7 +142,10 @@ class _SignInScreenState extends State<SignInScreen> {
                           SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () {
-                              _showNotification('Google Sign In Successful');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => CreateUsernameScreen()),
+                              );
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
