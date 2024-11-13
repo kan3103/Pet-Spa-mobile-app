@@ -1,7 +1,7 @@
 import requests
 from rest_framework import generics,status
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny,IsAuthenticated
 from .models import Customer,User
 from .serializers import CusSerializer, TokenSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -66,4 +66,13 @@ class GoogleLogin(generics.GenericAPIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
+from rest_framework_simplejwt.tokens import RefreshToken
+class LogoutView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TokenSerializer
+    def post(self,request):
+        refresh_token = request.data.get("refresh")
+        token = RefreshToken(refresh_token)
+        token.blacklist()  
+        return Response({"message": "Logout sucessfully"}, status=200)
 
