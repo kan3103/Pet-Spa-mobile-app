@@ -131,7 +131,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
               onPressed: () {
                 Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => MainScreen()),
+                                      MaterialPageRoute(builder: (context) => LoginScreen()),
                                     );
               },
               child: Padding(

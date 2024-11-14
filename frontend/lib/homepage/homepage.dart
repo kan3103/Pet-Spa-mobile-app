@@ -37,7 +37,7 @@ class _mainHomePageState extends State<mainHomePage> {
         page = HomeScreen(); 
         break;
       case 1:
-        page =  MainScreen();
+        page =  LoginScreen();
         break;
       case 2:
         page = HomeScreen();

@@ -146,7 +146,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => MainScreen()),
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
               ),

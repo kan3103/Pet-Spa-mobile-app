@@ -6,12 +6,12 @@ import 'package:frontend/login_screen/component/tab_selection.dart';
 import 'package:frontend/login_screen/forgot_password.dart';
 import 'package:frontend/login_screen/create_username.dart';
 
-class MainScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   bool isSignUpSelected = false;
   bool keepMeSignedIn = false;
 
