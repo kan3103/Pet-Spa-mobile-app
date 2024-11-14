@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/login_screen/login_screen.dart';
 
 final List<String> imageUrls = [
   'assets/images/startedpage/started_img1.png',
@@ -128,7 +129,10 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 ),
               ),
               onPressed: () {
-                // Navigate to the next page
+                Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => MainScreen()),
+                                    );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),

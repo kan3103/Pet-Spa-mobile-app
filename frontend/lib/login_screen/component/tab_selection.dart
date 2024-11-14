@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/login_screen//sign_in.dart';
-import 'package:frontend/login_screen/sign_up.dart';
+import 'package:frontend/login_screen/component/sign_in.dart';
+import 'package:frontend/login_screen/component/sign_up.dart';
 
 class TabSelection extends StatefulWidget {
   final bool isSignUpSelected;
+   final ValueChanged<bool> onSelectionChanged;
 
-  TabSelection({required this.isSignUpSelected});
+  TabSelection({required this.isSignUpSelected,required this.onSelectionChanged});
 
   @override
   _TabSelectionState createState() => _TabSelectionState();
@@ -24,6 +25,7 @@ class _TabSelectionState extends State<TabSelection> {
     setState(() {
       isSignUpSelected = !isSignUpSelected;
     });
+    widget.onSelectionChanged(isSignUpSelected);
   }
 
   @override
@@ -40,10 +42,10 @@ class _TabSelectionState extends State<TabSelection> {
                 onTap: () {
                   if (isSignUpSelected) {
                     _toggleTab();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignInScreen()),
-                    );
+                    // Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => SignInScreen()),
+                    // );
                   }
                 },
                 child: Column(
@@ -70,10 +72,10 @@ class _TabSelectionState extends State<TabSelection> {
                 onTap: () {
                   if (!isSignUpSelected) {
                     _toggleTab();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpScreen()),
-                    );
+                    // Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => SignUpScreen()),
+                    // );
                   }
                 },
                 child: Column(
