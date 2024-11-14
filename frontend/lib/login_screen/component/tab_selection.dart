@@ -4,9 +4,10 @@ import 'package:frontend/login_screen/component/sign_up.dart';
 
 class TabSelection extends StatefulWidget {
   final bool isSignUpSelected;
-   final ValueChanged<bool> onSelectionChanged;
+  final ValueChanged<bool> onSelectionChanged;
 
-  TabSelection({required this.isSignUpSelected,required this.onSelectionChanged});
+  TabSelection(
+      {required this.isSignUpSelected, required this.onSelectionChanged});
 
   @override
   _TabSelectionState createState() => _TabSelectionState();
@@ -34,7 +35,8 @@ class _TabSelectionState extends State<TabSelection> {
       alignment: Alignment.topCenter,
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20), // Added vertical padding
+          padding: EdgeInsets.symmetric(
+              horizontal: 20, vertical: 20), // Added vertical padding
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -116,4 +118,3 @@ class _TabSelectionState extends State<TabSelection> {
     );
   }
 }
-

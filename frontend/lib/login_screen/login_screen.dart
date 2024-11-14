@@ -14,7 +14,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   bool isSignUpSelected = false;
   bool keepMeSignedIn = false;
-  bool isSignup=false;
 
   void _showNotification(String message) {
     showDialog(
@@ -35,6 +34,7 @@ class _MainScreenState extends State<MainScreen> {
       },
     );
   }
+
   void updateIsSignUpSelected(bool value) {
     setState(() {
       isSignUpSelected = value;
@@ -62,51 +62,58 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Column(children: [ TabSelection(isSignUpSelected: isSignUpSelected,onSelectionChanged: (value)=>{
-                        updateIsSignUpSelected(value)
-                      }),!isSignUpSelected?SignInScreen():SignUpScreen(),],)
-                    ),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          children: [
+                            TabSelection(
+                                isSignUpSelected: isSignUpSelected,
+                                onSelectionChanged: (value) =>
+                                    {updateIsSignUpSelected(value)}),
+                            !isSignUpSelected ? SignInScreen() : SignUpScreen(),
+                          ],
+                        )),
                   ),
                 ),
               ),
             ],
           ),
-          !isSignUpSelected?AnimatedPositioned(
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            top: MediaQuery.of(context).size.height * 0.3 - 55,
-            left: MediaQuery.of(context).size.width / 2 - 215,
-            child: ClipRect(
-              child: Align(
-                alignment: Alignment.topCenter,
-                heightFactor: 0.47, // Show only the top half of the image
-                child: Image.asset(
-                  'assets/images/catforsignin.png',
-                  width: 250, // Adjust the width as needed
-                  height: 250, // Adjust the height as needed
-                  fit: BoxFit.contain,
+          !isSignUpSelected
+              ? AnimatedPositioned(
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  top: MediaQuery.of(context).size.height * 0.3 - 55,
+                  left: MediaQuery.of(context).size.width / 2 - 215,
+                  child: ClipRect(
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      heightFactor: 0.47, // Show only the top half of the image
+                      child: Image.asset(
+                        'assets/images/catforsignin.png',
+                        width: 250, // Adjust the width as needed
+                        height: 250, // Adjust the height as needed
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                )
+              : AnimatedPositioned(
+                  duration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  top: MediaQuery.of(context).size.height * 0.3 - 55,
+                  left: MediaQuery.of(context).size.width / 2 - 45,
+                  child: ClipRect(
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      heightFactor: 0.47, // Show only the top half of the image
+                      child: Image.asset(
+                        'assets/images/catforsignin.png',
+                        width: 250, // Adjust the width as needed
+                        height: 250, // Adjust the height as needed
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ): AnimatedPositioned(
-            duration: Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            top: MediaQuery.of(context).size.height * 0.3 - 55,
-            left: MediaQuery.of(context).size.width / 2 - 45,
-            child: ClipRect(
-              child: Align(
-                alignment: Alignment.topCenter,
-                heightFactor: 0.47, // Show only the top half of the image
-                child: Image.asset(
-                  'assets/images/catforsignin.png',
-                  width: 250, // Adjust the width as needed
-                  height: 250, // Adjust the height as needed
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );

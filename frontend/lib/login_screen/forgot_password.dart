@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/login_screen/component/header_section.dart';
-import 'package:frontend/login_screen/component/sign_in.dart';
+import 'package:frontend/login_screen/login_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -49,7 +49,8 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -97,9 +98,11 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             child: ElevatedButton(
                               onPressed: () {
                                 // Replace with actual logic
-                                bool success = true; // Simulate success or failure
+                                bool success =
+                                    true; // Simulate success or failure
                                 if (success) {
-                                  _showNotification('Password Reset Successful');
+                                  _showNotification(
+                                      'Password Reset Successful');
                                 } else {
                                   _showNotification('Password Reset Failed');
                                 }
@@ -143,7 +146,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => SignInScreen()),
+                    MaterialPageRoute(builder: (context) => MainScreen()),
                   );
                 },
               ),
