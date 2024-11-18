@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/product_model.dart';
+import 'package:frontend/productPage/cart_page.dart';
 import 'package:frontend/productPage/product_detail.dart';
 import 'package:frontend/view_model/itemView_sqr.dart'; 
 
@@ -54,7 +55,12 @@ class _productScreenState extends State<productScreen> {
               IconButton(
                 icon: Icon(Icons.shopping_cart , color: Colors.white,),
                 onPressed: () {
-                  // Điều hướng đến trang giỏ hàng nếu cần
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CartPage(), // Gọi trang CartPage
+                    ),
+                  );
                 },
               ),
               if (cartItemCount > 0) // Hiển thị thông báo nếu có sản phẩm trong giỏ

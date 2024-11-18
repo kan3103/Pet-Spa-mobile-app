@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/product_model.dart';
+import 'package:frontend/productPage/cart_page.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
@@ -30,8 +31,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             children: [
               IconButton(
                 icon: Icon(Icons.shopping_cart , color: Colors.white,),
-                onPressed: () {
-                  // Điều hướng đến trang giỏ hàng nếu cần
+                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>CartPage(), // Gọi trang CartPage
+                    ),
+                  );
                 },
               ),
               if (widget.cartItemCount > 0) 
