@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/homepage/homepage.dart';
-import 'package:frontend/view_model/itemView.dart';
+import 'package:frontend/view_model/itemView_sqr.dart';
 
 class HomeScreen extends StatefulWidget {
   
@@ -209,11 +209,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   scrollDirection: Axis.horizontal,
                   children: [
                     buildBestSellerItem(
-                        'assets/images/image 29.png','Combo: Dịch vụ tắm, vệ sinh và tỉa lông', '500.000'),
+                        'assets/images/image 29.png','Combo: Dịch vụ tắm, vệ sinh và tỉa lông', '500.000',
+                        (){
+                          print('Nhấn vào Combo: Dịch vụ tắm, vệ sinh và tỉa lông');
+                        }
+                        ),
                     buildBestSellerItem(
-                        'assets/images/image 30.png','Dịch vụ: Tiêm vacxin, xổ lãi, triệt sản', '300.000 - 1.000.000'),
+                        'assets/images/image 30.png','Dịch vụ: Tiêm vacxin, xổ lãi, triệt sản', '300.000 - 1.000.000',(){}),
                     buildBestSellerItem(
-                        'assets/images/image 31.png','Dịch vụ: Điều trị bệnh ngoài da, ghẻ, nấm', '300.000 - 1.000.000'),
+                        'assets/images/image 31.png','Dịch vụ: Điều trị bệnh ngoài da, ghẻ, nấm', '300.000 - 1.000.000',(){}),
                   ],
                 ),
               ),
@@ -238,14 +242,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 10),
               Container(
-                height: 220,
+                height: 200,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: [
                     buildBestSellerItem(
-                        'assets/images/image 32.png','Pate cho mèo Whiskas 80g hương Cá Biển', '12.500'),
+                        'assets/images/image 32.png','Pate cho mèo Whiskas 80g hương Cá Biển', '12.500',(){}),
                     buildBestSellerItem(
-                        'assets/images/image 33.png','Cát vệ sinh cho mèo Mooncat', '55.000'),
+                        'assets/images/image 33.png','Cát vệ sinh cho mèo Mooncat', '55.000',(){}),
                   ],
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/homepage/home_screen.dart';
+import 'package:frontend/productPage/productScreen.dart';
 import 'package:frontend/login_screen/login_screen.dart';
 import 'package:frontend/startedpage/started_page.dart';
 
@@ -40,7 +41,7 @@ class _mainHomePageState extends State<mainHomePage> {
         page =  LoginScreen();
         break;
       case 2:
-        page = HomeScreen();
+        page = productScreen();
         break;
       case 3:
         page =  HomeScreen();
@@ -60,6 +61,7 @@ class _mainHomePageState extends State<mainHomePage> {
           child: BottomNavigationBar(
             selectedItemColor: Colors.black,
             unselectedItemColor: Colors.black,
+            backgroundColor: Color(0xFFF49FA4),
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home) ,
