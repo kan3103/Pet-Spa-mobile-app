@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/homepage/home_screen.dart';
 import 'package:frontend/productPage/productScreen.dart';
+import 'package:frontend/login_screen/login_screen.dart';
 import 'package:frontend/startedpage/started_page.dart';
 
 final GlobalKey<_mainHomePageState> mainHomePageKey = GlobalKey();
@@ -37,7 +38,7 @@ class _mainHomePageState extends State<mainHomePage> {
         page = HomeScreen(); 
         break;
       case 1:
-        page =  HomeScreen(); 
+        page =  LoginScreen();
         break;
       case 2:
         page = productScreen();
