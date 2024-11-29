@@ -74,10 +74,6 @@ class _TabSelectionState extends State<TabSelection> {
                 onTap: () {
                   if (!isSignUpSelected) {
                     _toggleTab();
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => SignUpScreen()),
-                    // );
                   }
                 },
                 child: Column(
@@ -103,17 +99,6 @@ class _TabSelectionState extends State<TabSelection> {
             ],
           ),
         ),
-        // AnimatedAlign(
-        //   duration: Duration(milliseconds: 300),
-        //   curve: Curves.easeInOut,
-        //   alignment: isSignUpSelected ? Alignment.topRight : Alignment.topLeft,
-        //   child: Image.asset(
-        //     'assets/images/catforsignin.png',
-        //     width: 250, // Adjust the width as needed
-        //     height: 250, // Adjust the height as needed
-        //     fit: BoxFit.contain,
-        //   ),
-        // ),
       ],
     );
   }
