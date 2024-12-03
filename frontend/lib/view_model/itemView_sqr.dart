@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 Widget buildBestSellerItem(String imageLink, String title, String price, VoidCallback onTap) {
+
   return GestureDetector(
     onTap: onTap, // Hàm được gọi khi nhấn vào item
     child: Container(
@@ -23,12 +24,7 @@ Widget buildBestSellerItem(String imageLink, String title, String price, VoidCal
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
             ),
-            child: Image.asset(
-              imageLink,
-              height: 130,
-              width: 146,
-              fit: BoxFit.cover,
-            ),
+            child: getImageWidget(imageLink),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -54,3 +50,24 @@ Widget buildBestSellerItem(String imageLink, String title, String price, VoidCal
   );
 }
 
+Widget getImageWidget(String imagePath) {
+  
+  bool isUrl = Uri.tryParse(imagePath)?.hasAbsolutePath ?? false;
+
+  if (isUrl) {
+    // Nếu là URL, dùng Image.network
+    return Image.network(imagePath,
+      height: 130,
+      width: 146,
+      fit: BoxFit.cover,
+    );
+  } else {
+    // Nếu là đường dẫn Asset, dùng Image.asset
+    return Image.asset(
+      imagePath,
+      height: 130,
+      width: 146,
+      fit: BoxFit.cover,
+    );
+  }
+}
