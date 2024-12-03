@@ -65,10 +65,12 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
+            /*
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => MyServiceScreen()),
-            );
+            );*/
+              Navigator.pop(context);
           },
         ),
       ),
@@ -103,10 +105,13 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
+                
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SelectServiceScreen()),
                 );
+                
+                //Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: isPetSelected ? Color(0xFFF49FA4) : Colors.grey.shade400,
