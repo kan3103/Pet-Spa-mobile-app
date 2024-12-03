@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/homepage/homepage.dart';
 import 'package:frontend/service_screen/selectService_screen.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 import 'package:frontend/service_screen/service_screen.dart';
@@ -22,12 +23,24 @@ class _ServiceCartScreenState extends State<ServiceCartScreen> {
       'services': ['Tắm, vệ sinh và tỉa lông']
     },
   ];
-
+/////////////////////////////////////////////////////////////////////////////////////////
   void _navigateToNewOrder() {
+    /*
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MyServiceScreen()),
-    ).then((newPet) {
+      MaterialPageRoute(
+        builder: (context) => MyServiceScreen(),
+        
+      ),
+    )
+    */
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => mainHomePage()),
+      (Route<dynamic> route) => false,  // Loại bỏ tất cả các trang trong stack
+    )
+    
+    .then((newPet) {
       if (newPet != null) {
         setState(() {
           pets.add(newPet);
@@ -54,10 +67,7 @@ class _ServiceCartScreenState extends State<ServiceCartScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) =>  SelectServiceScreen()),
-            );
+            Navigator.pop(context);
           },
         ),
         actions:
@@ -136,6 +146,8 @@ class _ServiceCartScreenState extends State<ServiceCartScreen> {
             SizedBox(
               width: double.infinity, // Set the desired width here
               child: ElevatedButton(
+
+                /////////////////////////////////////////////////////////////////////////////////////////
                 onPressed: _navigateToNewOrder,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFF49FA4),
