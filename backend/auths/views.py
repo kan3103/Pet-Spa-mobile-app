@@ -6,12 +6,37 @@ from .models import Customer,User,Staff
 from .serializers import CusSerializer, TokenSerializer ,StaffSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import BasePermission
-
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class IsStaff(BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated  and request.user.is_staff
     
     
+class LoginView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        token_data = response.data
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.user
+        account = "customer"
+        if Customer.objects.filter(id=user.id).exists():
+            account = "customer"
+        elif Staff.objects.filter(id=user.id).exists():
+            if user.is_staff:
+                account = "manager"
+            else:
+                account = "staff"
+        # Tùy chỉnh dữ liệu trả về
+        custom_response_data = {
+            "access": token_data.get("access"),
+            "refresh": token_data.get("refresh"),
+            "account": account,
+        }
+
+        return Response(custom_response_data)
     
 class CreateUserView(generics.CreateAPIView):
     queryset = Customer.objects.all()

@@ -1,8 +1,8 @@
 from django.forms import ValidationError
 from rest_framework import generics,status
 from rest_framework.permissions import AllowAny,IsAuthenticated
-from .models import Pet
-from auths.models import Customer
+from .models import Pet,Profile
+from auths.models import Customer,MyUser
 from .serializers import PetSerializer,ProfileSerializer
 
 class PetCreateView(generics.ListCreateAPIView):
@@ -32,8 +32,9 @@ class PetListView(generics.ListAPIView):
     
     
 class ProfileView(generics.RetrieveUpdateAPIView):
-    queryset = Customer.objects.all()
+    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
     def get_object(self):
-        return self.request.user
+        my = MyUser.objects.get(id=self.request.user.id)
+        return Profile.objects.get(user = my)

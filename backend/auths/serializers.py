@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Customer,User,Staff
+from .models import Customer,User,Staff,MyUser
+from profiles_and_pets.models import Profile
 
 class CusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,6 +23,8 @@ class CusSerializer(serializers.ModelSerializer):
         )
         user.set_password(validated_data['password'])
         user.save()
+        myuser = MyUser.objects.get(id=user.id)
+        Profile.objects.create(user=myuser)
         return user
 
 class StaffSerializer(serializers.ModelSerializer):
@@ -47,6 +50,8 @@ class StaffSerializer(serializers.ModelSerializer):
         )
         user.set_password(validated_data['password'])
         user.save()
+        myuser = MyUser.objects.get(id=user.id)
+        Profile.objects.create(user=myuser)
         return user
 class TokenSerializer(serializers.Serializer):
     refresh = serializers.CharField()

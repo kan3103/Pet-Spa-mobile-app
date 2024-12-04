@@ -29,7 +29,7 @@ class Pet(models.Model):
         return self.name
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
     birthday = models.DateField(blank=True, null=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     address = models.TextField(blank=True, null=True)
