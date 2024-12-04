@@ -2,15 +2,27 @@ import requests
 from rest_framework import generics,status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny,IsAuthenticated
-from .models import Customer,User
-from .serializers import CusSerializer, TokenSerializer
+from .models import Customer,User,Staff
+from .serializers import CusSerializer, TokenSerializer ,StaffSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-# Create your views here.
+from rest_framework.permissions import BasePermission
 
+class IsStaff(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_authenticated  and request.user.is_staff
+    
+    
+    
 class CreateUserView(generics.CreateAPIView):
-    queryset = User.objects.all()
+    queryset = Customer.objects.all()
     serializer_class = CusSerializer
     permission_classes = [AllowAny]
+
+class CreateStaffView(generics.CreateAPIView):
+    queryset = Staff.objects.all()
+    serializer_class = StaffSerializer
+    permission_classes = [IsAuthenticated,IsStaff]
+
 
 class GoogleLogin(generics.GenericAPIView):
     permission_classes = [AllowAny]
@@ -31,6 +43,7 @@ class GoogleLogin(generics.GenericAPIView):
                 return Response({
                     "refresh": str(refesh),
                     "access": str(refesh.access_token),
+                    "account": "customer",
                 })
             else:
                 return Response({
@@ -39,7 +52,7 @@ class GoogleLogin(generics.GenericAPIView):
                     "first_name": req['given_name'],
                 })
         except:
-            return Response({"error": "Token not valid"})
+            return Response({"error": "Token not valid"}, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self,request):
         access_token = request.GET.get('access_token')
@@ -66,7 +79,6 @@ class GoogleLogin(generics.GenericAPIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
-from rest_framework_simplejwt.tokens import RefreshToken
 class LogoutView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = TokenSerializer
