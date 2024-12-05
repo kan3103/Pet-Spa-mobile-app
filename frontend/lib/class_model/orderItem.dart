@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:frontend/service_screen/models/listService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-List<Map<String, dynamic>> formatFile(Map<String, dynamic> jsonString) {
+List<Map<String, dynamic>> formatOrderFile(Map<String, dynamic> jsonString) {
+  /*
 String PetType(int type){
   if (type == 1) return "Dog";
   else if(type == 2)
@@ -13,28 +14,30 @@ String PetType(int type){
   else if(type == 3)
   return "Rabbit";
   return "Hamster";
-}
+}*/
 List<Map<String, dynamic>> formattedData = jsonString.entries.map((entry) {
+    print(entry.key == null ? 'ERROR' :entry.key);
     return {
-      "name": entry.key,
-      "orders": entry.value["orders"].map((order) {
+      "name": entry.key == null ? "ERROR" :entry.key ,
+      "orders": entry.value.map((order) {
         return {
-          "id": order["id"],
-          "status": order["status"],
-          "pet": order["pet"],
-          "service": order["service"],
+          "id": order['id'],
+          "user_id": order['user_id'],
+          "created_at": order['created_at'],
+          "status": order['status'],
+          "staff_id": order['staff_id'],
+          "pet_id": order['pet_id'],
+          "service_id": order['service_id']
         };
       }).toList(),
-      "type": PetType(entry.value["type"]),
     };
   }).toList();
 
 return formattedData;
 }
 
-
-class ServiceAPI {
-  static const String url = "http://10.0.5.30:8000/orders/services";
+class AllServiceAPI {
+  static const String url = "http://10.0.5.30:8000/orders/services/all";
   
 
   static Future<List<Map<String,dynamic>>> getList() async {
@@ -53,7 +56,7 @@ class ServiceAPI {
     if (response.statusCode == 200) {
       dynamic data = json.decode(response.body);
       print(data);
-      return formatFile(data);
+      return formatOrderFile(data);
     } else if (response.statusCode == 401) {
       // Refresh the access token using the refresh token
       await TokenStorage.getaccessToken(refresh_token!);
@@ -70,7 +73,7 @@ class ServiceAPI {
 
       if (response.statusCode == 200) {
         dynamic data = json.decode(response.body);
-        return formatFile(data);
+        return formatOrderFile(data);
       } else {
         throw Exception("Failed to get profile after retrying with new token");
       }

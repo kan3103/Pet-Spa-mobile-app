@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/homepage/home_screen.dart';
 import 'package:frontend/homepage/customer_homepage.dart';
+import 'package:frontend/homepage/manager_homepage.dart';
 import 'package:frontend/service_screen/allService.dart';
+import 'package:frontend/service_screen/managerService.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
+import 'package:frontend/service_screen/reService/maOrder.dart';
 import 'package:frontend/service_screen/userService.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 /*
 void main() {
   runApp(MyApp());
@@ -26,6 +30,14 @@ class MyServiceScreen extends StatefulWidget {
 
 class _MyServiceScreenState extends State<MyServiceScreen> {
   
+  String accountType = 'customer';
+  
+
+  void getType() async{
+    final prefs = await SharedPreferences.getInstance();
+    accountType = prefs.getString('account')!;
+  }
+
   var selectedIndex = 0; 
   // void _navigateToNewOrder() {
   //   Navigator.push(
@@ -45,10 +57,10 @@ class _MyServiceScreenState extends State<MyServiceScreen> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = userService();
+        page = accountType != 'customer'? userService() : OrderManager() ;
         
     case 1:
-        page = Allservice();
+        page = accountType != 'customer'? Allservice(): reServicePage()  ;
         //myBlogs(myprofile: widget.myprofile, isProfile: false);
     default:
     throw UnimplementedError('no widget for $selectedIndex');

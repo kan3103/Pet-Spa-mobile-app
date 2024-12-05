@@ -7,10 +7,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class GetService {
+class GetOrder {
   static const String url = "http://10.0.5.30:8000/store/services";
 
-  static Future<List<ServiceItem>> GetAllService() async {
+  static Future<List<ServiceItem>> GetAllOrder() async {
     final prefs = await SharedPreferences.getInstance();
     String? access_token = prefs.getString('access_token');
     String? refresh_token = prefs.getString('refresh_token');
