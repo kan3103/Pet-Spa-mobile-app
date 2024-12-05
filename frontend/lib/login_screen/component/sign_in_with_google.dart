@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/homepage/homepage.dart';
+import 'package:frontend/class_model/uSer.dart';
+import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/login_screen/api/google_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -26,7 +27,30 @@ class _SignInWithGoogleScreenState extends State<SignInWithGoogleScreen> {
   //     print(e);
   //   }
   // }
-
+  Future<void> _handleInputUsername() async{
+    String? username = _usernameController.text;
+    try{
+      GoogleSignInAccount? googleUser = await GoogleSignInApi.login();
+      GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+      final accessToken = googleAuth.accessToken;
+      await GoogleSignInApi.SigninwithGoogle(username,accessToken!);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => customerHomePage()  ));
+    }
+    catch(e){
+      print(e);
+    }
+  }
+  /*
+  late Profile myprofile;
+  bool LoadProfile = false;
+  void getMyProfile() async{
+    setState(() async {
+      myprofile = await ProfileAPI.getMyProfile();
+      LoadProfile = false;
+      print(LoadProfile);
+    });
+  }
+  */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +76,7 @@ class _SignInWithGoogleScreenState extends State<SignInWithGoogleScreen> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-            // Navigate to the homepage
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => mainHomePage()),
-                );
-              },
+              onPressed: _handleInputUsername,
               child: Icon(Icons.arrow_forward),
               style: ElevatedButton.styleFrom(
                 shape: CircleBorder(),

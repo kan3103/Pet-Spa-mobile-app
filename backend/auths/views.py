@@ -7,6 +7,7 @@ from .serializers import CusSerializer, TokenSerializer ,StaffSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import BasePermission
 from rest_framework_simplejwt.views import TokenObtainPairView
+
 class IsStaff(BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated  and request.user.is_staff
@@ -40,7 +41,7 @@ class LoginView(TokenObtainPairView):
             "account": account,
         }
 
-        return Response(custom_response_data)
+        return Response(custom_response_data,status=201)
     
 class CreateUserView(generics.CreateAPIView):
     queryset = Customer.objects.all()
@@ -58,6 +59,7 @@ class GoogleLogin(generics.GenericAPIView):
     serializer_class = TokenSerializer
     def get(self, request):
         access_token = request.GET.get('access_token')
+        print(access_token)
         # Get Oauth 2.0 from google
         req = requests.get(f"https://www.googleapis.com/oauth2/v2/userinfo", headers={
             "Authorization": f"Bearer {access_token}"
@@ -68,40 +70,56 @@ class GoogleLogin(generics.GenericAPIView):
             email = req['email']
             if User.objects.filter(email=email).exists():
                 user = User.objects.get(email=email)
+                account = "customer"
+                if Customer.objects.filter(id=user.id).exists():
+                    account = "customer"
+                elif Staff.objects.filter(id=user.id).exists():
+                    if user.is_staff:
+                        account = "manager"
+                    else:
+                        account = "staff"
                 refesh = RefreshToken.for_user(user)
                 return Response({
                     "refresh": str(refesh),
                     "access": str(refesh.access_token),
-                    "account": "customer",
+                    "account": account,
                 })
             else:
                 return Response({
                     "email": req['email'],
                     "last_name": req['family_name'],
                     "first_name": req['given_name'],
+                    "avatar": req['picture'],
                 })
         except:
             return Response({"error": "Token not valid"}, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self,request):
-        access_token = request.GET.get('access_token')
+        
+        access_token = request.data.get('access_token')
+      
         req = requests.get(f"https://www.googleapis.com/oauth2/v2/userinfo", headers={
             "Authorization": f"Bearer {access_token}"
         }).json()
-        
+
         try:
             username = request.data.get('username')
             email = request.data.get('email')
-            
             # Check the token and email are the same
             if req['email'] != email:
+
                 return Response({"error": "Token not valid"})
             else:
-                user = Customer.objects.create_user(username=username, email=email, last_name=req["family_name"], first_name=req["given_name"])
+               
+                user = Customer(username=username, email=email, last_name=req["family_name"], first_name=req["given_name"])
+                user.save()
+                print("check email")
                 refesh = RefreshToken.for_user(user)
                 return Response({
                     "refresh": str(refesh),
-                    "access": str(refesh.access_token),})
+                    "access": str(refesh.access_token),
+                    "account": "customer",
+                },status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response(
                 {f"error: Missing {str(e)}"}, 
