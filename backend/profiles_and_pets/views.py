@@ -1,5 +1,5 @@
 from django.forms import ValidationError
-from rest_framework import generics,status
+from rest_framework import generics
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from .models import Pet,Profile
 from auths.models import Customer,MyUser
@@ -28,7 +28,19 @@ class PetListView(generics.ListAPIView):
             raise ValidationError({"detail": "The user is not a registered customer."})
         return Pet.objects.filter(owner=customer)
     
-    
+class PetDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PetSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        customer = Customer.objects.get(id=self.request.user.id)
+        return Pet.objects.filter(owner=customer)
+    def get_object(self):
+        namePet = self.kwargs.get('name')
+        customer = Customer.objects.get(id=self.request.user.id)
+        pet = Pet.objects.get(name=namePet,owner=customer)
+        return pet
+        
+
     
     
 class ProfileView(generics.RetrieveUpdateAPIView):
