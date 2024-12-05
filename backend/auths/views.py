@@ -11,6 +11,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 class IsStaff(BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated  and request.user.is_staff
+
+class IsManager(BasePermission):
+    def has_permission(self, request, view):
+        staff = Staff.objects.get(id=request.user.id)
+        return request.user.is_authenticated  and staff.manager
     
     
 class LoginView(TokenObtainPairView):
