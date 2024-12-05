@@ -3,7 +3,7 @@ import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:frontend/informationPage/addPetScreen.dart';
+import  'package:frontend/informationPage/addPet.dart';
 
 class Inforscreen extends StatefulWidget {
 
@@ -20,6 +20,7 @@ class Inforscreen extends StatefulWidget {
 }
 
 class _InforscreenState extends State<Inforscreen> {
+  bool isVaccine = false; // Mặc định chưa tiêm vắc-xinr
   bool isPetSelected = false;
   TextEditingController _nameController = TextEditingController();
   
@@ -110,119 +111,136 @@ class _InforscreenState extends State<Inforscreen> {
   }
   // Thêm thú cưng mới
   void addPet() {
-    bool isVaccine = false; // Mặc định chưa tiêm vắc-xin
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true, // Đảm bảo hộp thoại có thể cuộn nếu nội dung dài
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
       builder: (BuildContext context) {
-        // Form để nhập thông tin thú cưng
+        // Các controller để nhập thông tin thú cưng
         TextEditingController petNameController = TextEditingController();
         TextEditingController petDayofBirthController = TextEditingController();
         TextEditingController petTypeController = TextEditingController();
-        TextEditingController petVaccineController = TextEditingController();
-        //String petImage = "assets/images/image 1.png"; // Mặc định ảnh thú cưng
+        String petImage = ""; // Ảnh mặc định
 
         return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Tiêu đề
-              Text(
-                'Add New Pet',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
+          padding: MediaQuery.of(context).viewInsets, // Đảm bảo không bị che bởi bàn phím
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Tiêu đề
+                  Text(
+                    'Thêm thú cưng mới',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 16),
 
-              // Nhập tên thú cưng
-              TextField(
-                controller: petNameController,
-                decoration: InputDecoration(
-                  labelText: 'Tên',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 10),
+                  // Nhập tên thú cưng
+                  TextField(
+                    controller: petNameController,
+                    decoration: InputDecoration(
+                      labelText: 'Tên',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
 
-              // Ngày sinh
-              TextField(
-                controller: petDayofBirthController,
-                decoration: InputDecoration(
-                  labelText: 'Ngày sinh',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 10),
+                  // Ngày sinh
+                  TextField(
+                    controller: petDayofBirthController,
+                    decoration: InputDecoration(
+                      labelText: 'Ngày sinh',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
 
-              // Nhập loại thú cưng
-              Checkbox(
-                value: isVaccine,
-                onChanged: (value) {
-                  setState(() {
-                    isVaccine = value!;
-                  });
-                },
-              ),
-              Text('Đã tiêm Vắc-xin'),
-              SizedBox(height: 10),
+                  // Loại thú cưng
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: isVaccine,
+                        onChanged: (value) {
+                          setState(() {
+                            isVaccine = value!;
+                          });
+                        },
+                      ),
+                      Text('Đã tiêm Vắc-xin'),
+                    ],
+                  ),
+                  SizedBox(height: 16),
 
-              // Vaccine
-              TextField(
-                controller: petTypeController,
-                decoration: InputDecoration(
-                  labelText: 'Đã tiêm Vắc-xin',
-                  border: OutlineInputBorder(),
-                ),
-              ),
+                  // Vaccine (chỉ nhập nếu đã tiêm)
+                  TextField(
+                    controller: petTypeController,
+                    decoration: InputDecoration(
+                      labelText: 'Loại thú cưng',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
 
-              /////////////////////////////////r///////////////////
-              // Chọn ảnh (hoặc để mặc định)
-              GestureDetector(
-              onTap: _pickImage, // Khi người dùng nhấn vào ảnh, mở thư viện ảnh
-              child: Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: petImage.isEmpty
-                    ? Center(child: Text('Add Image'))
-                    : Image.file(
+                  // Thêm ảnh thú cưng
+                  GestureDetector(
+                    onTap: _pickImage, // Hàm mở thư viện ảnh
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: petImage.isEmpty
+                          ? Center(child: Text('Add Image'))
+                          : Image.file(
                         File(petImage), // Hiển thị ảnh từ thư viện
                         fit: BoxFit.cover,
-                ),
-              ),
-              ),
-              /////////////////////////////////////////////////////////////
-              SizedBox(height: 16),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
 
-              // Nút lưu thú cưng
-              ElevatedButton(
-                onPressed: () {
-                  // Thêm thú cưng mới vào danh sách
-                  if (petNameController.text.isNotEmpty) {
-                    setState(() {
-                      pets.add
-                      (
-                        Pet(
-                          imageUrl: petImage, 
-                          name: petNameController.text, 
-                          weight: '10kg', 
-                          breed: 'nothing',
-                          ),
-                      );
-                    });
-                    Navigator.pop(context); // Đóng modal sau khi thêm
-                  }
-                },
-                child: Text('Save Pet'),
+                  // Nút lưu thú cưng
+                  ElevatedButton(
+                    onPressed: () {
+                      if (petNameController.text.isNotEmpty) {
+                        setState(() {
+                          pets.add(
+                            Pet(
+                              imageUrl: petImage,
+                              name: petNameController.text,
+                              weight: '10kg',
+                              breed: 'nothing',
+                            ),
+                          );
+                        });
+                        Navigator.pop(context); // Đóng modal
+                      }
+                    },
+                    child: Text('Lưu thú cưng'),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
