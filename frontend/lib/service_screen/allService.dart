@@ -10,17 +10,21 @@ class Allservice extends StatefulWidget {
 }
 
 class _AllserviceState extends State<Allservice> {
-
+  
   final List< ServiceItem > services = [
     ServiceItem(
-      imageLink: 'https://s3-alpha-sig.figma.com/img/4009/7ae7/9cb0107b84d4cd568e8f572ba06a0e62?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=HedJBnbEpvN2kis0akNSBYAhlPv5ijVMwLFL3FoFNHnUiMpN4IEKOhfqkLJZAwG3KONImVnA44Q76AZzInFuU9PUrJokA3F55rcrU0mZX6Ib6in0IzDGbv42bNJMNkADyPLo~9akE4DZIxMGOm0iUAKwOlAFxDPNdETjFBXYxt-7AX1-RYFlnz230vGkHN2aBW3h0lunmR4-QKqOe1PIAqp55VK0lmbiCUdn-N9cQAoeRvXzMvLLN9vEzJzfHJGMn8aJHe9ZE796zglNPwADRVazIZM~3UmJYHUNA-~mkGKhLe1av5uhIo7x8zFVr5o7tXF98FzeARZvx~E7B6oY1A__',
-      title: 'Combo: dịch vụ tắm, vệ sinh và tỉa lông',
-      price: 'đ 12.500',
+      id: 2,
+      image: 'https://s3-alpha-sig.figma.com/img/4009/7ae7/9cb0107b84d4cd568e8f572ba06a0e62?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=HedJBnbEpvN2kis0akNSBYAhlPv5ijVMwLFL3FoFNHnUiMpN4IEKOhfqkLJZAwG3KONImVnA44Q76AZzInFuU9PUrJokA3F55rcrU0mZX6Ib6in0IzDGbv42bNJMNkADyPLo~9akE4DZIxMGOm0iUAKwOlAFxDPNdETjFBXYxt-7AX1-RYFlnz230vGkHN2aBW3h0lunmR4-QKqOe1PIAqp55VK0lmbiCUdn-N9cQAoeRvXzMvLLN9vEzJzfHJGMn8aJHe9ZE796zglNPwADRVazIZM~3UmJYHUNA-~mkGKhLe1av5uhIo7x8zFVr5o7tXF98FzeARZvx~E7B6oY1A__',
+      name: 'Combo: dịch vụ tắm, vệ sinh và tỉa lông',
+      price: 12500,
+      description: ''
     ),
     ServiceItem(
-      imageLink: 'https://s3-alpha-sig.figma.com/img/5962/56b3/457374b16b2eafb3702028ca2627d093?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QoMDZUHMN-3SuTHypcgDZvr0Tf-n7mUptmwdWyQvIp1OahXgTSG4sHBoP1ZyzAKixVcbkf0w8Dp8zuR17TWOrRecGkC6jALXXYAcGD1Oqc3w7-a3hzG75KQBP~QuERGdczJMHE00ljyvt0qETAX7mG7lTTkiezK7vsTt61ywesisaNufD-5vPKCuWGbeq2tjdezUib4~3zDjDXYgJMYvmXo5sijGZw42rWTZueunaqAJ6gkgVr~sihYfN-CdvqczZKlsU8nH1QXBIPWu2uXjpPnkwcHurkBwJWhjkRi~zbjGqyT-Zg3YBo78HcEoxbWqdLhO3-Dpwrmsbqas1nvjVQ__',
-      title: 'Pate cho mèo Whiskas 80g hương Cá Biển',
-      price: 'đ 12.500',
+      id: 1,
+      image: 'https://s3-alpha-sig.figma.com/img/5962/56b3/457374b16b2eafb3702028ca2627d093?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QoMDZUHMN-3SuTHypcgDZvr0Tf-n7mUptmwdWyQvIp1OahXgTSG4sHBoP1ZyzAKixVcbkf0w8Dp8zuR17TWOrRecGkC6jALXXYAcGD1Oqc3w7-a3hzG75KQBP~QuERGdczJMHE00ljyvt0qETAX7mG7lTTkiezK7vsTt61ywesisaNufD-5vPKCuWGbeq2tjdezUib4~3zDjDXYgJMYvmXo5sijGZw42rWTZueunaqAJ6gkgVr~sihYfN-CdvqczZKlsU8nH1QXBIPWu2uXjpPnkwcHurkBwJWhjkRi~zbjGqyT-Zg3YBo78HcEoxbWqdLhO3-Dpwrmsbqas1nvjVQ__',
+      name: 'Pate cho mèo Whiskas 80g hương Cá Biển',
+      price: 12500,
+      description: ''
     ),
   ];
 
@@ -40,9 +44,9 @@ class _AllserviceState extends State<Allservice> {
           itemBuilder: (context, index) {
             return Center(
               child: buildBestSellerItem(
-                services[index].imageLink!,
-                services[index].title!,
-                services[index].price!,
+                services[index].image!,
+                services[index].name!,
+                services[index].price!.toString(),
                 () {
                 // Hàm được gọi khi nhấn vào item
                 print('Nhấn vào sản phẩm: ');
