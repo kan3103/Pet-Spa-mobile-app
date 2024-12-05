@@ -52,4 +52,64 @@ class ProfileAPI {
       throw Exception("Failed to get profile");
     }
   }
+
+
+  static Future<Profile> UpdateProfile(Profile profile) async{
+    final prefs = await SharedPreferences.getInstance();
+    String? access_token = prefs.getString('access_token');
+    String? refresh_token = prefs.getString('refresh_token');
+    print(profile.avatar);
+    var response = await http.put(
+      Uri.parse('$url/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $access_token',
+      },
+      body: json.encode(<String,String>{
+        'name': '${profile.name}',
+        'birthday': '${profile.birthday}',
+        'address': '${profile.address}',
+        'avatar': '${profile.avatar}',
+        'email': '${profile.email}'
+      }),
+    );
+    print("check");
+    print(response.body);
+    if (response.statusCode == 200) {
+      dynamic data = json.decode(response.body);
+      print(data);
+      Profile profile = Profile.fromJson(data); 
+      return profile;
+    } else if (response.statusCode == 401) {
+      // Refresh the access token using the refresh token
+      await TokenStorage.getaccessToken(refresh_token!);
+
+      // Retry the request with the new access token
+      access_token = prefs.getString('access_token');
+      var response = await http.put(
+        Uri.parse('$url/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $access_token',
+        },
+        body: json.encode(<String,String>{
+          'name': '${profile.name}',
+          'birthday': '${profile.birthday}',
+          'address': '${profile.address}',
+          'avatar': '${profile.avatar}',
+          'email': '${profile.email}'
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        dynamic data = json.decode(response.body);
+        Profile profile = Profile.fromJson(data); 
+        return profile;
+      } else {
+        throw Exception("Failed to get profile after retrying with new token");
+      }
+    } else {
+      throw Exception("Failed to get profile");
+    }
+  }
 }

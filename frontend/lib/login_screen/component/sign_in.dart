@@ -64,7 +64,7 @@ class _SignInScreenState extends State<SignInScreen> {
       GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
       final accessToken = googleAuth.accessToken;
       await GoogleSignInApi.loginWithGoogle(accessToken!)?
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => customerHomePage()  )):
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => customerHomePage(selected: 0,)  )):
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInWithGoogleScreen()  ));
     }
     catch (error) {
@@ -87,7 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
       String accountType = prefs.getString('account')!;
       print(accountType);
       if (accountType == 'customer') {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  customerHomePage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  customerHomePage(selected: 0,)));
       }
       else if (accountType == 'staff') {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  staffHomePage()));

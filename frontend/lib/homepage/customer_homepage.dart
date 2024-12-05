@@ -19,9 +19,9 @@ class customerHomePage extends StatefulWidget {
   @override
   State<mainHomePage> createState() => _mainHomePageState();
   */
-
+  final int selected;
   
-  customerHomePage({Key? key}) : super(key: mainHomePageKey);
+  customerHomePage({Key? key, required this.selected}) : super(key: mainHomePageKey);
   @override
   _customerHomePageState createState() => _customerHomePageState();
 }
