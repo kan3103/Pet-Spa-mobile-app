@@ -1,33 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/class_model/orderItem.dart';
 import 'package:frontend/service_screen/api/getService.dart';
-import 'package:frontend/service_screen/models/listService.dart';
-import 'package:frontend/service_screen/newOrder_screen.dart';
 
-class userService extends StatefulWidget {
-  const userService({super.key});
+class OrderManager extends StatefulWidget {
+  const OrderManager({super.key});
 
   @override
-  State<userService> createState() => _userServiceState();
+  State<OrderManager> createState() => _OrderManagerState();
 }
 
-class _userServiceState extends State<userService> {
+class _OrderManagerState extends State<OrderManager> {
 
   List<Map<String, dynamic>> pets = [];
 
   void getService() async{
-    List<Map<String,dynamic>> listService = await ServiceAPI.getList();
+    List<Map<String,dynamic>> listService = await AllServiceAPI.getList();
     setState(() {
       pets = listService;
     });
   }
-  
   @override
   void initState() {
     // TODO: implement initState
     getService();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,26 +63,6 @@ class _userServiceState extends State<userService> {
             ),
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          
-          Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NewOrderScreen(), 
-                    ),
-          );
-          /*
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => NewOrderScreen()),
-          );*/
-        }, 
-        
-        label: const Text('Đơn mới', style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontWeight: FontWeight.bold)),
-        backgroundColor: Color(0xFFF49FA4),
-        icon: Icon(Icons.add, color: Colors.white),
       ),
     );
   }

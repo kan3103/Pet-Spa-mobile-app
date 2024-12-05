@@ -51,6 +51,7 @@ class _reServicePageState extends State<reServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /*
       appBar: AppBar(
         title: Text(
           'Tất cả dịch vụ',
@@ -88,7 +89,7 @@ class _reServicePageState extends State<reServicePage> {
           },
         ),
         */
-      ),
+      ),*/
       body:isLoaded == false?
       const Center(
         child: SizedBox(        
