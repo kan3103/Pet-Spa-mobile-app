@@ -11,7 +11,6 @@ class TokenStorage {
   // }
 
   static Future<void> fetchToken(String username, String password) async {
-    print('$url/login/');
     final response = await http.post(
       Uri.parse('$url/login/'),
       headers: <String, String>{
@@ -22,11 +21,12 @@ class TokenStorage {
         'password': password,
       }),
     );
+    print(response.body);
+    if (response.statusCode == 201) {
 
-    if (response.statusCode == 200) {
       final prefs = await SharedPreferences.getInstance();
       var data = json.decode(response.body);
-      print(data);
+    
       // Get access token and refresh token from the response
       String accessToken = data['access'];
       String refreshToken = data['refresh'];
@@ -36,6 +36,7 @@ class TokenStorage {
       await prefs.setString('access_token', accessToken);
       await prefs.setString('refresh_token', refreshToken);
       await prefs.setString('account', accountType);
+      
     } else {
       throw Exception('Failed to fetch token');
     }

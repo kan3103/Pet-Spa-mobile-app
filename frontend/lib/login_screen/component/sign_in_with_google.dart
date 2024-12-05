@@ -26,7 +26,19 @@ class _SignInWithGoogleScreenState extends State<SignInWithGoogleScreen> {
   //     print(e);
   //   }
   // }
-
+  Future<void> _handleInputUsername() async{
+    String? username = _usernameController.text;
+    try{
+      GoogleSignInAccount? googleUser = await GoogleSignInApi.login();
+      GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+      final accessToken = googleAuth.accessToken;
+      await GoogleSignInApi.SigninwithGoogle(username,accessToken!);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => customerHomePage()  ));
+    }
+    catch(e){
+      print(e);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +64,7 @@ class _SignInWithGoogleScreenState extends State<SignInWithGoogleScreen> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-            // Navigate to the homepage
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => customerHomePage()),
-                );
-              },
+              onPressed: _handleInputUsername,
               child: Icon(Icons.arrow_forward),
               style: ElevatedButton.styleFrom(
                 shape: CircleBorder(),

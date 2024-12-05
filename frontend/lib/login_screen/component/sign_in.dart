@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/homepage/home_screen.dart';
 import 'package:frontend/homepage/manager_homepage.dart';
 import 'package:frontend/homepage/staff_homepage.dart';
 import 'package:frontend/login_screen/forgot_password.dart';
@@ -59,7 +58,18 @@ class _SignInScreenState extends State<SignInScreen> {
   // }
 
   Future signInWithGoogle() async {
-    await GoogleSignInApi.login();
+    try{
+      await GoogleSignInApi.logout();
+      GoogleSignInAccount? googleUser = await GoogleSignInApi.login();
+      GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+      final accessToken = googleAuth.accessToken;
+      await GoogleSignInApi.loginWithGoogle(accessToken!)?
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => customerHomePage()  )):
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInWithGoogleScreen()  ));
+    }
+    catch (error) {
+      print(error);
+    }
   }
 
   void _checkFields() {
@@ -70,14 +80,12 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future signIn() async {
-    // print("Sign in");
-    // print(_emailController.text);
-
     try {
       await TokenStorage.fetchToken(
           _emailController.text, _passwordController.text);
       final prefs = await SharedPreferences.getInstance();
       String accountType = prefs.getString('account')!;
+      print(accountType);
       if (accountType == 'customer') {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  customerHomePage()));
       }
