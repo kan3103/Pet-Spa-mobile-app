@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 class Inforscreen extends StatefulWidget {
-  const Inforscreen({super.key});
+
+  final Profile? profile; 
+
+  const Inforscreen({
+    super.key,
+    required this.profile,
+  });
+
 
   @override
   State<Inforscreen> createState() => _InforscreenState();
@@ -13,9 +21,21 @@ class _InforscreenState extends State<Inforscreen> {
   bool isPetSelected = false;
   TextEditingController _nameController = TextEditingController();
   
-  String userName = "John Doe";
-  String userImage = "assets/images/image 1.png"; // Thêm ảnh avatar người dùng
+  String? userName = "John Doe";
+  String? userImage = "assets/images/image 1.png"; // Thêm ảnh avatar người dùng
   String petImage = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.profile != null) {
+      setState(() {
+        userName = widget.profile!.name;
+       //userImage = widget.profile!.avatar; 
+      });
+    }
+  }
   // Danh sách các thú cưng
   List<Pet> pets = [
     Pet(
@@ -53,7 +73,7 @@ class _InforscreenState extends State<Inforscreen> {
 
   void _editName() {
     // Gán giá trị hiện tại của tên vào controller
-    _nameController.text = userName;
+    _nameController.text = userName! ;
 
     showDialog(
       context: context,
@@ -201,11 +221,11 @@ class _InforscreenState extends State<Inforscreen> {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage(userImage),
+                    backgroundImage: AssetImage(userImage!),
                   ),
                   SizedBox(width: 20),
                   Text(
-                    userName,
+                    userName!,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,

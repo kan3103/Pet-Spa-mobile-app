@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/class_model/uSer.dart';
+import 'package:frontend/homepage/api/getProfile.dart';
 import 'package:frontend/homepage/home_screen.dart';
 import 'package:frontend/login_screen/api/google_sign_in.dart';
 import 'package:frontend/productPage/productScreen.dart';
@@ -17,15 +19,31 @@ class customerHomePage extends StatefulWidget {
   @override
   State<mainHomePage> createState() => _mainHomePageState();
   */
+
+  
   customerHomePage({Key? key}) : super(key: mainHomePageKey);
   @override
   _customerHomePageState createState() => _customerHomePageState();
 }
 
 class _customerHomePageState extends State<customerHomePage> {
-  @override
-
+  bool LoadProfile = true;
   int selectedIndex = 0 ;
+  Profile? myprofile;
+  void getMyProfile() async{
+    myprofile = await ProfileAPI.getMyProfile();
+    setState(() {
+      LoadProfile = false;
+      print(LoadProfile);
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getMyProfile();
+    super.initState();
+  }
 
   void onItemTapped(int index) {
     setState(() { // Update state when a tab is tapped
@@ -44,13 +62,14 @@ class _customerHomePageState extends State<customerHomePage> {
       }
       return Future.value(true);
     }
+  
   Widget build(BuildContext context) {
 
-    Widget page = HomeScreen();
+    Widget page;
 
     switch (selectedIndex) {
       case 0:
-        page = HomeScreen(); 
+        page =  HomeScreen(profile: myprofile);
         break;
       case 1:
         page =  MyServiceScreen();
@@ -62,7 +81,7 @@ class _customerHomePageState extends State<customerHomePage> {
         page = productScreen() ;
         break;
       case 4:
-        page =  Inforscreen(); // Thay bằng màn hình Cài đặt
+        page =  Inforscreen(profile:  myprofile,); // Thay bằng màn hình Cài đặt
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -81,7 +100,14 @@ class _customerHomePageState extends State<customerHomePage> {
         }
       },
       child: Scaffold(
-        body: page,
+        body: LoadProfile?const Center(
+        child: SizedBox(        
+          width: 30, 
+          height: 30, 
+          child: CircularProgressIndicator(
+            strokeWidth: 4.0, 
+          ),
+      )):page,
       
         bottomNavigationBar: Container(
             color: Colors.lightGreen,
