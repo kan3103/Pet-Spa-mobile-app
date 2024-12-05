@@ -8,6 +8,9 @@ class PetSerializer(serializers.ModelSerializer):
         
         
 class ProfileSerializer(serializers.ModelSerializer):
+    email = serializers.CharField(source='user.email', read_only=True)
     class Meta:
         model = Profile
-        fields = ['birthday', 'avatar', 'address']
+        fields = ['name','birthday','address','avatar','email']
+    def get_name(self, obj):
+        return f"{obj.user.first_name} {obj.user.last_name}"

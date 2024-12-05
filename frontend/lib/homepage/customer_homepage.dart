@@ -21,7 +21,7 @@ class customerHomePage extends StatefulWidget {
   */
   final int selected;
   
-  customerHomePage({Key? key, required this.selected}) : super(key: mainHomePageKey);
+  customerHomePage({Key? key, required this.selected}) : super(key: key);
   @override
   _customerHomePageState createState() => _customerHomePageState();
 }
@@ -34,6 +34,7 @@ class _customerHomePageState extends State<customerHomePage> {
     myprofile = await ProfileAPI.getMyProfile();
     setState(() {
       LoadProfile = false;
+      selectedIndex = widget.selected;
       print(LoadProfile);
     });
   }
