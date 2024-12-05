@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/homepage/home_screen.dart';
+import 'package:frontend/informationPage/inforScreen.dart';
 import 'package:frontend/productPage/productScreen.dart';
 import 'package:frontend/login_screen/login_screen.dart';
 import 'package:frontend/service_screen/service_screen.dart';
@@ -48,7 +49,7 @@ class _mainHomePageState extends State<mainHomePage> {
         page = MyServiceScreen() ;
         break;
       case 4:
-        page =  GetStartedPage();
+        page =  Inforscreen();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');

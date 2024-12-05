@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/service_screen/service_screen.dart';
 import 'package:frontend/service_screen/selectService_screen.dart';
+import 'package:frontend/view_model/itemView_sqr.dart';
 
 class Pet {
   final String imageUrl;
@@ -182,12 +183,14 @@ class _PetCardState extends State<PetCard> {
                     topLeft: Radius.circular(16.0),
                     topRight: Radius.circular(16.0),
                   ),
-                  child: Image.network(
+                  child: getImageWidget(widget.imageUrl, 100, double.infinity),
+                  /*
+                  Image.network(
                     widget.imageUrl,
                     height: 100.0,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                  ),
+                  ),*/
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
