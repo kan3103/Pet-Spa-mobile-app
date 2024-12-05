@@ -11,11 +11,9 @@ class Order(models.Model):
 
 class ServiceOrder(Order):
     class Status(models.IntegerChoices):
-        Pending = 1, 'Pending'
-        Processing = 2, 'In progress'
-        Done = 3, 'Done'
-        Paid = 4, 'Paid'
-    status = models.IntegerField(choices=Status.choices, default=Status.Pending)
+        Undone = 1, 'In progress'
+        Done = 2, 'Done'
+    status = models.IntegerField(choices=Status.choices, default=Status.Undone)
     staff = models.ForeignKey('auths.Staff', on_delete=models.CASCADE, blank=True, null=True)
     pet = models.ForeignKey('profiles_and_pets.Pet', on_delete=models.CASCADE)
     service = models.ForeignKey('services_and_products.Service', on_delete=models.CASCADE)

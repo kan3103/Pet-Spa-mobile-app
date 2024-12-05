@@ -36,7 +36,14 @@ class PetListView(generics.ListAPIView):
         if status == 'all':
             return Pet.objects.filter(owner=customer)
         elif status == 'now':
-            return Pet.objects.filter(owner=customer,serviceorder__status=ServiceOrder.status.choices[0][0])
+            pet = Pet.objects.filter(owner=customer)
+            a = []
+            for p in pet:
+                if ServiceOrder.objects.filter(pet=p,status=1).exists():
+                    pass
+                else:
+                    a.append(p)
+            return a
         return Pet.objects.filter(owner=customer)
     
 class PetDetailView(generics.RetrieveUpdateDestroyAPIView):
