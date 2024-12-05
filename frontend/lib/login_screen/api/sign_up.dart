@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class SignUpApi {
-  static const String url = 'http://10.0.5.32:8000/auth';
+  static const String url = 'http://10.0.5.30:8000/auth';
 
 
   static Future<void> signupcus(String username, String email, String password) async {

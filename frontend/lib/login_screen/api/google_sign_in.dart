@@ -12,7 +12,7 @@ class GoogleSignInApi {
 
   static Future<bool> loginWithGoogle(String accessToken) async {
     final response = await http.get(
-      Uri.parse('http://10.0.5.32:8000/auth/google/').replace(queryParameters: {"access_token": accessToken}),
+      Uri.parse('http://10.0.5.30:8000/auth/google/').replace(queryParameters: {"access_token": accessToken}),
     );
 
     if (response.statusCode == 200) {
