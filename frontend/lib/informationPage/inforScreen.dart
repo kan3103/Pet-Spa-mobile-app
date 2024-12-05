@@ -17,7 +17,21 @@ class Inforscreen extends StatefulWidget {
   @override
   State<Inforscreen> createState() => _InforscreenState();
 }
+class Pet {
+  final String imageUrl;
+  final String name;
+  final String dob;
+  final String petType;
+  final bool vaccine;
 
+  Pet({
+    required this.imageUrl,
+    required this.name,
+    required this.dob,
+    required this.petType,
+    required this.vaccine,
+  });
+}
 class _InforscreenState extends State<Inforscreen> {
   bool isVaccine = false; // Mặc định chưa tiêm vắc-xinr
   bool isPetSelected = false;

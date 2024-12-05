@@ -30,9 +30,15 @@ class Pet(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, default='')  
     birthday = models.DateField(blank=True, null=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     address = models.TextField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = f"{self.user.last_name} {self.user.first_name}"
+        super().save(*args, **kwargs)
     
 # class ProfileUser(Profile):
     

@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   AnimatedContainer(
                         duration: Duration(milliseconds: 300),
                         height:  _isSearchActive ?60 : 60,
-                        width: _isSearchActive ?280 : 200,
+                        width: _isSearchActive ?280 : 280,
                         padding: EdgeInsets.symmetric(horizontal: 0.0),
                         child: _isSearchActive? TextFormField(
                                 autofocus: true,
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Text(
                                     'Hi ${widget.profile!.name}',
                                     style: TextStyle(
-                                      fontSize: 24,
+                                      fontSize: 22,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

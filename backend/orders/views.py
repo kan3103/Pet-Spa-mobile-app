@@ -38,9 +38,24 @@ def validate_jwt(func):
 class ServiceOrderListView(View):
   @validate_jwt
   def get(self, request):
+    # print(request.user_id)
     user = Customer.objects.get(id = request.user_id)
-    orders = list(ServiceOrder.objects.filter(user = user).values())
-    return JsonResponse(orders, safe=False)
+    orders = [{'id': order['id'], 'status': order['status'], 'pet': Pet.objects.get(id=order['pet_id']).name, 'service': Service.objects.get(id=order['service_id']).name} for order in list(ServiceOrder.objects.filter(user = user).values())]
+
+    return_instance = {}
+    for order in orders:
+      if order['pet'] not in return_instance:
+        return_instance[order['pet']] = {}
+        return_instance[order['pet']]['orders'] = []
+        return_instance[order['pet']]['type'] = Pet.objects.get(name=order['pet']).pet_type
+      return_instance[order['pet']]['orders'].append(order)
+    
+    if request.GET.get('done'):
+      return_instance = {k:v for k,v in return_instance.items() if any(order['status'] == 2 for order in v['orders'])}
+    else:
+      return_instance = {k:v for k,v in return_instance.items() if all(order['status'] == 1 for order in v['orders'])}
+
+    return JsonResponse(return_instance, safe=False, status=200)
   
   @validate_jwt
   def post(self, request):
@@ -105,6 +120,19 @@ class ProductOrderListView(View):
     except json.JSONDecodeError:
       return JsonResponse({'error': 'Invalid JSON'}, status=400)
     return JsonResponse({'message': 'Order created successfully'}, status=201)
+  
+
+class ServiceOrderViewManager(View):
+    def get(self, request):
+      services = list(ServiceOrder.objects.values())
+      return_instance = {}
+      for order in services:
+        usrname = Customer.objects.get(id=order['user_id']).username
+        if usrname not in return_instance:
+          return_instance[usrname] = []
+        return_instance[usrname].append(order)
+
+      return JsonResponse(return_instance, safe=False)
   
 
 

@@ -51,7 +51,7 @@ class GoogleSignInApi {
     String? avatar = prefs.getString('avatar');
     print(avatar);
     final response = await http.post(
-      Uri.parse('http://10.0.5.32:8000/auth/google/'),
+      Uri.parse('http://10.0.5.30:8000/auth/google/'),
       headers: <String,String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

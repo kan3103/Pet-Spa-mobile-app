@@ -58,21 +58,47 @@ class ProfileAPI {
     final prefs = await SharedPreferences.getInstance();
     String? access_token = prefs.getString('access_token');
     String? refresh_token = prefs.getString('refresh_token');
-    print(profile.avatar);
+    final Map<String, String> requestBody = {};
+
+    // Chỉ thêm các trường không null vào requestBody
+    if (profile.name != null && profile.name != "") { 
+      requestBody['name'] = profile.name!;
+    }
+    if (profile.birthday != null && profile.birthday != "") {
+      requestBody['birthday'] = profile.birthday!;
+    }
+    if (profile.address != null && profile.address != "") {
+      requestBody['address'] = profile.address!;
+    }
+    if (profile.avatar != null && profile.avatar != "") {
+      requestBody['avatar'] = profile.avatar!;
+    }
+    if (profile.email != null && profile.email != "") {
+      requestBody['email'] = profile.email!;
+    }
+  print(requestBody);
     var response = await http.put(
       Uri.parse('$url/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $access_token',
       },
-      body: json.encode(<String,String>{
-        'name': '${profile.name}',
-        'birthday': '${profile.birthday}',
-        'address': '${profile.address}',
-        'avatar': '${profile.avatar}',
-        'email': '${profile.email}'
-      }),
+      body: json.encode(requestBody), // Chỉ gửi các trường không null
     );
+    // var response = await http.put(
+    //   Uri.parse('$url/'),
+    //   headers: <String, String>{
+    //     'Content-Type': 'application/json; charset=UTF-8',
+    //     'Authorization': 'Bearer $access_token',
+    //   },
+    //   body: json.encode(<String,String>{
+    //     'name': '${profile.name}',
+    //     'birthday': '${profile.birthday}',
+    //     'address': '${profile.address}',
+    //     'avatar': '${profile.avatar}',
+    //     'email': '${profile.email}'
+    //   }),
+    // );
     print("check");
     print(response.body);
     if (response.statusCode == 200) {
@@ -92,13 +118,7 @@ class ProfileAPI {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $access_token',
         },
-        body: json.encode(<String,String>{
-          'name': '${profile.name}',
-          'birthday': '${profile.birthday}',
-          'address': '${profile.address}',
-          'avatar': '${profile.avatar}',
-          'email': '${profile.email}'
-        }),
+        body: json.encode(requestBody), // Chỉ gửi các trường không null
       );
 
       if (response.statusCode == 200) {
