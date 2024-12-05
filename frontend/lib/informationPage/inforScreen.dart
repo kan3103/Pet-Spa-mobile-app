@@ -3,6 +3,8 @@ import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:frontend/informationPage/addPetScreen.dart';
+
 class Inforscreen extends StatefulWidget {
 
   final Profile? profile; 
@@ -108,12 +110,15 @@ class _InforscreenState extends State<Inforscreen> {
   }
   // Thêm thú cưng mới
   void addPet() {
+    bool isVaccine = false; // Mặc định chưa tiêm vắc-xin
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         // Form để nhập thông tin thú cưng
         TextEditingController petNameController = TextEditingController();
-        TextEditingController petDescController = TextEditingController();
+        TextEditingController petDayofBirthController = TextEditingController();
+        TextEditingController petTypeController = TextEditingController();
+        TextEditingController petVaccineController = TextEditingController();
         //String petImage = "assets/images/image 1.png"; // Mặc định ảnh thú cưng
 
         return Padding(
@@ -126,29 +131,50 @@ class _InforscreenState extends State<Inforscreen> {
                 'Add New Pet',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 10),
 
               // Nhập tên thú cưng
               TextField(
                 controller: petNameController,
                 decoration: InputDecoration(
-                  labelText: 'Pet Name',
+                  labelText: 'Tên',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 10),
 
-              // Nhập mô tả
+              // Ngày sinh
               TextField(
-                controller: petDescController,
-                maxLines: 3,
+                controller: petDayofBirthController,
                 decoration: InputDecoration(
-                  labelText: 'Pet Description',
+                  labelText: 'Ngày sinh',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 16),
-              ////////////////////////////////////////////////////
+              SizedBox(height: 10),
+
+              // Nhập loại thú cưng
+              Checkbox(
+                value: isVaccine,
+                onChanged: (value) {
+                  setState(() {
+                    isVaccine = value!;
+                  });
+                },
+              ),
+              Text('Đã tiêm Vắc-xin'),
+              SizedBox(height: 10),
+
+              // Vaccine
+              TextField(
+                controller: petTypeController,
+                decoration: InputDecoration(
+                  labelText: 'Đã tiêm Vắc-xin',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+
+              /////////////////////////////////r///////////////////
               // Chọn ảnh (hoặc để mặc định)
               GestureDetector(
               onTap: _pickImage, // Khi người dùng nhấn vào ảnh, mở thư viện ảnh
