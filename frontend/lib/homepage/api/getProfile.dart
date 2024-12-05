@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileAPI {
-  static const String url = "http://10.0.5.32:8000/profiles";
+  static const String url = "http://10.0.5.30:8000/profiles";
 
   static Future<Profile> getMyProfile() async {
     final prefs = await SharedPreferences.getInstance();

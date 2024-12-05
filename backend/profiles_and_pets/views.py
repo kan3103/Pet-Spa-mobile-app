@@ -6,6 +6,7 @@ from rest_framework.permissions import AllowAny,IsAuthenticated
 from .models import Pet,Profile
 from auths.models import Customer,MyUser
 from .serializers import PetSerializer,ProfileSerializer
+from orders.models import ServiceOrder
 class CustomJsonResponse(HttpResponse):
     def __init__(self, data, **kwargs):
         kwargs['content_type'] = 'application/json; charset=utf-8'
@@ -27,10 +28,15 @@ class PetListView(generics.ListAPIView):
     serializer_class = PetSerializer
     permission_classes = [AllowAny]
     def get_queryset(self):
+        status = self.kwargs.get('status')
         try:
             customer = Customer.objects.get(id=self.request.user.id)
         except Customer.DoesNotExist:
             raise ValidationError({"detail": "The user is not a registered customer."})
+        if status == 'all':
+            return Pet.objects.filter(owner=customer)
+        elif status == 'now':
+            return Pet.objects.filter(owner=customer,serviceorder__status=ServiceOrder.status.choices[0][0])
         return Pet.objects.filter(owner=customer)
     
 class PetDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -46,8 +52,7 @@ class PetDetailView(generics.RetrieveUpdateDestroyAPIView):
         return pet
         
 
-    
-    
+  
 class ProfileView(generics.RetrieveUpdateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer

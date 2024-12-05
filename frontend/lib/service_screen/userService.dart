@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/service_screen/api/getService.dart';
+import 'package:frontend/service_screen/models/listService.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 
 class userService extends StatefulWidget {
@@ -10,18 +12,22 @@ class userService extends StatefulWidget {
 
 class _userServiceState extends State<userService> {
 
-  final List<Map<String, dynamic>> pets = [
-    {
-      'name': 'Kanlyly',
-      'type': 'Chó con - 2kg',
-      'services': ['Tắm, vệ sinh và tỉa lông', 'Khám sức khỏe định kỳ']
-    },
-    {
-      'name': 'Kanlyly',
-      'type': 'Chó con - 2kg',
-      'services': ['Tắm, vệ sinh và tỉa lông']
-    },
-  ];
+  List<Map<String, dynamic>> pets = [
+];
+
+  void getService() async{
+    List<Map<String,dynamic>> listService = await ServiceAPI.getList();
+    setState(() {
+      pets = listService;
+    });
+  }
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    getService();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +56,10 @@ class _userServiceState extends State<userService> {
                 ),
                 title: Text(pet['name']),
                 subtitle: Text(pet['type']),
-                children: pet['services']
+                children: pet['orders']
                     .map<Widget>(
                       (service) => ListTile(
-                    title: Text(service),
+                    title: Text(service['service']),
                   ),
                 )
                     .toList(),

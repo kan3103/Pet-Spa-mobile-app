@@ -43,14 +43,16 @@ class _InforscreenState extends State<Inforscreen> {
     Pet(
       imageUrl: 'https://s3-alpha-sig.figma.com/img/3681/5689/c0a30ad311c799c5c10a602d5d708580?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=OxBleCST8wO8ssgIfWWh3bHY70EW0ELSb3dH4iwA5o1mcvK3bs~SEX4SKPs~r8GrCiMNHJzv7Qs6y1i04-IqnAnPB~mrcrrBotIyHzV~Ef3FYzsEBBLvtpRF-dJ0dbeVrEQ05keO1FQ4uVZqiNjyDSlsZ1xX3rAjp~GRRFN6wKu7mZqhOWM5SoZi9uJtloCkB-l-AFVzHMuWnhR6qnqXTpqdgKNNp8pE9o50-llF-mYQ9XKus8TCuAP9ShB6ya0PojQVO8YjCWkZWr7mElHGz0Jc4npzd1mWF~R3LKpio1ID0HeNIQ8AzpFqTAgHUDWX0HBu8jdQynM1pPVGnxc9WQ__',
       name: 'Meo Meo',
-      weight: 'Mèo con - 2kg',
-      breed: 'Giống: abchd',
+      dob: '22-11-2022',
+      petType: 'Giống: abchd',
+      vaccine: true
     ),
     Pet(
       imageUrl: 'https://s3-alpha-sig.figma.com/img/5962/56b3/457374b16b2eafb3702028ca2627d093?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QoMDZUHMN-3SuTHypcgDZvr0Tf-n7mUptmwdWyQvIp1OahXgTSG4sHBoP1ZyzAKixVcbkf0w8Dp8zuR17TWOrRecGkC6jALXXYAcGD1Oqc3w7-a3hzG75KQBP~QuERGdczJMHE00ljyvt0qETAX7mG7lTTkiezK7vsTt61ywesisaNufD-5vPKCuWGbeq2tjdezUib4~3zDjDXYgJMYvmXo5sijGZw42rWTZueunaqAJ6gkgVr~sihYfN-CdvqczZKlsU8nH1QXBIPWu2uXjpPnkwcHurkBwJWhjkRi~zbjGqyT-Zg3YBo78HcEoxbWqdLhO3-Dpwrmsbqas1nvjVQ__',
       name: 'Kanlyly',
-      weight: 'Chó con - 3kg',
-      breed: 'Giống: abchd',
+      dob: '22-11-2022',
+      petType: 'Giống: abchd',
+      vaccine: true
     ),
     // Add more pets as needed
   ];
@@ -230,8 +232,9 @@ class _InforscreenState extends State<Inforscreen> {
                             Pet(
                               imageUrl: petImage,
                               name: petNameController.text,
-                              weight: '10kg',
-                              breed: 'nothing',
+                              dob: '10kg',
+                              petType: 'nothing',
+                              vaccine: true,
                             ),
                           );
                         });
@@ -331,8 +334,8 @@ class _InforscreenState extends State<Inforscreen> {
                         child: PetCard(
                           imageUrl: pets[index].imageUrl?.isEmpty ?? true ? 'assets/images/image 1.png' : pets[index].imageUrl, 
                           name: pets[index].name, 
-                          weight: "10kg", 
-                          breed: "nothing",
+                          dob: "10kg", 
+                          petType: "nothing",
                           onSelected: _onPetSelected,
                         ),
                         /*Card(

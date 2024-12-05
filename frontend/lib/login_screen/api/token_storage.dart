@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TokenStorage {
-  static const String url = 'http://10.0.5.32:8000/auth';
+  static const String url = 'http://10.0.5.30:8000/auth';
 
   // static Future<String?> getAccountType() async {
   //   final prefs = await SharedPreferences.getInstance();
