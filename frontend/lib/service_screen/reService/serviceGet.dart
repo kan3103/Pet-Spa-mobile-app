@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GetService {
-  static const String url = "http://10.0.5.30:8000/store/service";
+  static const String url = "http://10.0.5.30:8000/store/services";
 
   static Future<List<ServiceItem>> GetAllService() async {
     final prefs = await SharedPreferences.getInstance();
