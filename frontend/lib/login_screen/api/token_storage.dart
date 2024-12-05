@@ -11,6 +11,7 @@ class TokenStorage {
   // }
 
   static Future<void> fetchToken(String username, String password) async {
+
     final response = await http.post(
       Uri.parse('$url/login/'),
       headers: <String, String>{
@@ -21,7 +22,7 @@ class TokenStorage {
         'password': password,
       }),
     );
-    print(response.body);
+    print(username);
     if (response.statusCode == 201) {
 
       final prefs = await SharedPreferences.getInstance();
