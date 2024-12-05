@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/login_screen/component/header_section.dart';
-import 'package:frontend/login_screen/component/tab_selection.dart';
+import 'package:frontend/homepage/home_screen.dart';
 import 'package:frontend/login_screen/forgot_password.dart';
-import 'package:frontend/login_screen/create_username.dart';
+import 'package:frontend/login_screen/component/sign_in_with_google.dart';
+import 'package:frontend/login_screen/api/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../homepage/homepage.dart';
+import '../api/token_storage.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -37,10 +42,50 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  // Future<void> _handleGoogleSignIn() async {
+  //
+  //   try {
+  //     GoogleSignInAccount? googleUser = await GoogleSignInApi.login();
+  //     GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+  //     final accessToken = googleAuth.accessToken;
+  //     await GoogleSignInApi.loginWithGoogle(accessToken!)?
+  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()  )):
+  //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Getusername()  ));
+  //   } catch (error) {
+  //     print(error);
+  //   }
+  // }
+
+  Future signInWithGoogle() async {
+    await GoogleSignInApi.login();
+  }
+
   void _checkFields() {
     setState(() {
-      checkBlank = _emailController.text.isEmpty || _passwordController.text.isEmpty;
+      checkBlank =
+          _emailController.text.isEmpty || _passwordController.text.isEmpty;
     });
+  }
+
+  Future signIn() async {
+    print("Sign in");
+    print(_emailController.text);
+
+    try {
+      await TokenStorage.fetchToken(
+          _emailController.text, _passwordController.text);
+      final prefs = await SharedPreferences.getInstance();
+      String accountType = prefs.getString('account')!;
+      if (accountType == 'customer') {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  mainHomePage()));
+      } else {
+        _showNotification('Thông tin không hợp lệ');
+      }
+
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));}
+    } catch (e) {
+      _showNotification('Thông tin không hợp lệ');
+    }
   }
 
   @override
@@ -114,7 +159,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => ForgotPasswordScreen()),
                   );
                 },
                 child: Text('Forgot password?'),
@@ -124,9 +170,12 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         SizedBox(height: 10),
         ElevatedButton(
-          onPressed: checkBlank ? null : () {
-            _showNotification('Sign In Successful');
-          },
+          onPressed: checkBlank
+              ? null
+              : () {
+                  // _showNotification('Sign In Successful');
+                  signIn();
+                },
           child: Text(
             'Sign in',
             style: TextStyle(
@@ -146,12 +195,13 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         SizedBox(height: 20),
         ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CreateUsernameScreen()),
-            );
-          },
+          onPressed: signInWithGoogle,
+          // {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => SignInWithGoogleScreen()),
+          //   );
+          // },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
