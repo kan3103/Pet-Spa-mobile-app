@@ -18,3 +18,4 @@ setuptools
 sqlparse
 uritemplate
 urllib3
+Pillow

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/homepage/homepage.dart';
+import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/view_model/itemView_sqr.dart';
 
 class HomeScreen extends StatefulWidget {

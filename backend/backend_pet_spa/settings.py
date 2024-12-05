@@ -20,17 +20,20 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+MEDIA_URL = '/media/'  # Đường dẫn URL cho file media
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Đường dẫn thư mục lưu file trên server
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+# SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'haha'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -96,6 +99,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     'auths',
+    'profiles_and_pets',
+    'services_and_products',
 ]
 
 MIDDLEWARE = [

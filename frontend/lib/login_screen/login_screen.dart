@@ -4,7 +4,7 @@ import 'package:frontend/login_screen/component/sign_in.dart';
 import 'package:frontend/login_screen/component/sign_up.dart';
 import 'package:frontend/login_screen/component/tab_selection.dart';
 import 'package:frontend/login_screen/forgot_password.dart';
-import 'package:frontend/login_screen/create_username.dart';
+import 'package:frontend/login_screen/component/sign_in_with_google.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
