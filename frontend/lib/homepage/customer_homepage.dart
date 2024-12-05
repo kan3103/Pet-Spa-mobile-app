@@ -5,21 +5,21 @@ import 'package:frontend/login_screen/login_screen.dart';
 import 'package:frontend/service_screen/service_screen.dart';
 import 'package:frontend/startedpage/started_page.dart';
 
-final GlobalKey<_mainHomePageState> mainHomePageKey = GlobalKey();
+final GlobalKey<_customerHomePageState> mainHomePageKey = GlobalKey();
 
-class mainHomePage extends StatefulWidget {
+class customerHomePage extends StatefulWidget {
   /*
   const mainHomePage({super.key});
 
   @override
   State<mainHomePage> createState() => _mainHomePageState();
   */
-  mainHomePage({Key? key}) : super(key: mainHomePageKey);
+  customerHomePage({Key? key}) : super(key: mainHomePageKey);
   @override
-  _mainHomePageState createState() => _mainHomePageState();
+  _customerHomePageState createState() => _customerHomePageState();
 }
 
-class _mainHomePageState extends State<mainHomePage> {
+class _customerHomePageState extends State<customerHomePage> {
   @override
 
   int selectedIndex = 0 ;
@@ -39,16 +39,16 @@ class _mainHomePageState extends State<mainHomePage> {
         page = HomeScreen(); 
         break;
       case 1:
-        page =  LoginScreen();
+        page =  MyServiceScreen();
         break;
       case 2:
-        page = productScreen();
+        page = productScreen(); // Thay bằng màn hình Thanh toán
         break;
       case 3:
-        page = MyServiceScreen() ;
+        page = productScreen() ;
         break;
       case 4:
-        page =  GetStartedPage();
+        page =  GetStartedPage(); // Thay bằng màn hình Cài đặt
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');

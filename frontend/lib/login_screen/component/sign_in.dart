@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/homepage/home_screen.dart';
+import 'package:frontend/homepage/manager_homepage.dart';
+import 'package:frontend/homepage/staff_homepage.dart';
 import 'package:frontend/login_screen/forgot_password.dart';
 import 'package:frontend/login_screen/component/sign_in_with_google.dart';
 import 'package:frontend/login_screen/api/google_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../homepage/homepage.dart';
+import '../../homepage/customer_homepage.dart';
 import '../api/token_storage.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -68,8 +70,8 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future signIn() async {
-    print("Sign in");
-    print(_emailController.text);
+    // print("Sign in");
+    // print(_emailController.text);
 
     try {
       await TokenStorage.fetchToken(
@@ -77,11 +79,14 @@ class _SignInScreenState extends State<SignInScreen> {
       final prefs = await SharedPreferences.getInstance();
       String accountType = prefs.getString('account')!;
       if (accountType == 'customer') {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  mainHomePage()));
-      } else {
-        _showNotification('Thông tin không hợp lệ');
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  customerHomePage()));
       }
-
+      else if (accountType == 'staff') {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  staffHomePage()));
+      }
+      else if (accountType == 'manager') {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  managerHomePage()));
+      }
       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));}
     } catch (e) {
       _showNotification('Thông tin không hợp lệ');

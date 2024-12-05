@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/homepage/homepage.dart';
+import 'package:frontend/homepage/customer_homepage.dart';
 
 import 'login_screen/login_screen.dart';
 

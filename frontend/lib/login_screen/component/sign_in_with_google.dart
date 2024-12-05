@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/homepage/homepage.dart';
+import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/login_screen/api/google_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -56,7 +56,7 @@ class _SignInWithGoogleScreenState extends State<SignInWithGoogleScreen> {
             // Navigate to the homepage
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => mainHomePage()),
+                  MaterialPageRoute(builder: (context) => customerHomePage()),
                 );
               },
               child: Icon(Icons.arrow_forward),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/homepage/homepage.dart';
+import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/service_screen/selectService_screen.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 import 'package:frontend/service_screen/service_screen.dart';
@@ -36,7 +36,7 @@ class _ServiceCartScreenState extends State<ServiceCartScreen> {
     */
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => mainHomePage()),
+      MaterialPageRoute(builder: (context) => customerHomePage()),
       (Route<dynamic> route) => false,  // Loại bỏ tất cả các trang trong stack
     )
     
