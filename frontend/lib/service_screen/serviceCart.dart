@@ -1,54 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/homepage/customer_homepage.dart';
+import 'package:frontend/service_screen/api/getService.dart';
 import 'package:frontend/service_screen/selectService_screen.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 import 'package:frontend/service_screen/service_screen.dart';
 
 
 class ServiceCartScreen extends StatefulWidget {
+  List<Map<String,dynamic>> listpet;
+  int sum;
+  ServiceCartScreen({required this.listpet,required this.sum});
   @override
   _ServiceCartScreenState createState() => _ServiceCartScreenState();
 }
 
 class _ServiceCartScreenState extends State<ServiceCartScreen> {
-  final List<Map<String, dynamic>> pets = [
-    {
-      'name': 'Kanlyly',
-      'type': 'Chó con - 2kg',
-      'services': ['Tắm, vệ sinh và tỉa lông', 'Khám sức khỏe định kỳ']
-    },
-    {
-      'name': 'Kanlyly',
-      'type': 'Chó con - 2kg',
-      'services': ['Tắm, vệ sinh và tỉa lông']
-    },
-  ];
+  // final List<Map<String, dynamic>> pets = [
+  //   {
+  //     'name': 'Kanlyly',
+  //     'type': 'Chó con - 2kg',
+  //     'services': ['Tắm, vệ sinh và tỉa lông', 'Khám sức khỏe định kỳ']
+  //   },
+  //   {
+  //     'name': 'Kanlyly',
+  //     'type': 'Chó con - 2kg',
+  //     'services': ['Tắm, vệ sinh và tỉa lông']
+  //   },
+  // ];
 /////////////////////////////////////////////////////////////////////////////////////////
-  void _navigateToNewOrder() {
-    /*
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MyServiceScreen(),
+  // void _navigateToNewOrder() {
+  //   /*
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => MyServiceScreen(),
         
-      ),
-    )
-    */
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => customerHomePage(selected: 0,)),
-      (Route<dynamic> route) => false,  // Loại bỏ tất cả các trang trong stack
-    )
+  //     ),
+  //   )
+  //   */
+  //   Navigator.pushAndRemoveUntil(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => customerHomePage(selected: 0,)),
+  //     (Route<dynamic> route) => false,  // Loại bỏ tất cả các trang trong stack
+  //   )
     
-    .then((newPet) {
-      if (newPet != null) {
-        setState(() {
-          pets.add(newPet);
-        });
-      }
+  //   .then((newPet) {
+  //     if (newPet != null) {
+  //       setState(() {
+  //         pets.add(newPet);
+  //       });
+  //     }
+  //   });
+  // }
+
+  List<Map<String,dynamic>> listpets = [];
+
+
+  void loadorder() async{
+    setState(() {
+      listpets = widget.listpet;
+      print(listpets);
     });
   }
-
+  @override
+  void initState() {
+    loadorder();
+    super.initState();
+  }
+  void sendList() async{
+    await ServiceAPI.PostService(widget.listpet);
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => NewOrderScreen(listpet: widget.listpet),
+    //   ),
+    // );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,9 +109,9 @@ class _ServiceCartScreenState extends State<ServiceCartScreen> {
         ],
       ),
       body: ListView.builder(
-        itemCount: pets.length,
+        itemCount: listpets.length,
         itemBuilder: (context, index) {
-          final pet = pets[index];
+          final pet =  listpets[index];
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             child: Card(
@@ -103,7 +130,6 @@ class _ServiceCartScreenState extends State<ServiceCartScreen> {
                   ),
                 ),
                 title: Text(pet['name']),
-                subtitle: Text(pet['type']),
                 children: pet['services']
                     .map<Widget>(
                       (service) => ListTile(
@@ -134,7 +160,7 @@ class _ServiceCartScreenState extends State<ServiceCartScreen> {
                   ),
                 ),
                 Text(
-                  '555.000', // Replace with the actual total amount
+                  widget.sum.toString(), // Replace with the actual total amount
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -148,7 +174,7 @@ class _ServiceCartScreenState extends State<ServiceCartScreen> {
               child: ElevatedButton(
 
                 /////////////////////////////////////////////////////////////////////////////////////////
-                onPressed: _navigateToNewOrder,
+                onPressed: sendList,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFF49FA4),
                   elevation: 0,

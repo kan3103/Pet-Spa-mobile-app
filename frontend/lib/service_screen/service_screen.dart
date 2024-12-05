@@ -57,7 +57,7 @@ class _MyServiceScreenState extends State<MyServiceScreen> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = accountType != 'customer'? userService() : OrderManager() ;
+        page = accountType == 'customer'? userService() : OrderManager() ;
         
     case 1:
         page = accountType != 'customer'? Allservice(): reServicePage()  ;

@@ -120,4 +120,49 @@ class ServiceAPI {
       throw Exception("Failed to get profile");
     }
   }
+
+
+  static Future<void> PostService(List<Map<String,dynamic>> service) async{
+    final prefs = await SharedPreferences.getInstance();
+    String? access_token = prefs.getString('access_token');
+    String? refresh_token = prefs.getString('refresh_token');
+
+    var response = await http.post(
+      Uri.parse('$url/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $access_token',
+      },
+      body: json.encode({
+        "pets": service, // Gửi toàn bộ danh sách service
+      }),
+    );
+    if (response.statusCode == 201) {
+      print("Post success");
+    } else if (response.statusCode == 401) {
+      // Refresh the access token using the refresh token
+      await TokenStorage.getaccessToken(refresh_token!);
+
+      // Retry the request with the new access token
+      access_token = prefs.getString('access_token');
+      var response = await http.post(
+        Uri.parse('$url/'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $access_token',
+        },
+        body: json.encode({
+          "pets": service, // Gửi toàn bộ danh sách service
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        print("Post success");
+      } else {
+        throw Exception("Failed to get profile after retrying with new token");
+      }
+    } else {
+      throw Exception("Failed to get profile");
+    }
+  }
 }
