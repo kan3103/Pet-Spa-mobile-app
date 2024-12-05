@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/login_screen/component/header_section.dart';
-import 'package:frontend/login_screen/component/tab_selection.dart';
+import 'package:frontend/login_screen/api/sign_up.dart';
+import 'package:frontend/login_screen/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -15,6 +15,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _reNewPasswordController = TextEditingController();
+
+
+  
+  Future SiginUp() async {
+    try{
+      await SignUpApi.signupcus(_emailController.text, _newPasswordController.text, _reNewPasswordController.text);
+      _showNotification('Sign up successfully');
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  LoginScreen()));
+    }
+    catch (error) {
+      _showNotification(error.toString());
+    }
+  }
 
   void _showNotification(String message) {
     showDialog(
@@ -79,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         TextField(
           controller: _emailController,
           decoration: InputDecoration(
-            labelText: 'Full Name',
+            labelText: 'Username',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             ),
@@ -131,7 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         ElevatedButton(
           onPressed: checkBlank ? null : () {
-            _showNotification('Sign Up Successful');
+            SiginUp();
           },
           child: Text(
             'Sign up',

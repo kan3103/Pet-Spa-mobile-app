@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/homepage/homepage.dart';
+import 'package:frontend/startedpage/started_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFF49FA4),),
         useMaterial3: true,
       ),
-      home: mainHomePage(),// giao dien chinh
+      home: GetStartedPage(),// giao dien chinh
     );
   }
 }
