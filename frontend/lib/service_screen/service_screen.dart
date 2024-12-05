@@ -67,16 +67,21 @@ class _MyServiceScreenState extends State<MyServiceScreen> {
       ),
         backgroundColor: Colors.white,
         centerTitle: true,
-        leading: IconButton(
+        
+        leading: SizedBox(width: 0,),
+        
+        /*IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            
+           /* 
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) =>  customerHomePage()),
             );
+
+            */
           },
-        ),
+        ),*/
         actions:
         [
           TextButton(

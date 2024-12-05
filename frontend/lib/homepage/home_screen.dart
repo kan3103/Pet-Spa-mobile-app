@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/view_model/itemView_sqr.dart';
 
 class HomeScreen extends StatefulWidget {
-  
+  final Profile? profile; 
+
+  const HomeScreen({
+    super.key,
+    required this.profile,
+  });
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   bool _isSearchActive = false;
+  //Profile? myprofile ;
 
   void _toggleSearch() {
     setState(() {
@@ -21,8 +30,26 @@ class _HomeScreenState extends State<HomeScreen> {
     mainHomePageKey.currentState?.onItemTapped(this_index);
   }
 
-  @override
+  void LoadProfile() async {
+    try{
+      
+      setState(() {
+        print("check");
+       // myprofile = widget.profile!;
+      });
+    }
+    catch(e){
+        print(e);
+    }
+  }
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    //LoadProfile();
+    super.initState();
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Hi Khang Lý',
+                                    'Hi ${widget.profile!.name}',
                                     style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
