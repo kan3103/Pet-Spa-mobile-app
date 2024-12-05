@@ -15,7 +15,9 @@ class SelectServiceScreen extends StatefulWidget {
 class _SelectServiceScreenState extends State<SelectServiceScreen> {
   bool isServiceSelected = false;
 
-  final List< ServiceItem > services = [
+  late List<ServiceItem> services ;
+  /*
+  = [
     ServiceItem(
       imageLink: 'https://s3-alpha-sig.figma.com/img/4009/7ae7/9cb0107b84d4cd568e8f572ba06a0e62?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=HedJBnbEpvN2kis0akNSBYAhlPv5ijVMwLFL3FoFNHnUiMpN4IEKOhfqkLJZAwG3KONImVnA44Q76AZzInFuU9PUrJokA3F55rcrU0mZX6Ib6in0IzDGbv42bNJMNkADyPLo~9akE4DZIxMGOm0iUAKwOlAFxDPNdETjFBXYxt-7AX1-RYFlnz230vGkHN2aBW3h0lunmR4-QKqOe1PIAqp55VK0lmbiCUdn-N9cQAoeRvXzMvLLN9vEzJzfHJGMn8aJHe9ZE796zglNPwADRVazIZM~3UmJYHUNA-~mkGKhLe1av5uhIo7x8zFVr5o7tXF98FzeARZvx~E7B6oY1A__',
       title: 'Combo: dịch vụ tắm, vệ sinh và tỉa lông',
@@ -23,13 +25,13 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
       description: ''
     ),
     ServiceItem(
-      imageLink: 'https://s3-alpha-sig.figma.com/img/5962/56b3/457374b16b2eafb3702028ca2627d093?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QoMDZUHMN-3SuTHypcgDZvr0Tf-n7mUptmwdWyQvIp1OahXgTSG4sHBoP1ZyzAKixVcbkf0w8Dp8zuR17TWOrRecGkC6jALXXYAcGD1Oqc3w7-a3hzG75KQBP~QuERGdczJMHE00ljyvt0qETAX7mG7lTTkiezK7vsTt61ywesisaNufD-5vPKCuWGbeq2tjdezUib4~3zDjDXYgJMYvmXo5sijGZw42rWTZueunaqAJ6gkgVr~sihYfN-CdvqczZKlsU8nH1QXBIPWu2uXjpPnkwcHurkBwJWhjkRi~zbjGqyT-Zg3YBo78HcEoxbWqdLhO3-Dpwrmsbqas1nvjVQ__',
+      image: 'https://s3-alpha-sig.figma.com/img/5962/56b3/457374b16b2eafb3702028ca2627d093?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QoMDZUHMN-3SuTHypcgDZvr0Tf-n7mUptmwdWyQvIp1OahXgTSG4sHBoP1ZyzAKixVcbkf0w8Dp8zuR17TWOrRecGkC6jALXXYAcGD1Oqc3w7-a3hzG75KQBP~QuERGdczJMHE00ljyvt0qETAX7mG7lTTkiezK7vsTt61ywesisaNufD-5vPKCuWGbeq2tjdezUib4~3zDjDXYgJMYvmXo5sijGZw42rWTZueunaqAJ6gkgVr~sihYfN-CdvqczZKlsU8nH1QXBIPWu2uXjpPnkwcHurkBwJWhjkRi~zbjGqyT-Zg3YBo78HcEoxbWqdLhO3-Dpwrmsbqas1nvjVQ__',
       title: 'Pate cho mèo Whiskas 80g hương Cá Biển',
       price: 'đ 12.500',
       description: ''
     ),
   ];
-
+  */
   void _onPetSelected(bool selected) {
     setState(() {
       isServiceSelected = selected;
@@ -78,10 +80,10 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
                 itemBuilder: (context, index) {
                   final service = services[index];
                   return ServiceCard(
-                    imageLink: service.imageLink,
-                    title: service.title,
-                    price: service.price,
-                    onSelected: _onPetSelected,
+                    imageLink: service.image!,
+                    title: service.name!,
+                    price: service.price!.toString(),
+                    onSelected: _onPetSelected!,
                   );
                 },
               ),

@@ -49,7 +49,7 @@ class ServiceDetailPage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
-                serviceItem.imageLink,
+                serviceItem.image!,
                 height: 280,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -63,7 +63,7 @@ class ServiceDetailPage extends StatelessWidget {
                   
                   // Tiêu đề sản phẩm
                   Text(
-                    serviceItem.title,
+                    serviceItem.name!,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
@@ -73,7 +73,7 @@ class ServiceDetailPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
-                      serviceItem.description,
+                      serviceItem.description!,
                       style: TextStyle(fontSize: 16),
                       textAlign: TextAlign.justify,
                     ),
@@ -82,7 +82,7 @@ class ServiceDetailPage extends StatelessWidget {
                   
                   // Giá sản phẩm
                   Text(
-                    serviceItem.price,
+                    serviceItem.price!.toString(),
                     style: TextStyle(fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold),
                   ),
                 ],

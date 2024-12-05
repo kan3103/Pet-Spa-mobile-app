@@ -27,26 +27,26 @@ Widget buildServiceItem(
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
             ),
-            child: getImageWidget(service_item.imageLink, 130, 146), // Hàm này trả về widget hiển thị ảnh
+            child: getImageWidget(service_item.image!, 130, 146), // Hàm này trả về widget hiển thị ảnh
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              service_item.title,
+              service_item.name!,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              service_item.price,
+              service_item.price!.toString(),
               style: TextStyle(color: Colors.green),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              service_item.description,
+              service_item.description!,
               style: TextStyle(fontSize: 12),
               overflow: TextOverflow.ellipsis, // Giới hạn hiển thị nếu quá dài
             ),

@@ -20,8 +20,8 @@ class _EditServicePageState extends State<EditServicePage> {
   void initState() {
     super.initState();
     // Khởi tạo controllers với dữ liệu ban đầu từ serviceItem
-    _titleController = TextEditingController(text: widget.serviceItem.title);
-    _priceController = TextEditingController(text: widget.serviceItem.price);
+    _titleController = TextEditingController(text: widget.serviceItem.name);
+    _priceController = TextEditingController(text: widget.serviceItem.price.toString() );
     _descriptionController = TextEditingController(text: widget.serviceItem.description);
   }
 
@@ -56,7 +56,7 @@ class _EditServicePageState extends State<EditServicePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Hình ảnh dịch vụ
-            Image.network(widget.serviceItem.imageLink, height: 300, width: double.infinity, fit: BoxFit.cover),
+            Image.network(widget.serviceItem.image!, height: 300, width: double.infinity, fit: BoxFit.cover),
             SizedBox(height: 16),
 
             // Tiêu đề
