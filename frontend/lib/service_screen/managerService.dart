@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/service_item.dart';
+import 'package:frontend/service_screen/reService/addService.dart';
 import 'package:frontend/service_screen/reService/serviceDetail.dart';
 import 'package:frontend/service_screen/reService/serviceGet.dart';
 import 'package:frontend/view_model/serviceItemView.dart';
@@ -15,7 +16,9 @@ class reServicePage extends StatefulWidget {
 
 class _reServicePageState extends State<reServicePage> {
   late List<ServiceItem> services ;
+  
   bool isLoaded = false;
+  
   void getAllService() async{
     services = await GetService.GetAllService();
     setState(() {
@@ -48,6 +51,7 @@ class _reServicePageState extends State<reServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /*
       appBar: AppBar(
         title: Text(
           'Tất cả dịch vụ',
@@ -70,20 +74,37 @@ class _reServicePageState extends State<reServicePage> {
             Navigator.pop(context);
           },
         ),
-      ),
-      body:isLoaded?const Center(
+        /*
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () {/*
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => NewOrderScreen()),
+            );*/
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddServicePage()),
+            );
+          },
+        ),
+        */
+      ),*/
+      body:isLoaded == false?
+      const Center(
         child: SizedBox(        
           width: 30, 
           height: 30, 
           child: CircularProgressIndicator(
             strokeWidth: 4.0, 
           ),
-      )):Padding(
+      )):
+      Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // Số cột trong lưới
-            childAspectRatio: 0.7, // Tỷ lệ chiều cao/chiều rộng cho các item
+            childAspectRatio: 0.85, // Tỷ lệ chiều cao/chiều rộng cho các item
             crossAxisSpacing: 10.0,
             mainAxisSpacing: 25.0,
           ), 
@@ -125,6 +146,27 @@ class _reServicePageState extends State<reServicePage> {
             );
           },
         ),
+        
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          
+          Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddServicePage(), 
+                    ),
+          );
+          /*
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => NewOrderScreen()),
+          );*/
+        }, 
+        
+        label: const Text('Đơn mới', style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontWeight: FontWeight.bold)),
+        backgroundColor: Color(0xFFF49FA4),
+        icon: Icon(Icons.add, color: Colors.white),
       ),
     );
   }
