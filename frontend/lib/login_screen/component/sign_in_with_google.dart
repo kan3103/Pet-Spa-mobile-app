@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/login_screen/api/google_sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -39,6 +40,17 @@ class _SignInWithGoogleScreenState extends State<SignInWithGoogleScreen> {
       print(e);
     }
   }
+  /*
+  late Profile myprofile;
+  bool LoadProfile = false;
+  void getMyProfile() async{
+    setState(() async {
+      myprofile = await ProfileAPI.getMyProfile();
+      LoadProfile = false;
+      print(LoadProfile);
+    });
+  }
+  */
   @override
   Widget build(BuildContext context) {
     return Scaffold(

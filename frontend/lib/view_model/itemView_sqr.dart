@@ -24,7 +24,7 @@ Widget buildBestSellerItem(String imageLink, String title, String price, VoidCal
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
             ),
-            child: getImageWidget(imageLink),
+            child: getImageWidget(imageLink, 130, 146),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -50,23 +50,24 @@ Widget buildBestSellerItem(String imageLink, String title, String price, VoidCal
   );
 }
 
-Widget getImageWidget(String imagePath) {
+Widget getImageWidget(String imagePath,double height, double width) {
   
   bool isUrl = Uri.tryParse(imagePath)?.hasAbsolutePath ?? false;
 
   if (isUrl) {
     // Nếu là URL, dùng Image.network
-    return Image.network(imagePath,
-      height: 130,
-      width: 146,
+    return Image.network(
+      imagePath,
+      height: height,
+      width: width,
       fit: BoxFit.cover,
     );
   } else {
     // Nếu là đường dẫn Asset, dùng Image.asset
     return Image.asset(
       imagePath,
-      height: 130,
-      width: 146,
+      height: height,
+      width: width,
       fit: BoxFit.cover,
     );
   }

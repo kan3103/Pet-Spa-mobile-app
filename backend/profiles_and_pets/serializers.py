@@ -8,7 +8,6 @@ class PetSerializer(serializers.ModelSerializer):
         
         
 class ProfileSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
     email = serializers.CharField(source='user.email', read_only=True)
     class Meta:
         model = Profile

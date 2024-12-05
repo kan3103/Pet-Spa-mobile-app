@@ -32,11 +32,11 @@ class _staffHomePageState extends State<staffHomePage> {
 
   Widget build(BuildContext context) {
 
-    Widget page = HomeScreen();
+    Widget page = HomeScreen(profile: null,);
 
     switch (selectedIndex) {
       case 0:
-        page = HomeScreen();
+        page = HomeScreen(profile: null,);
         break;
       case 1:
         page =  MyServiceScreen();
