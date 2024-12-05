@@ -1,22 +1,33 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/service_item.dart';
+
+import 'package:frontend/service_screen/models/Pet.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
+import 'package:frontend/service_screen/reService/serviceGet.dart';
 import 'package:frontend/service_screen/serviceCart.dart';
 
 
 
 class SelectServiceScreen extends StatefulWidget {
-  
+
+  final List<Pet> pets;
+  int check;
+  List<Map<String,dynamic>> listpet;
+  int sum;
+  SelectServiceScreen({required this.check, required this.pets,required this.listpet,required this.sum});
   @override
   _SelectServiceScreenState createState() => _SelectServiceScreenState();
 }
 
 class _SelectServiceScreenState extends State<SelectServiceScreen> {
   bool isServiceSelected = false;
-
-  late List<ServiceItem> services ;
+  List<ServiceItem> services =[] ;
+  Map<String,dynamic> pet = {};
+  List<String> listpets = [];
+  int checks=0;
   /*
   = [
     ServiceItem(
@@ -33,10 +44,40 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
     ),
   ];
   */
-  void _onPetSelected(bool selected) {
+  String PetType(int type){
+  if (type == 1) return "Dog";
+  else if(type == 2)
+  return "Cat";
+  else if(type == 3)
+  return "Rabbit";
+  return "Hamster";
+}
+  void _onPetSelected(bool selected, String title, int id,int price) {
+
+    listpets.add(title);
+    if(selected)
+    widget.sum+=price;
+    else widget.sum-=price;
     setState(() {
       isServiceSelected = selected;
+      pet = {
+        'name': widget.pets[widget.check].name,
+        'services':listpets,
+      };
     });
+  }
+ void loadService() async{
+    List<ServiceItem> service = await GetService.GetAllService();
+    setState(() {
+      services = service;
+    });
+  }
+
+  @override
+  void initState() {
+    checks = widget.check;
+    loadService();
+    super.initState();
   }
 
   @override
@@ -80,11 +121,13 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
                 itemCount: services.length,
                 itemBuilder: (context, index) {
                   final service = services[index];
-                  return ServiceCard(
+                  return ServiceCard
+                  (
+                    id: service.id!,
                     imageLink: service.image!,
                     title: service.name!,
                     price: service.price!.toString(),
-                    onSelected: _onPetSelected!,
+                    onSelected: _onPetSelected,
                   );
                 },
               ),
@@ -93,11 +136,12 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
             width: double.infinity,
-            child: ElevatedButton(
+            child: widget.check==widget.pets.length-1? ElevatedButton(
               onPressed: () {
+                widget.listpet.add(pet);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ServiceCartScreen()),
+                  MaterialPageRoute(builder: (context) => ServiceCartScreen(listpet: widget.listpet,sum: widget.sum,)),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -109,6 +153,33 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
               ),
               child: const Text(
                 'Tạo đơn',
+                style: TextStyle(color: Colors.white),
+              ),
+            ):ElevatedButton(
+              onPressed: () {
+                
+                if(widget.check<checks){
+                  widget.listpet.removeAt(widget.listpet.length-1);
+                  widget.listpet.add(pet);
+                }
+                else{
+                  widget.listpet.add(pet);
+                  checks++;
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SelectServiceScreen(pets: widget.pets,check: checks,listpet: widget.listpet,sum: widget.sum,)),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isServiceSelected ? Color(0xFFF49FA4) : Colors.grey.shade400,
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+              child: const Text(
+                'Tiếp theo',
                 style: TextStyle(color: Colors.white),
               ),
             ),
@@ -124,7 +195,8 @@ class ServiceCard extends StatefulWidget {
   final String imageLink;
   final String title;
   final String price;
-  final Function(bool) onSelected;
+  final int id;
+  final Function(bool,String,int,int) onSelected;
 
   const ServiceCard({
     Key? key,
@@ -132,6 +204,7 @@ class ServiceCard extends StatefulWidget {
     required this.title,
     required this.price,
     required this.onSelected,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -144,7 +217,7 @@ class _ServiceCardState extends State<ServiceCard> {
   void _toggleSelection() {
     setState(() {
       isSelected = !isSelected;
-      widget.onSelected(isSelected);
+      widget.onSelected(isSelected,widget.title,widget.id,int.parse(widget.price));
     });
   }
 

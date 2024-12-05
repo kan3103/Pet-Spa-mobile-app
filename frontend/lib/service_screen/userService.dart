@@ -12,8 +12,7 @@ class userService extends StatefulWidget {
 
 class _userServiceState extends State<userService> {
 
-  List<Map<String, dynamic>> pets = [
-];
+  List<Map<String, dynamic>> pets = [];
 
   void getService() async{
     List<Map<String,dynamic>> listService = await ServiceAPI.getList();

@@ -74,8 +74,8 @@ class _customerHomePageState extends State<customerHomePage> {
         page =  HomeScreen(profile: myprofile);
         break;
       case 1:
-        page =   reServicePage();
-        //MyServiceScreen();
+        page =   
+        MyServiceScreen();
         
         break;
       case 2:

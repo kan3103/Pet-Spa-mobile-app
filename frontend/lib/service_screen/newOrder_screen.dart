@@ -136,7 +136,7 @@ String PetType(int type){
                 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SelectServiceScreen()),
+                  MaterialPageRoute(builder: (context) => SelectServiceScreen(pets: pets, check: 0,listpet: [],sum: 0,)),
                 );
                 
                 //Navigator.pop(context);

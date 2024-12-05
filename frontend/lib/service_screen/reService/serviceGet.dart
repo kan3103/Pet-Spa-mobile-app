@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GetService {
-  static const String url = "http://10.0.5.30:8000/store/service";
+  static const String url = "http://10.0.5.30:8000/store/services/";
 
   static Future<List<ServiceItem>> GetAllService() async {
     final prefs = await SharedPreferences.getInstance();
@@ -16,13 +16,13 @@ class GetService {
     String? refresh_token = prefs.getString('refresh_token');
   
     var response = await http.get(
-      Uri.parse('$url/'),
+      Uri.parse('$url'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $access_token',
       },
     );
-
+    print(response.body);
     if (response.statusCode == 200) {
        List<dynamic> data = json.decode(response.body);
       List<ServiceItem> items = data.map((json) => ServiceItem.fromJson(json)).toList();
