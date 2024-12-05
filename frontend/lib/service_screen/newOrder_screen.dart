@@ -6,14 +6,16 @@ import 'package:frontend/view_model/itemView_sqr.dart';
 class Pet {
   final String imageUrl;
   final String name;
-  final String weight;
-  final String breed;
+  final String dob;
+  final String petType;
+  final bool vaccine;
 
   Pet({
     required this.imageUrl,
     required this.name,
-    required this.weight,
-    required this.breed,
+    required this.dob,
+    required this.petType,
+    required this.vaccine,
   });
 }
 
@@ -30,14 +32,16 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
     Pet(
       imageUrl: 'https://s3-alpha-sig.figma.com/img/3681/5689/c0a30ad311c799c5c10a602d5d708580?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=OxBleCST8wO8ssgIfWWh3bHY70EW0ELSb3dH4iwA5o1mcvK3bs~SEX4SKPs~r8GrCiMNHJzv7Qs6y1i04-IqnAnPB~mrcrrBotIyHzV~Ef3FYzsEBBLvtpRF-dJ0dbeVrEQ05keO1FQ4uVZqiNjyDSlsZ1xX3rAjp~GRRFN6wKu7mZqhOWM5SoZi9uJtloCkB-l-AFVzHMuWnhR6qnqXTpqdgKNNp8pE9o50-llF-mYQ9XKus8TCuAP9ShB6ya0PojQVO8YjCWkZWr7mElHGz0Jc4npzd1mWF~R3LKpio1ID0HeNIQ8AzpFqTAgHUDWX0HBu8jdQynM1pPVGnxc9WQ__',
       name: 'Meo Meo',
-      weight: 'Mèo con - 2kg',
-      breed: 'Giống: abchd',
+      dob: '22-11-2022',
+      petType: 'Giống: abchd',
+      vaccine: true
     ),
     Pet(
       imageUrl: 'https://s3-alpha-sig.figma.com/img/5962/56b3/457374b16b2eafb3702028ca2627d093?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QoMDZUHMN-3SuTHypcgDZvr0Tf-n7mUptmwdWyQvIp1OahXgTSG4sHBoP1ZyzAKixVcbkf0w8Dp8zuR17TWOrRecGkC6jALXXYAcGD1Oqc3w7-a3hzG75KQBP~QuERGdczJMHE00ljyvt0qETAX7mG7lTTkiezK7vsTt61ywesisaNufD-5vPKCuWGbeq2tjdezUib4~3zDjDXYgJMYvmXo5sijGZw42rWTZueunaqAJ6gkgVr~sihYfN-CdvqczZKlsU8nH1QXBIPWu2uXjpPnkwcHurkBwJWhjkRi~zbjGqyT-Zg3YBo78HcEoxbWqdLhO3-Dpwrmsbqas1nvjVQ__',
       name: 'Kanlyly',
-      weight: 'Chó con - 3kg',
-      breed: 'Giống: abchd',
+      dob: 'Chó con - 3kg',
+      petType: 'Giống: abchd',
+      vaccine: true,
     ),
     // Add more pets as needed
   ];
@@ -93,8 +97,8 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
                   return PetCard(
                     imageUrl: pet.imageUrl,
                     name: pet.name,
-                    weight: pet.weight,
-                    breed: pet.breed,
+                    dob: pet.dob,
+                    petType: pet.petType,
                     onSelected: _onPetSelected,
                   );
                 },
@@ -137,16 +141,16 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
 class PetCard extends StatefulWidget {
   final String imageUrl;
   final String name;
-  final String weight;
-  final String breed;
+  final String dob;
+  final String petType;
   final Function(bool) onSelected;
 
   const PetCard({
     Key? key,
     required this.imageUrl,
     required this.name,
-    required this.weight,
-    required this.breed,
+    required this.dob,
+    required this.petType,
     required this.onSelected,
   }) : super(key: key);
 
@@ -206,7 +210,7 @@ class _PetCardState extends State<PetCard> {
                       ),
                       const SizedBox(height: 4.0),
                       Text(
-                        widget.weight,
+                        widget.dob,
                         style: const TextStyle(
                           fontSize: 14.0,
                           color: Colors.grey,
@@ -214,7 +218,7 @@ class _PetCardState extends State<PetCard> {
                       ),
                       const SizedBox(height: 4.0),
                       Text(
-                        widget.breed,
+                        widget.petType,
                         style: const TextStyle(
                           fontSize: 14.0,
                           color: Colors.grey,
