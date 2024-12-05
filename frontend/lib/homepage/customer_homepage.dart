@@ -2,27 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/homepage/home_screen.dart';
 import 'package:frontend/login_screen/api/google_sign_in.dart';
-import 'package:frontend/productPage/cart_page.dart';
 import 'package:frontend/productPage/productScreen.dart';
 import 'package:frontend/login_screen/login_screen.dart';
 import 'package:frontend/service_screen/service_screen.dart';
 import 'package:frontend/startedpage/started_page.dart';
 
-final GlobalKey<_mainHomePageState> mainHomePageKey = GlobalKey();
+final GlobalKey<_customerHomePageState> mainHomePageKey = GlobalKey();
 
-class mainHomePage extends StatefulWidget {
+class customerHomePage extends StatefulWidget {
   /*
   const mainHomePage({super.key});
 
   @override
   State<mainHomePage> createState() => _mainHomePageState();
   */
-  mainHomePage({Key? key}) : super(key: mainHomePageKey);
+  customerHomePage({Key? key}) : super(key: mainHomePageKey);
   @override
-  _mainHomePageState createState() => _mainHomePageState();
+  _customerHomePageState createState() => _customerHomePageState();
 }
 
-class _mainHomePageState extends State<mainHomePage> {
+class _customerHomePageState extends State<customerHomePage> {
   @override
 
   int selectedIndex = 0 ;
@@ -32,9 +31,7 @@ class _mainHomePageState extends State<mainHomePage> {
       selectedIndex = index;
     });
   }
-DateTime? lastPressed;
-
-    //Method handle pop up
+    DateTime? lastPressed;
     Future<bool> _onWillPop() async { 
       final DateTime now = DateTime.now();
       if (lastPressed == null || now.difference(lastPressed!) > Duration(seconds: 2)) { //Set the interval to 2 clicks
@@ -58,13 +55,13 @@ DateTime? lastPressed;
         page =  MyServiceScreen();
         break;
       case 2:
-        page = CartPage();
+        page = productScreen(); // Thay bằng màn hình Thanh toán
         break;
       case 3:
         page = productScreen() ;
         break;
       case 4:
-        page =  GetStartedPage();
+        page =  GetStartedPage(); // Thay bằng màn hình Cài đặt
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -78,7 +75,7 @@ DateTime? lastPressed;
         }
         final bool shouldPop = await _onWillPop() ?? false;
         if (context.mounted && shouldPop) {
-          // GoogleSignInApi.logout();
+          GoogleSignInApi.logout();
           await SystemNavigator.pop();
         }
       },

@@ -5,6 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class TokenStorage {
   static const String url = 'http://10.0.5.32:8000/auth';
 
+  // static Future<String?> getAccountType() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString('account');
+  // }
+
   static Future<void> fetchToken(String username, String password) async {
     final response = await http.post(
       Uri.parse('$url/login/'),
@@ -36,6 +41,7 @@ class TokenStorage {
       throw Exception('Failed to fetch token');
     }
   }
+
   // Get acces token by refresh token
   static Future<void> getaccessToken(String refresh) async {
     final response = await http.post(
