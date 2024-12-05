@@ -34,7 +34,7 @@ class _SignInWithGoogleScreenState extends State<SignInWithGoogleScreen> {
       GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
       final accessToken = googleAuth.accessToken;
       await GoogleSignInApi.SigninwithGoogle(username,accessToken!);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => customerHomePage()  ));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => customerHomePage(selected: 0,)  ));
     }
     catch(e){
       print(e);

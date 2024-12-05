@@ -36,7 +36,7 @@ class _ServiceCartScreenState extends State<ServiceCartScreen> {
     */
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => customerHomePage()),
+      MaterialPageRoute(builder: (context) => customerHomePage(selected: 0,)),
       (Route<dynamic> route) => false,  // Loại bỏ tất cả các trang trong stack
     )
     

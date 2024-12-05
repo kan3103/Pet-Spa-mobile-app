@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/uSer.dart';
+import 'package:frontend/informationPage/changeInfor.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:frontend/informationPage/addPetScreen.dart';
 
+final GlobalKey<_InforscreenState> InforscreenKey = GlobalKey<_InforscreenState>();
+
 class Inforscreen extends StatefulWidget {
 
-  final Profile? profile; 
+  final Profile? profile;
 
-  const Inforscreen({
-    super.key,
-    required this.profile,
-  });
-
+  const Inforscreen({Key? key, required this.profile}) : super(key: key);
 
   @override
   State<Inforscreen> createState() => _InforscreenState();
@@ -58,6 +57,15 @@ class _InforscreenState extends State<Inforscreen> {
     setState(() {
       isPetSelected = selected;
     });
+  }
+  @override
+  void reloadPage(){
+    if (widget.profile != null) {
+      setState(() {
+        userName = widget.profile!.name;
+       //userImage = widget.profile!.avatar; 
+      });
+    }
   }
 
   Future<void> _pickImage() async {
@@ -188,7 +196,7 @@ class _InforscreenState extends State<Inforscreen> {
                 child: petImage.isEmpty
                     ? Center(child: Text('Add Image'))
                     : Image.file(
-                        File(petImage), // Hiển thị ảnh từ thư viện
+                        File(petImage), 
                         fit: BoxFit.cover,
                 ),
               ),
@@ -233,7 +241,17 @@ class _InforscreenState extends State<Inforscreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.edit), // Biểu tượng chỉnh sửa
-            onPressed: _editName, // Gọi hàm chỉnh sửa tên khi nhấn
+            onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileEditingPage(profile: widget.profile!), 
+                    ),
+                  );
+            }, 
+            
+            //_editName, // Gọi hàm chỉnh sửa tên khi nhấn
+
           ),
         ],
       ),
