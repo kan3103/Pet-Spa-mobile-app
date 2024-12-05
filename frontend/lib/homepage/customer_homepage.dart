@@ -6,6 +6,7 @@ import 'package:frontend/productPage/productScreen.dart';
 import 'package:frontend/login_screen/login_screen.dart';
 import 'package:frontend/service_screen/service_screen.dart';
 import 'package:frontend/startedpage/started_page.dart';
+import 'package:frontend/informationPage/inforScreen.dart';
 
 final GlobalKey<_customerHomePageState> mainHomePageKey = GlobalKey();
 
@@ -61,7 +62,7 @@ class _customerHomePageState extends State<customerHomePage> {
         page = productScreen() ;
         break;
       case 4:
-        page =  GetStartedPage(); // Thay bằng màn hình Cài đặt
+        page =  Inforscreen(); // Thay bằng màn hình Cài đặt
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');

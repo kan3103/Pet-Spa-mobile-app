@@ -12,6 +12,7 @@ class Inforscreen extends StatefulWidget {
 class _InforscreenState extends State<Inforscreen> {
   bool isPetSelected = false;
   TextEditingController _nameController = TextEditingController();
+  
   String userName = "John Doe";
   String userImage = "assets/images/image 1.png"; // Thêm ảnh avatar người dùng
   String petImage = "";
@@ -182,6 +183,7 @@ class _InforscreenState extends State<Inforscreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile Page'),
+        leading: SizedBox(width: 0,),
         actions: [
           IconButton(
             icon: Icon(Icons.edit), // Biểu tượng chỉnh sửa

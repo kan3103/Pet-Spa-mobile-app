@@ -49,6 +49,7 @@ class _productScreenState extends State<productScreen> {
         title: Text('Product' , style:  TextStyle(fontWeight: FontWeight.bold , color: Colors.white ),),
         backgroundColor: Color( 0xFFF49FA4),
         centerTitle: true,
+        leading: SizedBox(width: 0,),
         actions: [
           Stack(
             children: [
