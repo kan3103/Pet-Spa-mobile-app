@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/homepage/homepage.dart';
 
+import 'login_screen/login_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFF49FA4),),
         useMaterial3: true,
       ),
-      home: mainHomePage(),// giao dien chinh
+      home: LoginScreen(),// giao dien chinh
     );
   }
 }
