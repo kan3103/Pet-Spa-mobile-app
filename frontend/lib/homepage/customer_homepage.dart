@@ -4,6 +4,7 @@ import 'package:frontend/productPage/productScreen.dart';
 import 'package:frontend/login_screen/login_screen.dart';
 import 'package:frontend/service_screen/service_screen.dart';
 import 'package:frontend/startedpage/started_page.dart';
+import 'package:frontend/chart_screen/customerChart.dart';
 
 final GlobalKey<_customerHomePageState> mainHomePageKey = GlobalKey();
 
@@ -42,7 +43,7 @@ class _customerHomePageState extends State<customerHomePage> {
         page =  MyServiceScreen();
         break;
       case 2:
-        page = productScreen(); // Thay bằng màn hình Thanh toán
+        page = CustomerChart(); // Thay bằng màn hình Thanh toán
         break;
       case 3:
         page = productScreen() ;

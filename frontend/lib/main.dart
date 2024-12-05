@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFF49FA4),),
         useMaterial3: true,
       ),
-      home: LoginScreen(),// giao dien chinh
+      home: customerHomePage(),// giao dien chinh
     );
   }
 }
