@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:frontend/backurls.dart';
 import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/login_screen/api/token_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -7,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileAPI {
-  static const String url = "http://10.0.5.30:8000/profiles";
+  static const String url = "${BackUrls.urlsbackend}/profiles";
 
   static Future<Profile> getMyProfile() async {
     final prefs = await SharedPreferences.getInstance();

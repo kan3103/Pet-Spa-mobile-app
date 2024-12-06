@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:frontend/backurls.dart';
 import 'package:frontend/login_screen/api/token_storage.dart';
 import 'package:frontend/service_screen/models/Pet.dart';
 import 'package:http/http.dart' as http;
@@ -34,7 +35,7 @@ return formattedData;
 
 
 class ServiceAPI {
-  static const String url = "http://10.0.5.30:8000/orders/services";
+  static const String url = "${BackUrls.urlsbackend}/orders/services";
   
 
   static Future<List<Map<String,dynamic>>> getList() async {
@@ -84,7 +85,7 @@ class ServiceAPI {
     String? access_token = prefs.getString('access_token');
     String? refresh_token = prefs.getString('refresh_token');
     var response = await http.get(
-      Uri.parse('http://10.0.5.30:8000/profiles/pet/list/now/'),
+      Uri.parse('${BackUrls.urlsbackend}/profiles/pet/list/now/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $access_token',
