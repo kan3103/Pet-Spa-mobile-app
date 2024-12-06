@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
 import os
+import socket
 
 load_dotenv()
 
@@ -130,6 +131,8 @@ TEMPLATES = [
         },
     },
 ]
+
+HOSTNAME = 'http://172.16.1.181:8000'
 
 WSGI_APPLICATION = 'backend_pet_spa.wsgi.application'
 
