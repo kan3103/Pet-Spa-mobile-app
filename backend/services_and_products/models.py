@@ -14,6 +14,7 @@ class Service(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     price = models.IntegerField()
+    image = models.ImageField(upload_to='services/', default='services/default.jpg')
     description = models.TextField()
 
     class Meta:
@@ -31,6 +32,7 @@ class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     price = models.IntegerField()
+    image = models.ImageField(upload_to='products/', default='products/default.jpg')
     total_stock = models.IntegerField()
 
     class Meta:
