@@ -93,7 +93,7 @@ class _SignInScreenState extends State<SignInScreen> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  staffHomePage()));
       }
       else if (accountType == 'manager') {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  managerHomePage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  customerHomePage(selected: 0,)));
       }
       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));}
     } catch (e) {

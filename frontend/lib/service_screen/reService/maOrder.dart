@@ -1,4 +1,7 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
+import 'package:frontend/class_model/models/Staff.dart';
 import 'package:frontend/class_model/orderItem.dart';
 import 'package:frontend/service_screen/api/getService.dart';
 
@@ -10,29 +13,67 @@ class OrderManager extends StatefulWidget {
 }
 
 class _OrderManagerState extends State<OrderManager> {
+  bool isload = true;
+  List<Map<String, dynamic>>? pets ;
+  List<Staff>? staffs;
+  //List<List<TextEditingController>> staffControllers = [];
+  @override
+  void initState() {
+    getService();
+    super.initState();
 
-  List<Map<String, dynamic>> pets = [];
-
+    // Khởi tạo các controller cho mỗi pet và mỗi order
+  }
+  void putStaff(int id, int service) async{
+    await AllServiceAPI.PutStaff(id, service);
+    print("oke");
+  }
+  /*
+  @override
+  void dispose() {
+    // Giải phóng các controller khi không sử dụng nữa
+    for (var petControllers in staffControllers) {
+      for (var controller in petControllers) {
+        controller.dispose();
+      }
+    }
+    super.dispose();
+  }*/
   void getService() async{
     List<Map<String,dynamic>> listService = await AllServiceAPI.getList();
+    List<Staff> listSTaff = await AllServiceAPI.getStaffnow();
+    print(listService);
     setState(() {
       pets = listService;
+      staffs = listSTaff;
+      isload = false;
     });
+    print(pets!.length);
   }
+  /*
   @override
   void initState() {
     // TODO: implement initState
     getService();
     super.initState();
-  }
+    //print(pets);
+  }*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
+      body: isload?
+      const Center(
+        child: SizedBox(        
+          width: 30, 
+          height: 30, 
+          child: CircularProgressIndicator(
+            strokeWidth: 4.0, 
+          ),
+      )):
       ListView.builder(
-        itemCount: pets.length,
+        itemCount: pets?.length,
         itemBuilder: (context, index) {
-          final pet = pets[index];
+          final pet = pets![index];
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
             child: Card(
@@ -51,16 +92,130 @@ class _OrderManagerState extends State<OrderManager> {
                   ),
                 ),
                 title: Text(pet['name']),
-                subtitle: Text(pet['type']),
-                children: pet['orders']
+                subtitle: Text(pet.length.toString()),
+                children: [
+                /*
+                GridView.builder(
+                  
+                  gridDelegate: gridDelegate, 
+                  itemBuilder: itemBuilder
+                ),*/
+
+                ListView.builder(
+                  shrinkWrap: true, // Cho phép ListView nhỏ lại trong ExpansionTile
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: pet['orders']!.length,
+                  itemBuilder: (context, orderindex){
+                    final order = pet['orders']![orderindex];
+                    //print(order);
+                    TextEditingController controller = //staffControllers[index][orderindex] ?? 
+                      TextEditingController();
+                    return Card(
+                      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                      elevation: 2,
+                      color: Colors.white,
+                      child: ListTile(
+                        // title: 
+                        subtitle: Column(
+                          children: [
+                            Text("Staff:${order['staff_id']==null?"Chưa có":order['staff_id']}"),
+                            Text('Service: ${order['service_id'] }'),
+                            Text('Pet Name: ${order['pet_id'] }'),
+                          ],
+                        ),
+                        //leading: Icon(Icons.shopping_cart),
+                        //////////////////////////////////////////////////
+                        
+                        trailing: Container(
+                            width: 150,
+                            child: TextField(
+                              controller: controller,
+                              keyboardType: TextInputType.number, // Chỉ cho phép nhập số
+                              decoration: InputDecoration(
+                                labelText: 'Staff ID',
+                                border: OutlineInputBorder(),
+                              ),
+                                // onEditingComplete: putStaff(order),
+                            ),
+                        ),
+                        
+                        //////////////////////////////////////////////////  
+                      ), 
+                    );
+                    /*
+                    Card(
+                      color: Color(0xFFF49FA4),
+                      elevation: 4,
+                      child: ExpansionTile(
+                        leading: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/serviceScreen/pet_2.png'),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        title: Text(order['service_id']),
+                        subtitle: Text(order['pet_id']),
+                        children:[
+                            Text('nothing')
+                        ],
+                        )
+                        ) ;*/
+                    }
+                  
+                ),
+                /*
+                pet['orders']
                     .map<Widget>(
                       (service) => ListTile(
-                    title: Text(service['service']),
+                    title: Text(service['service_id'].toString()),
                   ),
                 )
                     .toList(),
+                    */
+                ],
               ),
             ),
+            /*
+            Row(
+              children: [
+                Text('${pet['name']}'),
+                ListView.builder(
+                itemCount: pet['orders'].length,
+                itemBuilder: (context, index) {
+                  final order = pet['orders']![index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                    child:
+                Card(
+                color: Color(0xFFF49FA4),
+                elevation: 4,
+                child: ExpansionTile(
+                  leading: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/serviceScreen/pet_2.png'),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  title: Text(order['service_id']),
+                  subtitle: Text('nothin'),
+                ),
+              )
+              );
+              }
+              )
+              ]
+            ),*/
+              
           );
         },
       ),
