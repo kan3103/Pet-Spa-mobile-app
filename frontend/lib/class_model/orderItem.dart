@@ -37,7 +37,7 @@ return formattedData;
 }
 
 class AllServiceAPI {
-  static const String url = "http://10.0.5.30:8000/orders/services/all";
+  static const String url = "http://172.168.1.181:8000/orders/services/all";
   
 
   static Future<List<Map<String,dynamic>>> getList() async {
