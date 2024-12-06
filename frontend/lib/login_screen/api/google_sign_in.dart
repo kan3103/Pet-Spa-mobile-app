@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:frontend/backurls.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,7 +13,7 @@ class GoogleSignInApi {
 
   static Future<bool> loginWithGoogle(String accessToken) async {
     final response = await http.get(
-      Uri.parse('http://10.0.5.30:8000/auth/google/').replace(queryParameters: {"access_token": accessToken}),
+      Uri.parse('${BackUrls.urlsbackend}/auth/google/').replace(queryParameters: {"access_token": accessToken}),
     );
 
     if (response.statusCode == 200) {
@@ -51,7 +52,7 @@ class GoogleSignInApi {
     String? avatar = prefs.getString('avatar');
     print(avatar);
     final response = await http.post(
-      Uri.parse('http://10.0.5.30:8000/auth/google/'),
+      Uri.parse('${BackUrls.urlsbackend}/auth/google/'),
       headers: <String,String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

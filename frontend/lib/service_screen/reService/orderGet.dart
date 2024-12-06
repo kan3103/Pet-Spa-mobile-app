@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:frontend/backurls.dart';
 import 'package:frontend/class_model/service_item.dart';
 import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/login_screen/api/token_storage.dart';
@@ -8,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GetOrder {
-  static const String url = "http://10.0.5.30:8000/store/services";
+  static const String url = "${BackUrls.urlsbackend}/store/services";
 
   static Future<List<ServiceItem>> GetAllOrder() async {
     final prefs = await SharedPreferences.getInstance();
