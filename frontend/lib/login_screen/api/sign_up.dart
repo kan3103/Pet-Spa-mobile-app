@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'package:frontend/backurls.dart';
 import 'package:http/http.dart' as http;
 
 class SignUpApi {
-  static const String url = 'http://10.0.5.30:8000/auth';
+  static const String url = '${BackUrls.urlsbackend}/auth';
 
 
   static Future<void> signupcus(String username, String email, String password) async {
