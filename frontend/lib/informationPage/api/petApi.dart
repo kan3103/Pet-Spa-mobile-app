@@ -16,14 +16,15 @@ class PetAPI {
     String? access_token = prefs.getString('access_token');
     String? refresh_token = prefs.getString('refresh_token');
     var response = await http.post(
-      Uri.parse('${BackUrls.urlsbackend}/profiles/pet/list/all/'),
+      Uri.parse('${BackUrls.urlsbackend}/profiles/pet/register/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $access_token',
       },
       body: json.encode(pet.toJson()),
     );
-
+    print(pet.toJson());
+    print(response.statusCode);
     if (response.statusCode == 201) {
       return;
     } else if (response.statusCode == 401) {
@@ -32,12 +33,13 @@ class PetAPI {
 
       // Retry the request with the new access token
       access_token = prefs.getString('access_token');
-      response = await http.get(
+      response = await http.post(
         Uri.parse(url),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $access_token',
         },
+        body: json.encode(pet.toJson()),
       );
 
       if (response.statusCode == 201) {
@@ -46,7 +48,7 @@ class PetAPI {
         throw Exception("Failed to get profile after retrying with new token");
       }
     } else {
-      throw Exception("Failed to get profile");
+      throw Exception("Failed to add Pet");
     }
   }
 

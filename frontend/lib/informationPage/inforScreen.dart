@@ -145,125 +145,129 @@ class _InforscreenState extends State<Inforscreen> {
       },
     );
   }
-  // Thêm thú cưng mới
-  void addPet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
-        ),
-      ),
-      builder: (BuildContext context) {
-        TextEditingController petNameController = TextEditingController();
-        TextEditingController petDayofBirthController = TextEditingController();
-        TextEditingController petTypeController = TextEditingController();
-        String petImage = "";
-        bool isVaccine = false;
+String petimage = "";
+bool isVaccine = false;
 
-        return Padding(
-          padding: MediaQuery.of(context).viewInsets,
-          child: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Thêm thú cưng mới',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 16),
-                      TextField(
-                        controller: petNameController,
-                        decoration: InputDecoration(
-                          labelText: 'Tên',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+void addPet() {
+  TextEditingController petNameController = TextEditingController();
+  TextEditingController petDayofBirthController = TextEditingController();
+  TextEditingController petTypeController = TextEditingController();
+
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(20),
+      ),
+    ),
+    builder: (BuildContext context) {
+      return Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      'Thêm thú cưng mới',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      controller: petNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Tên',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      SizedBox(height: 16),
-                      TextField(
-                        controller: petDayofBirthController,
-                        decoration: InputDecoration(
-                          labelText: 'Ngày sinh',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      controller: petDayofBirthController,
+                      decoration: InputDecoration(
+                        labelText: 'Ngày sinh',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: isVaccine,
-                            onChanged: (value) {
-                              setState(() {
-                                isVaccine = value!;
-                              });
-                            },
-                          ),
-                          Text('Đã tiêm Vắc-xin'),
-                        ],
-                      ),
-                      SizedBox(height: 16),
-                      TextField(
-                        controller: petTypeController,
-                        decoration: InputDecoration(
-                          labelText: 'Loại thú cưng',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isVaccine,
+                          onChanged: (value) {
+                            setState(() {
+                              isVaccine = value!;
+                            });
+                          },
+                        ),
+                        Text('Đã tiêm Vắc-xin'),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      controller: petTypeController,
+                      decoration: InputDecoration(
+                        labelText: 'Loại thú cưng',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      SizedBox(height: 16),
-                      GestureDetector(
-                        onTap: _pickImage,
-                        child: Container(
-                          height: 200,
-                          width: 300,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: petImage.isEmpty
-                              ? Center(child: Text('Add Image'))
-                              : Image.file(
-                            File(petImage),
-                            fit: BoxFit.cover,
-                          ),
+                    ),
+                    SizedBox(height: 16),
+                    GestureDetector(
+                      onTap: _pickImage,
+                      child: Container(
+                        height: 200,
+                        width: 300,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(8),
                         ),
+                        child: petimage.isEmpty
+                            ? Center(child: Text('Add Image'))
+                            : Image.file(
+                                File(petimage),
+                                fit: BoxFit.cover,
+                              ),
                       ),
-                      SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (petNameController.text.isNotEmpty) {
-                            Pet newPet = Pet(
-                              image: petImage,
-                              name: petNameController.text,
-                              dob: petDayofBirthController.text,
-                              petType: int.parse(petTypeController.text),
-                              vaccinated: isVaccine,
-                            );
-                            PetAPI.addPet(newPet);
-                          }
-                        },
-                        child: Text('Lưu thú cưng'),
-                      ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (petNameController.text.isNotEmpty) {
+                          Pet newPet = Pet(
+                            image: petimage,
+                            name: petNameController.text,
+                            dob: petDayofBirthController.text,
+                            petType: int.parse(petTypeController.text),
+                            vaccinated: isVaccine,
+                          );
+                          PetAPI.addPet(newPet);
+                        }
+                        Navigator.pop(context);
+                        setState(() {
+                          loadPet = true;
+                        });
+                      },
+                      child: Text('Lưu thú cưng'),
+                    ),
+                  ],
                 ),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
+              ),
+            );
+          },
+        ),
+      );
+    },
+  );
+}
 
 
   @override
@@ -333,7 +337,14 @@ class _InforscreenState extends State<Inforscreen> {
                   ),
                   SizedBox(height: 10),
                   // Danh sách các thú cưng
-                  GridView.builder(
+                  this.loadPet?const Center(
+        child: SizedBox(        
+          width: 30, 
+          height: 30, 
+          child: CircularProgressIndicator(
+            strokeWidth: 4.0, 
+          ),
+      )):GridView.builder(
                     shrinkWrap: true, // Để GridView không chiếm hết không gian
                     physics: NeverScrollableScrollPhysics(), // Tắt cuộn cho GridView trong SingleChildScrollView
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
