@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/class_model/orderServiceDetail.dart';
 import 'package:frontend/service_screen/api/getService.dart';
 import 'package:frontend/service_screen/models/listService.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
+import 'package:frontend/service_screen/reService/serviceDetail.dart';
+import 'package:frontend/service_screen/serviceorderDetail.dart';
 
 class userService extends StatefulWidget {
   const userService({super.key});
@@ -56,10 +59,26 @@ class _userServiceState extends State<userService> {
                 title: Text(pet['name']),
                 subtitle: Text(pet['type']),
                 children: pet['orders']
-                    .map<Widget>(
-                      (service) => ListTile(
-                    title: Text(service['service']),
-                  ),
+                    .map<Widget>( (service) => 
+                  
+                      ListTile(
+                        title: 
+                        GestureDetector(
+                          onTap: () {
+                            // Xử lý hành động khi nhấn vào tên dịch vụ
+                            //print('Đã nhấn vào: ${service['service']}');
+                            Navigator.push(
+                              context, 
+                              MaterialPageRoute(
+                                builder: (context) => orderServiceDetailPage(id: service['id'] ,) ,
+                              ),
+                            );
+                          },
+                          child: Text(
+                            service['service']
+                          ),
+                        ),
+                      ),
                 )
                     .toList(),
               ),
