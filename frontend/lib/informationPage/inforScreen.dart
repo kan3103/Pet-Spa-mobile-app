@@ -3,8 +3,8 @@ import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/informationPage/changeInfor.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:frontend/login_screen/login_screen.dart';
 import 'dart:io';
-// import 'package:frontend/informationPage/addPetScreen.dart';
 
 final GlobalKey<_InforscreenState> InforscreenKey = GlobalKey<_InforscreenState>();
 
@@ -33,7 +33,6 @@ class Pet {
   });
 }
 class _InforscreenState extends State<Inforscreen> {
-  bool isVaccine = false; // Mặc định chưa tiêm vắc-xinr
   bool isPetSelected = false;
   TextEditingController _nameController = TextEditingController();
   
@@ -137,129 +136,115 @@ class _InforscreenState extends State<Inforscreen> {
   void addPet() {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // Đảm bảo hộp thoại có thể cuộn nếu nội dung dài
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(20),
         ),
       ),
       builder: (BuildContext context) {
-        // Các controller để nhập thông tin thú cưng
         TextEditingController petNameController = TextEditingController();
         TextEditingController petDayofBirthController = TextEditingController();
         TextEditingController petTypeController = TextEditingController();
-        String petImage = ""; // Ảnh mặc định
+        String petImage = "";
+        bool isVaccine = false;
 
         return Padding(
-          padding: MediaQuery.of(context).viewInsets, // Đảm bảo không bị che bởi bàn phím
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Tiêu đề
-                  Text(
-                    'Thêm thú cưng mới',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 16),
-
-                  // Nhập tên thú cưng
-                  TextField(
-                    controller: petNameController,
-                    decoration: InputDecoration(
-                      labelText: 'Tên',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-
-                  // Ngày sinh
-                  TextField(
-                    controller: petDayofBirthController,
-                    decoration: InputDecoration(
-                      labelText: 'Ngày sinh',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-
-                  // Loại thú cưng
-                  Row(
+          padding: MediaQuery.of(context).viewInsets,
+          child: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Checkbox(
-                        value: isVaccine,
-                        onChanged: (value) {
-                          setState(() {
-                            isVaccine = value!;
-                          });
-                        },
+                      Text(
+                        'Thêm thú cưng mới',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
-                      Text('Đã tiêm Vắc-xin'),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-
-                  // Vaccine (chỉ nhập nếu đã tiêm)
-                  TextField(
-                    controller: petTypeController,
-                    decoration: InputDecoration(
-                      labelText: 'Loại thú cưng',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15),
+                      SizedBox(height: 16),
+                      TextField(
+                        controller: petNameController,
+                        decoration: InputDecoration(
+                          labelText: 'Tên',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-
-                  // Thêm ảnh thú cưng
-                  GestureDetector(
-                    onTap: _pickImage, // Hàm mở thư viện ảnh
-                    child: Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(8),
+                      SizedBox(height: 16),
+                      TextField(
+                        controller: petDayofBirthController,
+                        decoration: InputDecoration(
+                          labelText: 'Ngày sinh',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
                       ),
-                      child: petImage.isEmpty
-                          ? Center(child: Text('Add Image'))
-                          : Image.file(
-                        File(petImage), // Hiển thị ảnh từ thư viện
-                        fit: BoxFit.cover,
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: isVaccine,
+                            onChanged: (value) {
+                              setState(() {
+                                isVaccine = value!;
+                              });
+                            },
+                          ),
+                          Text('Đã tiêm Vắc-xin'),
+                        ],
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-
-                  // Nút lưu thú cưng
-                  ElevatedButton(
-                    onPressed: () {
-                      if (petNameController.text.isNotEmpty) {
-                        setState(() {
-                          pets.add(
-                            Pet(
+                      SizedBox(height: 16),
+                      TextField(
+                        controller: petTypeController,
+                        decoration: InputDecoration(
+                          labelText: 'Loại thú cưng',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: Container(
+                          height: 200,
+                          width: 300,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: petImage.isEmpty
+                              ? Center(child: Text('Add Image'))
+                              : Image.file(
+                            File(petImage),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () async {
+                          if (petNameController.text.isNotEmpty) {
+                            Pet newPet = Pet(
                               imageUrl: petImage,
                               name: petNameController.text,
-                              dob: '10kg',
-                              petType: 'nothing',
-                              vaccine: true,
-                            ),
-                          );
-                        });
-                        Navigator.pop(context); // Đóng modal
-                      }
-                    },
-                    child: Text('Lưu thú cưng'),
+                              dob: petDayofBirthController.text,
+                              petType: petTypeController.text,
+                              vaccine: isVaccine,
+                            );
+                          }
+                        },
+                        child: Text('Lưu thú cưng'),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         );
       },
@@ -272,21 +257,26 @@ class _InforscreenState extends State<Inforscreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile Page'),
-        leading: SizedBox(width: 0,),
+        leading: IconButton(
+          icon: Icon(Icons.edit), // Biểu tượng chỉnh sửa
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfileEditingPage(profile: widget.profile!),
+              ),
+            );
+          },
+        ),
         actions: [
           IconButton(
-            icon: Icon(Icons.edit), // Biểu tượng chỉnh sửa
+            icon: Icon(Icons.logout), // SignOut icon
             onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfileEditingPage(profile: widget.profile!), 
-                    ),
-                  );
-            }, 
-            
-            //_editName, // Gọi hàm chỉnh sửa tên khi nhấn
-
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            },
           ),
         ],
       ),
