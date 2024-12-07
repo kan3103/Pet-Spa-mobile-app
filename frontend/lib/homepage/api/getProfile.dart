@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileAPI {
-  static const String url = "${BackUrls.urlsbackend}/profiles";
+  static const String url = "${BackUrls.urlsbackend}/profiles/me";
 
   static Future<Profile> getMyProfile() async {
     final prefs = await SharedPreferences.getInstance();

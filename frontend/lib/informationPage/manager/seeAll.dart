@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/class_model/models/Staff.dart';
+
 
 class seeDetailAll extends StatefulWidget {
-  
+  final bool isStaff ;
   final List<dynamic>? list;
-  const seeDetailAll({super.key, required this.list});
+  const seeDetailAll({super.key, required this.list, required this.isStaff});
   @override
   State<seeDetailAll> createState() => _seeDetailAllState();
 }
@@ -36,7 +36,7 @@ class _seeDetailAllState extends State<seeDetailAll> {
             child: ListTile(
               leading: CircleAvatar(
                 radius: 30,
-                child: Text(lists![index].username![0].toUpperCase()), // Chữ cái đầu tiên của username
+                child: lists![index].image == null ?Text(lists![index].username![0].toUpperCase()):Image.network(lists![index].image), // Chữ cái đầu tiên của username
               ),
               title: Text(lists![index].username ?? 'Không có tên'),
               subtitle: Text(lists![index].email ?? 'Không có email'),

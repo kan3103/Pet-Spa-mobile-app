@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/models/Staff.dart';
-import 'package:frontend/class_model/models/seeAll.dart';
+import 'package:frontend/informationPage/manager/seeAll.dart';
 import 'package:frontend/class_model/orderItem.dart';
 import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/informationPage/changeInfor.dart';
@@ -20,12 +20,14 @@ class _ManagerprofileState extends State<Managerprofile> {
   bool isload = true;
   
   List<Staff>? staffs;
+  List<Staff>? cus;
 
   void getService() async{
     List<Staff> listSTaff = await AllServiceAPI.getStaffnow();
-    print(listSTaff);
+    List<Staff> listCus = await AllServiceAPI.getCusnow();
     setState(() {
       staffs = listSTaff;
+      cus =listCus;
       isload = false;
     });
   }
@@ -114,7 +116,7 @@ class _ManagerprofileState extends State<Managerprofile> {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                        builder: (context) => seeDetailAll(list: staffs),
+                        builder: (context) => seeDetailAll(list: staffs , isStaff: true, ),
                         ),
                       ),
                       child: Row(
@@ -144,9 +146,12 @@ class _ManagerprofileState extends State<Managerprofile> {
                   Container(
                     width: double.infinity,
                     child: TextButton(
-                      onPressed: () {
-                        // Xử lý sự kiện khi nút "Xem thông tin" được bấm
-                      },
+                     onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) => seeDetailAll(list: cus , isStaff:  false,),
+                        ),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -157,6 +162,38 @@ class _ManagerprofileState extends State<Managerprofile> {
                               Icon(Icons.person),
                               SizedBox(width: 30,) ,
                               Text('Xem thông tin khách hàng',),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(Icons.arrow_forward),
+                              SizedBox(width: 20,),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 5,),
+                  Container(
+                    width: double.infinity,
+                    child: TextButton(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) => seeDetailAll(list: staffs , isStaff: true, ),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 20,),
+                              Icon(Icons.add),
+                              SizedBox(width: 30,) ,
+                              Text('Thêm nhân viên',),
                             ],
                           ),
                           Row(
