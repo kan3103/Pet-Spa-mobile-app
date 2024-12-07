@@ -13,6 +13,7 @@ class ServiceOrder(Order):
     class Status(models.IntegerChoices):
         Undone = 1, 'In progress'
         Done = 2, 'Done'
+        Paid = 3, 'Paid'
     status = models.IntegerField(choices=Status.choices, default=Status.Undone)
     staff = models.ForeignKey('auths.Staff', on_delete=models.CASCADE, blank=True, null=True)
     pet = models.ForeignKey('profiles_and_pets.Pet', on_delete=models.CASCADE)
