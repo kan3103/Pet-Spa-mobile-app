@@ -3,6 +3,7 @@ import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/informationPage/changeInfor.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:frontend/login_screen/login_screen.dart';
 import 'dart:io';
 
 final GlobalKey<_InforscreenState> InforscreenKey = GlobalKey<_InforscreenState>();
@@ -256,21 +257,26 @@ class _InforscreenState extends State<Inforscreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile Page'),
-        leading: SizedBox(width: 0,),
+        leading: IconButton(
+          icon: Icon(Icons.edit), // Biểu tượng chỉnh sửa
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfileEditingPage(profile: widget.profile!),
+              ),
+            );
+          },
+        ),
         actions: [
           IconButton(
-            icon: Icon(Icons.edit), // Biểu tượng chỉnh sửa
+            icon: Icon(Icons.logout), // SignOut icon
             onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfileEditingPage(profile: widget.profile!), 
-                    ),
-                  );
-            }, 
-            
-            //_editName, // Gọi hàm chỉnh sửa tên khi nhấn
-
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
+            },
           ),
         ],
       ),
