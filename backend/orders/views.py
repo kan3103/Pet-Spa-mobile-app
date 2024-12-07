@@ -3,7 +3,8 @@ from django.views import View
 from .models import ServiceOrder, ProductOrder
 from profiles_and_pets.models import Pet
 from services_and_products.models import Service, Product
-from auths.models import Customer, Staff
+from auths.models import Customer, Staff, MyUser
+from profiles_and_pets.models import Profile
 from utils.decorators import validate_jwt, permission_required
 from django.conf import settings
 import json
@@ -55,7 +56,7 @@ class ServiceOrderDetailView(View):
       return JsonResponse({'error': 'Order not found'}, status=404)
     
   @validate_jwt
-  @permission_required(['manager', 'staff'])
+  # @permission_required(['manager', 'staff'])
   def put(self, request, order_id):
     try:
       order = ServiceOrder.objects.get(id=order_id)
@@ -100,6 +101,7 @@ class ServiceOrderViewManager(View):
     @validate_jwt
     # @permission_required(['manager'])
     def get(self, request):
+      print("HI")
       services = list(ServiceOrder.objects.values())
       return_instance = {}
       for order in services:
@@ -107,7 +109,18 @@ class ServiceOrderViewManager(View):
         if usrname not in return_instance:
           return_instance[usrname] = []
         service = Service.objects.get(id=order['service_id'])
-        return_instance[usrname].append({'id': order['id'], 'status': order['status'], 'pet': Pet.objects.get(id=order['pet_id']).name, 'service': service.name, 'service_img': settings.HOSTNAME + service.image.url})
+        staff = None
+        try:
+          staff = MyUser.objects.get(id=order['staff_id'])
+        except:
+          pass
+        staff_namme = None
+        try:
+          staff_namme = Profile.objects.get(user=staff).name
+        except:
+          pass
+
+        return_instance[usrname].append({'id': order['id'], 'status': order['status'],'staff_id': order['staff_id'], 'staff_name': staff_namme ,  'pet': Pet.objects.get(id=order['pet_id']).name, 'service': service.name, 'service_img': settings.HOSTNAME + service.image.url})
 
       return JsonResponse(return_instance, safe=False)
   
