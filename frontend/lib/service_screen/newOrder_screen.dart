@@ -49,6 +49,7 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
   //   // Add more pets as needed
   // ];
   List<Pet> pets =[];
+  List<Pet> choose = [];
   void _onPetSelected(bool selected) {
     setState(() {
       isPetSelected = selected;

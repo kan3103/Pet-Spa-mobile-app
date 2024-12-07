@@ -83,6 +83,47 @@ class AllServiceAPI {
       throw Exception("Failed to get profile");
     }
   }
+  static Future<List<Staff>> getCusnow() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? access_token = prefs.getString('access_token');
+    String? refresh_token = prefs.getString('refresh_token');
+    var response = await http.get(
+      Uri.parse('${BackUrls.urlsbackend}/profiles/customers/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $access_token',
+      },
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      List<dynamic> data = json.decode(response.body);
+      List<Staff> staff = data.map((json) => Staff.fromJson(json)).toList();
+      return staff;
+    } else if (response.statusCode == 401) {
+      // Refresh the access token using the refresh token
+      await TokenStorage.getaccessToken(refresh_token!);
+
+      // Retry the request with the new access token
+      access_token = prefs.getString('access_token');
+      response = await http.get(
+        Uri.parse('${BackUrls.urlsbackend}/profiles/customers/'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $access_token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> data = json.decode(response.body);
+        List<Staff> staff = data.map((json) => Staff.fromJson(json)).toList();
+        return staff;
+      } else {
+        throw Exception("Failed to get profile after retrying with new token");
+      }
+    } else {
+      throw Exception("Failed to get profile");
+    }
+  }
   static Future<List<Staff>> getStaffnow() async {
     final prefs = await SharedPreferences.getInstance();
     String? access_token = prefs.getString('access_token');
