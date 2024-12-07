@@ -90,10 +90,10 @@ class _SignInScreenState extends State<SignInScreen> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  customerHomePage(selected: 0,)));
       }
       else if (accountType == 'staff') {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  staffHomePage()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  staffHomePage(selected: 0,)));
       }
       else if (accountType == 'manager') {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  customerHomePage(selected: 0,)));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  managerHomePage(selected: 0,)));
       }
       // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));}
     } catch (e) {
