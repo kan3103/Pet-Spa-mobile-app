@@ -1,10 +1,11 @@
 import json
 from django.forms import ValidationError
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from rest_framework import generics
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from .models import Pet,Profile
-from auths.models import Customer,MyUser
+from auths.models import Customer,MyUser, Staff
+from django.views import View
 from .serializers import PetSerializer,ProfileSerializer
 from orders.models import ServiceOrder
 class CustomJsonResponse(HttpResponse):
@@ -79,3 +80,18 @@ class ProfileView(generics.RetrieveUpdateAPIView):
         self.perform_update(serializer)
 
         return CustomJsonResponse(data=serializer.data)
+    
+
+class StaffListView(View):
+    def get(self, request):
+        staffs = Staff.objects.all()
+        data = []
+        for staff in staffs:
+            if staff.manager:
+                continue
+            data.append({
+                "id": staff.id,
+                "username": staff.username,
+                "email": staff.email,
+            })
+        return JsonResponse(data, safe=False)
