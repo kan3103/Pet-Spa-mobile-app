@@ -26,10 +26,10 @@ class Pet {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
-    data['dob'] = this.dob;
-    data['description'] = this.description;
-    data['image'] = this.image;
-    data['vaccinated'] = this.vaccinated;
+    if(this.dob!=null && this.dob!="")data['dob'] = this.dob;
+    if(this.description!=null && this.description!="")data['description'] = this.description;
+    if(this.image!=null && this.image!="") data['image'] = this.image;
+    if(this.vaccinated!=null ) data['vaccinated'] = this.vaccinated;
     data['pet_type'] = this.petType;
     return data;
   }
