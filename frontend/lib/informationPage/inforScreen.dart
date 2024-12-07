@@ -32,6 +32,8 @@ class Pet {
     required this.vaccine,
   });
 }
+
+
 class _InforscreenState extends State<Inforscreen> {
   bool isVaccine = false; // Mặc định chưa tiêm vắc-xinr
   bool isPetSelected = false;

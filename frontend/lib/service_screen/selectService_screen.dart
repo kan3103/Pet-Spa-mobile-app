@@ -138,7 +138,15 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
             width: double.infinity,
             child: widget.check==widget.pets.length-1? ElevatedButton(
               onPressed: () {
-                widget.listpet.add(pet);
+                print(widget.pets.length);
+                if(widget.check<checks){
+                  widget.listpet.removeAt(widget.listpet.length-1);
+                  widget.listpet.add(pet);
+                }
+                else{
+                  widget.listpet.add(pet);
+                  checks++;
+                } 
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ServiceCartScreen(listpet: widget.listpet,sum: widget.sum,)),
@@ -165,7 +173,7 @@ class _SelectServiceScreenState extends State<SelectServiceScreen> {
                 else{
                   widget.listpet.add(pet);
                   checks++;
-                }
+                } 
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SelectServiceScreen(pets: widget.pets,check: checks,listpet: widget.listpet,sum: widget.sum,)),
