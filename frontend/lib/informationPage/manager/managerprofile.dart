@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/models/Staff.dart';
+import 'package:frontend/informationPage/manager/addStaff.dart';
 import 'package:frontend/informationPage/manager/seeAll.dart';
 import 'package:frontend/class_model/orderItem.dart';
 import 'package:frontend/class_model/uSer.dart';
@@ -181,7 +182,7 @@ class _ManagerprofileState extends State<Managerprofile> {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                        builder: (context) => seeDetailAll(list: staffs , isStaff: true, ),
+                        builder: (context) => Addstaff(),
                         ),
                       ),
                       child: Row(
