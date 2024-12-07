@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/service_item.dart';
 import 'package:frontend/service_screen/reService/editService.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ServiceDetailPage extends StatelessWidget {
+class ServiceDetailPage extends StatefulWidget {
   ServiceItem serviceItem;
 
   // Constructor nhận các thông tin sản phẩm
@@ -11,6 +12,26 @@ class ServiceDetailPage extends StatelessWidget {
   });
 
   @override
+  State<ServiceDetailPage> createState() => _ServiceDetailPageState();
+}
+
+class _ServiceDetailPageState extends State<ServiceDetailPage> {
+ String accountType = 'customer';
+   void getType() async{
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+       accountType = prefs.getString('account')!;
+    });
+   
+    //print(accountType);
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    getType();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -18,7 +39,7 @@ class ServiceDetailPage extends StatelessWidget {
         backgroundColor: Color(0xFFF49FA4),
 
         actions: [
-          IconButton(
+          accountType=="manager"?IconButton(
                 icon: Icon(Icons.edit),
                 color: Colors.white,
                 onPressed: () {
@@ -26,19 +47,19 @@ class ServiceDetailPage extends StatelessWidget {
                   Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EditServicePage(serviceItem: serviceItem),
+                    builder: (context) => EditServicePage(serviceItem: widget.serviceItem),
                   ),
                 );
                 },
-              ),
-              IconButton(
+              ):SizedBox(width: 0,),
+              accountType=="manager"?IconButton(
                 icon: Icon(Icons.delete),
                 color: Colors.white,
                 onPressed: () {
                   // Xử lý hành động xóa
 
                 },
-              ),
+              ):SizedBox(width: 0,),
         ],
       ),
       body: Padding(
@@ -49,7 +70,7 @@ class ServiceDetailPage extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
-                serviceItem.image!,
+                widget.serviceItem.image!,
                 height: 280,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -63,7 +84,7 @@ class ServiceDetailPage extends StatelessWidget {
                   
                   // Tiêu đề sản phẩm
                   Text(
-                    serviceItem.name!,
+                    widget.serviceItem.name!,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
@@ -73,7 +94,7 @@ class ServiceDetailPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
-                      serviceItem.description!,
+                      widget.serviceItem.description!,
                       style: TextStyle(fontSize: 16),
                       textAlign: TextAlign.justify,
                     ),
@@ -82,7 +103,7 @@ class ServiceDetailPage extends StatelessWidget {
                   
                   // Giá sản phẩm
                   Text(
-                    serviceItem.price!.toString(),
+                    widget.serviceItem.price!.toString(),
                     style: TextStyle(fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold),
                   ),
                 ],

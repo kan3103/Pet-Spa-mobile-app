@@ -262,7 +262,7 @@ class _PetCardState extends State<PetCard> {
                   _toggleSelection();
                 },
                 shape: const CircleBorder(),
-                side: BorderSide(color: Colors.grey.shade400),
+                side: BorderSide(color: const Color.fromARGB(255, 189, 189, 189)),
               ),
             ),
           ],

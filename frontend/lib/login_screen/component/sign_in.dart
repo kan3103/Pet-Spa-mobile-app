@@ -198,8 +198,8 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           ),
           style: ElevatedButton.styleFrom(
-            foregroundColor: checkBlank ? Colors.white : Colors.black,
-            backgroundColor: checkBlank ? Colors.grey[300] : Colors.pink,
+            foregroundColor: checkBlank ? Colors.white : Colors.white,
+            backgroundColor: checkBlank ? Colors.grey[300] : Color(0xFFC56262),
             padding: EdgeInsets.symmetric(vertical: 15),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),

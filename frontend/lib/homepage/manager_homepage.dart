@@ -100,7 +100,14 @@ class _managerHomePageState extends State<managerHomePage> {
         }
       },
       child: Scaffold(
-        body: page,
+        body: LoadProfile?const Center(
+        child: SizedBox(        
+          width: 30, 
+          height: 30, 
+          child: CircularProgressIndicator(
+            strokeWidth: 4.0, 
+          ),
+      )):page,
       
         bottomNavigationBar: Container(
           color: Colors.lightGreen,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/service_item.dart';
+import 'package:frontend/service_screen/reService/serviceDetail.dart';
 import 'package:frontend/service_screen/reService/serviceGet.dart';
 import 'package:frontend/view_model/itemView_sqr.dart';
 
@@ -48,7 +49,7 @@ class _AllserviceState extends State<Allservice> {
                 print('Nhấn vào sản phẩm: ');
                 
                 // Hoặc chuyển trang đến trang chi tiết sản phẩm
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailPage(product: products[index])));
+                 Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceDetailPage(serviceItem: services[index],)));
                 },
               ),
             );
