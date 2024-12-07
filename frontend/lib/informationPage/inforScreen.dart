@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/uSer.dart';
+import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/informationPage/api/petApi.dart';
 import 'package:frontend/informationPage/changeInfor.dart';
 import 'package:frontend/service_screen/models/Pet.dart';
@@ -46,6 +49,7 @@ class _InforscreenState extends State<Inforscreen> {
   String? birthday = "John Doe";
   String? address = "John Doe";
   String petImage = "";
+  String petimage = "";
 
   void getPets () async {
     List<Pet> pet = await PetAPI.getPet();
@@ -87,18 +91,6 @@ class _InforscreenState extends State<Inforscreen> {
     }
   }
 
-  Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    
-    // Mở thư viện ảnh và chờ người dùng chọn ảnh
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      setState(() {
-        petImage = image.path; // Cập nhật đường dẫn ảnh vào petImage
-      });
-    }
-  }
 
   void _editName() {
     // Gán giá trị hiện tại của tên vào controller
@@ -135,7 +127,6 @@ class _InforscreenState extends State<Inforscreen> {
       },
     );
   }
-String petimage = "";
 bool isVaccine = false;
 
 void addPet() {
@@ -212,7 +203,20 @@ void addPet() {
                     ),
                     SizedBox(height: 16),
                     GestureDetector(
-                      onTap: _pickImage,
+                      onTap: () async {
+                        final ImagePicker _picker = ImagePicker();
+                        final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                        File imageFile = File(image!.path);
+                        final bytes = await image.readAsBytes();
+                        final base64Image = base64Encode(bytes);
+
+                        if (image != null) {
+                          setState(() {
+                            petimage = image.path;
+                            petImage = base64Image;
+                          });
+                        }
+                      },
                       child: Container(
                         height: 200,
                         width: 300,
@@ -220,7 +224,7 @@ void addPet() {
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: petimage.isEmpty
+                        child: petimage==''
                             ? Center(child: Text('Add Image'))
                             : Image.file(
                                 File(petimage),
@@ -241,10 +245,8 @@ void addPet() {
                           );
                           PetAPI.addPet(newPet);
                         }
-                        Navigator.pop(context);
-                        setState(() {
-                          loadPet = true;
-                        });
+                        
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => customerHomePage(selected: 4,)));
                       },
                       child: Text('Lưu thú cưng'),
                     ),

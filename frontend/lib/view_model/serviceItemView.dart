@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:frontend/class_model/service_item.dart';
 import 'package:frontend/service_screen/reService/editService.dart';
 import 'package:frontend/view_model/itemView_sqr.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 Widget buildServiceItem(
-    ServiceItem service_item, VoidCallback onPressed) {
 
+    ServiceItem service_item, VoidCallback onPressed, String accountType) {
+    
   return GestureDetector(
-    onTap: onPressed, // Hàm sẽ được gọi khi nhấn vào item
+    onTap: accountType=="manager"?onPressed:null, // Hàm sẽ được gọi khi nhấn vào item
     child: Container(
       width: 146,
       margin: EdgeInsets.only(right: 10),

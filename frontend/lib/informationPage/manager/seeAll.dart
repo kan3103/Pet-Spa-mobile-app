@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/informationPage/manager/seeDetailProfile.dart';
 
 
 class seeDetailAll extends StatefulWidget {
@@ -40,12 +41,18 @@ class _seeDetailAllState extends State<seeDetailAll> {
               ),
               title: Text(lists![index].username ?? 'Không có tên'),
               subtitle: Text(lists![index].email ?? 'Không có email'),
-              trailing: Icon(Icons.arrow_forward),
+              trailing: Icon(Icons.arrow_forward) ,
               onTap: () {
                 // Xử lý khi nhấn vào từng staff (có thể mở trang chi tiết)
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                widget.isStaff ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text('Đang xem thông tin ${lists![index].username}'),
-                ));
+                ))
+                :
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context)=>  Seedetailprofile(id_user: lists![index].id ) )
+                  )
+                ;
               },
             ),
           );
