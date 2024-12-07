@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/class_model/models/Staff.dart';
 import 'package:frontend/homepage/home_screen.dart';
 import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/homepage/manager_homepage.dart';
@@ -9,6 +10,9 @@ import 'package:frontend/service_screen/reService/maOrder.dart';
 import 'package:frontend/service_screen/userService.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:frontend/service_screen/staffService/staffService.dart';
+import 'package:frontend/service_screen/staffService/staffAllService.dart';
+
 /*
 void main() {
   runApp(MyApp());
@@ -69,10 +73,9 @@ class _MyServiceScreenState extends State<MyServiceScreen> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = (accountType == 'customer'? userService() : ( accountType == 'manager'? OrderManager() : userService()));
-        
+        page = (accountType == 'customer' ? userService() : (accountType == 'manager' ? OrderManager() : (accountType == 'staff' ? staffService() : userService())));
     case 1:
-        page = (accountType == 'customer'? Allservice(): (accountType == 'manager' ? reServicePage() : userService() ) );
+        page = (accountType == 'customer'? Allservice(): (accountType == 'manager' ? reServicePage() : (accountType == 'staff' ? StaffAllService() : userService()) ) );
         //myBlogs(myprofile: widget.myprofile, isProfile: false);
     default:
     throw UnimplementedError('no widget for $selectedIndex');
