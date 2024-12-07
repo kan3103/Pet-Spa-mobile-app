@@ -137,11 +137,11 @@ class _reServicePageState extends State<reServicePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ServiceDetailPage(
-                        serviceItem: services[index],
+                        serviceItem: services[index], 
                       ),
                     ),
                   );
-                },
+                },"manager",
               ),
             );
           },

@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/uSer.dart';
+import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/informationPage/api/petApi.dart';
 import 'package:frontend/informationPage/changeInfor.dart';
 import 'package:frontend/service_screen/models/Pet.dart';
@@ -43,7 +46,10 @@ class _InforscreenState extends State<Inforscreen> {
   
   String? userName = "John Doe";
   String? userImage = "assets/images/image 1.png"; // Thêm ảnh avatar người dùng
+  String? birthday = "John Doe";
+  String? address = "John Doe";
   String petImage = "";
+  String petimage = "";
 
   void getPets () async {
     List<Pet> pet = await PetAPI.getPet();
@@ -60,28 +66,14 @@ class _InforscreenState extends State<Inforscreen> {
     if (widget.profile != null) {
       setState(() {
         userName = widget.profile!.name;
+        birthday = widget.profile!.birthday ==null ? '' :widget.profile!.birthday  ;
+        address = widget.profile!.address == null ? '' : widget.profile!.address;
        //userImage = widget.profile!.avatar; 
       });
     }
   }
   // Danh sách các thú cưng
-  List<Pet> pets = [
-    // Pet(
-    //   imageUrl: 'https://s3-alpha-sig.figma.com/img/3681/5689/c0a30ad311c799c5c10a602d5d708580?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=OxBleCST8wO8ssgIfWWh3bHY70EW0ELSb3dH4iwA5o1mcvK3bs~SEX4SKPs~r8GrCiMNHJzv7Qs6y1i04-IqnAnPB~mrcrrBotIyHzV~Ef3FYzsEBBLvtpRF-dJ0dbeVrEQ05keO1FQ4uVZqiNjyDSlsZ1xX3rAjp~GRRFN6wKu7mZqhOWM5SoZi9uJtloCkB-l-AFVzHMuWnhR6qnqXTpqdgKNNp8pE9o50-llF-mYQ9XKus8TCuAP9ShB6ya0PojQVO8YjCWkZWr7mElHGz0Jc4npzd1mWF~R3LKpio1ID0HeNIQ8AzpFqTAgHUDWX0HBu8jdQynM1pPVGnxc9WQ__',
-    //   name: 'Meo Meo',
-    //   dob: '22-11-2022',
-    //   petType: 'Giống: abchd',
-    //   vaccine: true
-    // ),
-    // Pet(
-    //   imageUrl: 'https://s3-alpha-sig.figma.com/img/5962/56b3/457374b16b2eafb3702028ca2627d093?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QoMDZUHMN-3SuTHypcgDZvr0Tf-n7mUptmwdWyQvIp1OahXgTSG4sHBoP1ZyzAKixVcbkf0w8Dp8zuR17TWOrRecGkC6jALXXYAcGD1Oqc3w7-a3hzG75KQBP~QuERGdczJMHE00ljyvt0qETAX7mG7lTTkiezK7vsTt61ywesisaNufD-5vPKCuWGbeq2tjdezUib4~3zDjDXYgJMYvmXo5sijGZw42rWTZueunaqAJ6gkgVr~sihYfN-CdvqczZKlsU8nH1QXBIPWu2uXjpPnkwcHurkBwJWhjkRi~zbjGqyT-Zg3YBo78HcEoxbWqdLhO3-Dpwrmsbqas1nvjVQ__',
-    //   name: 'Kanlyly',
-    //   dob: '22-11-2022',
-    //   petType: 'Giống: abchd',
-    //   vaccine: true
-    // ),
-    // Add more pets as needed
-  ];
+  List<Pet> pets = [];
   void _onPetSelected(bool selected) {
     setState(() {
       isPetSelected = selected;
@@ -92,23 +84,13 @@ class _InforscreenState extends State<Inforscreen> {
     if (widget.profile != null) {
       setState(() {
         userName = widget.profile!.name;
+        birthday = widget.profile!.birthday;
+        address = widget.profile!.address;
        //userImage = widget.profile!.avatar; 
       });
     }
   }
 
-  Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    
-    // Mở thư viện ảnh và chờ người dùng chọn ảnh
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      setState(() {
-        petImage = image.path; // Cập nhật đường dẫn ảnh vào petImage
-      });
-    }
-  }
 
   void _editName() {
     // Gán giá trị hiện tại của tên vào controller
@@ -145,7 +127,6 @@ class _InforscreenState extends State<Inforscreen> {
       },
     );
   }
-String petimage = "";
 bool isVaccine = false;
 
 void addPet() {
@@ -222,7 +203,20 @@ void addPet() {
                     ),
                     SizedBox(height: 16),
                     GestureDetector(
-                      onTap: _pickImage,
+                      onTap: () async {
+                        final ImagePicker _picker = ImagePicker();
+                        final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                        File imageFile = File(image!.path);
+                        final bytes = await image.readAsBytes();
+                        final base64Image = base64Encode(bytes);
+
+                        if (image != null) {
+                          setState(() {
+                            petimage = image.path;
+                            petImage = base64Image;
+                          });
+                        }
+                      },
                       child: Container(
                         height: 200,
                         width: 300,
@@ -230,7 +224,7 @@ void addPet() {
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: petimage.isEmpty
+                        child: petimage==''
                             ? Center(child: Text('Add Image'))
                             : Image.file(
                                 File(petimage),
@@ -251,10 +245,8 @@ void addPet() {
                           );
                           PetAPI.addPet(newPet);
                         }
-                        Navigator.pop(context);
-                        setState(() {
-                          loadPet = true;
-                        });
+                        
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => customerHomePage(selected: 4,)));
                       },
                       child: Text('Lưu thú cưng'),
                     ),
@@ -311,12 +303,35 @@ void addPet() {
                     backgroundImage: AssetImage(userImage!),
                   ),
                   SizedBox(width: 20),
-                  Text(
-                    userName!,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userName!,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left:15.0),
+                        child: Text(
+                          birthday!,
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left:15.0),
+                        child: Text(
+                          (address!.length > 15 ? address!.substring(0, 15) + '...' : address!),
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -328,23 +343,69 @@ void addPet() {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'My Pets',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'My Pets',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      isPetSelected?Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: ElevatedButton(
+                              onPressed: addPet,
+                              child: Text('Delete Pet'),
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                textStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                                backgroundColor: Color(0xFFF49FA4), 
+                                foregroundColor: Colors.white, 
+                              ),
+                            ),
+                          ),Padding(
+                            padding: const EdgeInsets.all(6.0),
+                            child: ElevatedButton(
+                              onPressed: addPet,
+                              child: Text('Chỉnh Pet'),
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                                textStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                                backgroundColor: Color(0xFFF49FA4), 
+                                foregroundColor: Colors.white, 
+                              ),
+                            ),
+                          ),
+                        ],
+                      ):Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: ElevatedButton(
+                          onPressed: addPet,
+                          child: Text('Add New Pet'),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                            textStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                            backgroundColor: Color(0xFFF49FA4), 
+                            foregroundColor: Colors.white, 
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 10),
                   // Danh sách các thú cưng
                   this.loadPet?const Center(
-        child: SizedBox(        
-          width: 30, 
-          height: 30, 
-          child: CircularProgressIndicator(
-            strokeWidth: 4.0, 
-          ),
-      )):GridView.builder(
+                    child: SizedBox(        
+                      width: 30, 
+                      height: 30, 
+                      child: CircularProgressIndicator(
+                        strokeWidth: 4.0, 
+                      ),
+                  )):GridView.builder(
                     shrinkWrap: true, // Để GridView không chiếm hết không gian
                     physics: NeverScrollableScrollPhysics(), // Tắt cuộn cho GridView trong SingleChildScrollView
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -395,17 +456,7 @@ void addPet() {
               ),
             ),
             // Nút thêm thú cưng
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ElevatedButton(
-                onPressed: addPet,
-                child: Text('Add New Pet'),
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                  textStyle: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
+            
           ],
         ),
       ),

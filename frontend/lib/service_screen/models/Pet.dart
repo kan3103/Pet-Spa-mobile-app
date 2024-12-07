@@ -24,6 +24,7 @@ class Pet {
   }
 
   Map<String, dynamic> toJson() {
+    print(this.image);
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
     if(this.dob!=null && this.dob!="")data['dob'] = this.dob;
