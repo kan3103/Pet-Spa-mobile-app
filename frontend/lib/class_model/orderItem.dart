@@ -25,7 +25,7 @@ List<Map<String, dynamic>> formattedData = jsonString.entries.map((entry) {
         return {
           "id": order['id'],
           "status": order['status'],
-          "staff_id": order['staff'],
+          "staff_id": order['staff_name'],
           "pet_id": order['pet'],
           "service_id": order['service'],
           "image": order['service_img']
@@ -80,121 +80,7 @@ class AllServiceAPI {
         throw Exception("Failed to get profile after retrying with new token");
       }
     } else {
-      return formatOrderFile({
-    "khang": [
-        {
-            "id": 1,
-            "user_id": 1,
-            "created_at": "2024-12-05T16:36:43.555Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 1,
-            "service_id": 1
-        },
-        {
-            "id": 2,
-            "user_id": 1,
-            "created_at": "2024-12-05T16:46:10.208Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 1,
-            "service_id": 1
-        },
-        {
-            "id": 3,
-            "user_id": 1,
-            "created_at": "2024-12-05T16:55:18.123Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 1,
-            "service_id": 1
-        },
-        {
-            "id": 4,
-            "user_id": 1,
-            "created_at": "2024-12-05T16:55:18.127Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 1,
-            "service_id": 2
-        },
-        {
-            "id": 5,
-            "user_id": 1,
-            "created_at": "2024-12-05T17:53:13.172Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 2,
-            "service_id": 1
-        },
-        {
-            "id": 6,
-            "user_id": 1,
-            "created_at": "2024-12-05T17:53:13.177Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 2,
-            "service_id": 2
-        },
-        {
-            "id": 7,
-            "user_id": 1,
-            "created_at": "2024-12-05T17:53:35.645Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 2,
-            "service_id": 1
-        },
-        {
-            "id": 8,
-            "user_id": 1,
-            "created_at": "2024-12-05T17:53:35.648Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 2,
-            "service_id": 2
-        }
-    ],
-    "bach": [
-        {
-            "id": 9,
-            "user_id": 2,
-            "created_at": "2024-12-05T17:55:16.972Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 2,
-            "service_id": 1
-        },
-        {
-            "id": 10,
-            "user_id": 2,
-            "created_at": "2024-12-05T17:55:16.977Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 2,
-            "service_id": 2
-        },
-        {
-            "id": 11,
-            "user_id": 2,
-            "created_at": "2024-12-05T18:10:40.098Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 2,
-            "service_id": 1
-        },
-        {
-            "id": 12,
-            "user_id": 2,
-            "created_at": "2024-12-05T18:10:40.101Z",
-            "status": 1,
-            "staff_id": null,
-            "pet_id": 2,
-            "service_id": 2
-        }
-    ]
-});
-      // throw Exception("Failed to get profile");
+      throw Exception("Failed to get profile");
     }
   }
   static Future<List<Staff>> getStaffnow() async {

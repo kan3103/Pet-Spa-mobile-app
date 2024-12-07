@@ -7,6 +7,7 @@ import 'package:frontend/service_screen/managerService.dart';
 import 'package:frontend/service_screen/newOrder_screen.dart';
 import 'package:frontend/service_screen/reService/maOrder.dart';
 import 'package:frontend/service_screen/userService.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 /*
 void main() {
@@ -35,7 +36,18 @@ class _MyServiceScreenState extends State<MyServiceScreen> {
 
   void getType() async{
     final prefs = await SharedPreferences.getInstance();
-    accountType = prefs.getString('account')!;
+    setState(() {
+       accountType = prefs.getString('account')!;
+    });
+   
+    //print(accountType);
+  }
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    getType();
+    super.initState();
   }
 
   var selectedIndex = 0; 
@@ -57,10 +69,10 @@ class _MyServiceScreenState extends State<MyServiceScreen> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = accountType == 'customer'? userService() : OrderManager() ;
+        page = (accountType == 'customer'? userService() : ( accountType == 'manager'? OrderManager() : userService()));
         
     case 1:
-        page = accountType != 'customer'? Allservice(): reServicePage()  ;
+        page = (accountType == 'customer'? Allservice(): (accountType == 'manager' ? reServicePage() : userService() ) );
         //myBlogs(myprofile: widget.myprofile, isProfile: false);
     default:
     throw UnimplementedError('no widget for $selectedIndex');

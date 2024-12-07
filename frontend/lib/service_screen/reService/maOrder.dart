@@ -1,9 +1,11 @@
-import 'dart:js_interop';
+//import 'dart:js_interop';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/class_model/models/Staff.dart';
 import 'package:frontend/class_model/orderItem.dart';
+import 'package:frontend/homepage/manager_homepage.dart';
 import 'package:frontend/service_screen/api/getService.dart';
+import 'package:frontend/service_screen/reService/addStafforservice.dart';
 
 class OrderManager extends StatefulWidget {
   const OrderManager({super.key});
@@ -17,6 +19,20 @@ class _OrderManagerState extends State<OrderManager> {
   List<Map<String, dynamic>>? pets ;
   List<Staff>? staffs;
   //List<List<TextEditingController>> staffControllers = [];
+
+  void _showBottomSheet( List<Staff>? list  ) {
+    // Danh sách ID mẫu
+    List<Staff> ids = list!;
+
+    // Hiển thị Bottom Sheet
+    
+  }
+  void handleIDSelection(int id, int selectedID) {
+    print('ID đã chọn: $selectedID');
+
+    // Bạn có thể thực hiện thêm các hành động khác với ID đã chọn
+  }
+  
   @override
   void initState() {
     getService();
@@ -48,6 +64,7 @@ class _OrderManagerState extends State<OrderManager> {
       staffs = listSTaff;
       isload = false;
     });
+    
     print(pets!.length);
   }
   /*
@@ -116,17 +133,32 @@ class _OrderManagerState extends State<OrderManager> {
                       color: Colors.white,
                       child: ListTile(
                         // title: 
-                        subtitle: Column(
+                        subtitle: Row(
                           children: [
-                            Text("Staff:${order['staff_id']==null?"Chưa có":order['staff_id']}"),
-                            Text('Service: ${order['service_id'] }'),
-                            Text('Pet Name: ${order['pet_id'] }'),
+                            Column(
+                              children: [
+                                Text("Staff:${order['staff_id']==null?"Chưa có":order['staff_id']}"),
+                                Text('Service: ${order['service_id'] }'),
+                                Text('Pet Name: ${order['pet_id'] }'),
+                              ],
+                            ),
                           ],
                         ),
                         //leading: Icon(Icons.shopping_cart),
                         //////////////////////////////////////////////////
                         
-                        trailing: Container(
+                        trailing: FloatingActionButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return BottomSheetPopup(ids: staffs! , orderId: order['id'],  );
+                              },
+                            );
+                          } 
+                          ),
+                        /*
+                        Container(
                             width: 150,
                             child: TextField(
                               controller: controller,
@@ -135,86 +167,36 @@ class _OrderManagerState extends State<OrderManager> {
                                 labelText: 'Staff ID',
                                 border: OutlineInputBorder(),
                               ),
-                                // onEditingComplete: putStaff(order),
+                              /*
+                                 onEditingComplete:() {
+                                  print(controller.text);
+                                  putStaff(int.parse(controller.text),order['id']);
+                                }*/
+                                onSubmitted: (text) {
+                                  print(text);
+                                  putStaff(int.parse(text),order['id']);
+                                  controller.clear();
+                                  // Navigator.pushReplacement(
+                                  //           context,
+                                  //           MaterialPageRoute(
+                                  //             builder: (context) => managerHomePage(selected: 1), 
+                                  //           ),
+                                  // );
+                                },
                             ),
-                        ),
-                        
+                        ),*/
                         //////////////////////////////////////////////////  
                       ), 
                     );
-                    /*
-                    Card(
-                      color: Color(0xFFF49FA4),
-                      elevation: 4,
-                      child: ExpansionTile(
-                        leading: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/serviceScreen/pet_2.png'),
-                              fit: BoxFit.cover,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        title: Text(order['service_id']),
-                        subtitle: Text(order['pet_id']),
-                        children:[
-                            Text('nothing')
-                        ],
-                        )
-                        ) ;*/
+                    
                     }
                   
                 ),
-                /*
-                pet['orders']
-                    .map<Widget>(
-                      (service) => ListTile(
-                    title: Text(service['service_id'].toString()),
-                  ),
-                )
-                    .toList(),
-                    */
+                
                 ],
               ),
             ),
-            /*
-            Row(
-              children: [
-                Text('${pet['name']}'),
-                ListView.builder(
-                itemCount: pet['orders'].length,
-                itemBuilder: (context, index) {
-                  final order = pet['orders']![index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                    child:
-                Card(
-                color: Color(0xFFF49FA4),
-                elevation: 4,
-                child: ExpansionTile(
-                  leading: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/serviceScreen/pet_2.png'),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  title: Text(order['service_id']),
-                  subtitle: Text('nothin'),
-                ),
-              )
-              );
-              }
-              )
-              ]
-            ),*/
+            
               
           );
         },
