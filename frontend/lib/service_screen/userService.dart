@@ -59,8 +59,7 @@ class _userServiceState extends State<userService> {
                 title: Text(pet['name']),
                 subtitle: Text(pet['type']),
                 children: pet['orders']
-                    .map<Widget>( (service) => 
-                  
+                    .map<Widget>( (service) =>
                       ListTile(
                         title: 
                         GestureDetector(
