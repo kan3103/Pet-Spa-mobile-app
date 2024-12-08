@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/service_screen/reService/serviceGet.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddServicePage extends StatefulWidget {
   @override
@@ -11,13 +14,25 @@ class _AddServicePageState extends State<AddServicePage> {
   late TextEditingController _titleController;
   late TextEditingController _priceController;
   late TextEditingController _descriptionController;
-
+  late String petImage = "";
   @override
   void initState() {
     super.initState();
     _titleController = TextEditingController();
     _priceController = TextEditingController();
     _descriptionController = TextEditingController();
+  }
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    
+    // Mở thư viện ảnh và chờ người dùng chọn ảnh
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        petImage = image.path; // Cập nhật đường dẫn ảnh vào petImage
+      });
+    }
   }
 
   @override
@@ -35,9 +50,9 @@ class _AddServicePageState extends State<AddServicePage> {
     
     // Kiểm tra và chuyển đổi giá trị price thành int
     int price = int.tryParse(_priceController.text) ?? 0; // Mặc định là 0 nếu không thể chuyển đổi
-
+    
     // Tại đây bạn có thể lưu giá trị vào database hoặc làm gì đó với dữ liệu
-    print('Title: $title, Price: $price, Description: $description');
+    print('Title: $title, Price: $price, Description: $description',);
     GetService.PostService(title, price, description);
   }
 
@@ -65,6 +80,24 @@ class _AddServicePageState extends State<AddServicePage> {
               controller: _descriptionController,
               decoration: InputDecoration(labelText: 'Description'),
             ),
+            SizedBox(height: 20),
+            GestureDetector(
+                    onTap: _pickImage, // Hàm mở thư viện ảnh
+                    child: Container(
+                      height: 100,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: petImage.isEmpty
+                          ? Center(child: Text('Add Image'))
+                          : Image.file(
+                        File(petImage), // Hiển thị ảnh từ thư viện
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: _saveService,
