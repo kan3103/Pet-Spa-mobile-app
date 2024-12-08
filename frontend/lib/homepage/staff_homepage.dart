@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/homepage/api/getProfile.dart';
 import 'package:frontend/homepage/home_screen.dart';
+import 'package:frontend/informationPage/inforScreen.dart';
 import 'package:frontend/login_screen/api/google_sign_in.dart';
 import 'package:frontend/productPage/productScreen.dart';
 import 'package:frontend/login_screen/login_screen.dart';
@@ -81,7 +82,7 @@ class _staffHomePageState extends State<staffHomePage> {
         page = productScreen() ;
         break;
       case 4:
-        page =  GetStartedPage(); // Thay bằng màn hình Hồ sơ
+        page =  Inforscreen(profile: myprofile); // Thay bằng màn hình Hồ sơ
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
