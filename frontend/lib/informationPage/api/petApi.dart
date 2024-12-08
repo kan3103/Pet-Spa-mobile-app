@@ -20,13 +20,12 @@ class PetAPI {
     final prefs = await SharedPreferences.getInstance();
     String? access_token = prefs.getString('access_token');
     String? refresh_token = prefs.getString('refresh_token');
-    String filePath = pet.image!;
-    File imageFile = File(filePath);
-
+    String filePath = "";
+    if(pet.image!=null) filePath  = pet.image!;
 
 
     var request = http.MultipartRequest('POST', Uri.parse("${BackUrls.urlsbackend}/profiles/pet/register/"));
-    request.files.add(await http.MultipartFile.fromPath(
+    if(filePath!="")request.files.add(await http.MultipartFile.fromPath(
       'image',
       filePath,
       filename: basename(filePath),

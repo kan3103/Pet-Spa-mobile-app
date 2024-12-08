@@ -21,6 +21,7 @@ class _userServiceState extends State<userService> {
     List<Map<String,dynamic>> listService = await ServiceAPI.getList();
     setState(() {
       pets = listService;
+      print(pets[0]);
     });
   }
   
@@ -50,7 +51,7 @@ class _userServiceState extends State<userService> {
                   height: 50,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/serviceScreen/pet_2.png'),
+                      image: pet['image']==null?AssetImage('assets/images/serviceScreen/pet_2.png'):NetworkImage(pet['image'].toString()),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(8),

@@ -29,7 +29,7 @@ class _AddServicePageState extends State<AddServicePage> {
   }
 
   // Hàm để lưu thông tin dịch vụ
-  void _saveService() {
+  void _saveService() async {
     String title = _titleController.text;
     String description = _descriptionController.text;
     
@@ -38,7 +38,7 @@ class _AddServicePageState extends State<AddServicePage> {
 
     // Tại đây bạn có thể lưu giá trị vào database hoặc làm gì đó với dữ liệu
     print('Title: $title, Price: $price, Description: $description');
-    GetService.PostService(title, price, description);
+    await GetService.PostService(title, price, description);
   }
 
   @override
