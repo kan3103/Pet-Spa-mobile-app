@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/homepage/homepage.dart';
 import 'package:frontend/service_screen/reService/serviceGet.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -50,7 +51,7 @@ class _AddServicePageState extends State<AddServicePage> {
     
     // Kiểm tra và chuyển đổi giá trị price thành int
     int price = int.tryParse(_priceController.text) ?? 0; // Mặc định là 0 nếu không thể chuyển đổi
-    
+
     // Tại đây bạn có thể lưu giá trị vào database hoặc làm gì đó với dữ liệu
     print('Title: $title, Price: $price, Description: $description',);
     GetService.PostService(title, price, description);
@@ -81,28 +82,39 @@ class _AddServicePageState extends State<AddServicePage> {
               decoration: InputDecoration(labelText: 'Description'),
             ),
             SizedBox(height: 20),
-            GestureDetector(
-                    onTap: _pickImage, // Hàm mở thư viện ảnh
-                    child: Container(
-                      height: 100,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                        onTap: _pickImage, // Hàm mở thư viện ảnh
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: petImage.isEmpty
+                              ? Center(child: Text('Add Image'))
+                              : Image.file(
+                            File(petImage), // Hiển thị ảnh từ thư viện
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                      child: petImage.isEmpty
-                          ? Center(child: Text('Add Image'))
-                          : Image.file(
-                        File(petImage), // Hiển thị ảnh từ thư viện
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _saveService,
-              child: Text('Save Service'),
+                      
+              ],
             ),
+            SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: _saveService,
+                            child: Text('Save Service'),
+                          ),
+                        ],
+                      ),
           ],
         ),
       ),
