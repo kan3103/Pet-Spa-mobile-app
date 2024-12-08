@@ -1,7 +1,9 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/homepage/manager_homepage.dart';
 import 'package:frontend/informationPage/manager/api/managerApi.dart';
+import 'package:frontend/informationPage/manager/managerprofile.dart';
 
 class Addstaff extends StatefulWidget {
   const Addstaff({super.key});
@@ -22,11 +24,7 @@ class _AddstaffState extends State<Addstaff> {
   // Function to print out values of the text fields
   void _printAccountInfo() {
     ManagerAPI.addStaff(_usernameController.text,_passwordController.text, _emailController.text, _lastnameController.text, _firstnameController.text);
-    print('First Name: ${_firstnameController.text}');
-    print('Last Name: ${_lastnameController.text}');
-    print('Email: ${_emailController.text}');
-    print('Username: ${_usernameController.text}');
-    print('Password: ${_passwordController.text}');
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => managerHomePage(selected: 4)));
   }
 
   @override

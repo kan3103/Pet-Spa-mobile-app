@@ -82,7 +82,7 @@ class _staffHomePageState extends State<staffHomePage> {
         page = productScreen() ;
         break;
       case 4:
-        page =  Inforscreen(profile:  myprofile,); // Thay bằng màn hình Hồ sơ
+        page =  Inforscreen(profile: myprofile); // Thay bằng màn hình Hồ sơ
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');

@@ -4,6 +4,7 @@ import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/homepage/api/getProfile.dart';
 import 'package:frontend/homepage/home_screen.dart';
 import 'package:frontend/login_screen/api/google_sign_in.dart';
+import 'package:frontend/productPage/cartItem.dart/cartOrderPage.dart';
 import 'package:frontend/productPage/productScreen.dart';
 import 'package:frontend/login_screen/login_screen.dart';
 import 'package:frontend/service_screen/managerService.dart';
@@ -81,7 +82,7 @@ class _customerHomePageState extends State<customerHomePage> {
         page = productScreen(); // Thay bằng màn hình Thanh toán
         break;
       case 3:
-        page = productScreen() ;
+        page = Cartorderpage();
         break;
       case 4:
         page =  Inforscreen(profile:  myprofile,); // Thay bằng màn hình Cài đặt

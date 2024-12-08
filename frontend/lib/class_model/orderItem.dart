@@ -66,7 +66,7 @@ class AllServiceAPI {
       // Retry the request with the new access token
       access_token = prefs.getString('access_token');
       response = await http.get(
-        Uri.parse(url),
+        Uri.parse('$url/'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $access_token',

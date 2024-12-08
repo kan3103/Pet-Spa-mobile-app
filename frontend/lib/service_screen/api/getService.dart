@@ -137,7 +137,7 @@ class ServiceAPI {
         throw Exception("Failed to get profile after retrying with new token");
       }
     } else {
-      throw Exception("Failed to get profile");
+      throw Exception("Failed to get order detail");
     }
   }
 
