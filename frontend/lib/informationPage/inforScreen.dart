@@ -11,6 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:frontend/login_screen/login_screen.dart';
 import 'dart:io';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 final GlobalKey<_InforscreenState> InforscreenKey = GlobalKey<_InforscreenState>();
 
 class Inforscreen extends StatefulWidget {
@@ -43,7 +45,7 @@ class _InforscreenState extends State<Inforscreen> {
   bool isPetSelected = false;
   bool loadPet = true;
   TextEditingController _nameController = TextEditingController();
-  
+  String accountType = 'staff';
   String? userName = "John Doe";
   String? userImage = "assets/images/image 1.png"; // Thêm ảnh avatar người dùng
   String? birthday = "John Doe";
@@ -58,10 +60,19 @@ class _InforscreenState extends State<Inforscreen> {
       loadPet = false;
     });
   }
+
+  void getaccType() async{
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      accountType = prefs.getString('account')!;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     getPets();
+    getaccType();
     super.initState();
     if (widget.profile != null) {
       setState(() {
@@ -337,8 +348,44 @@ void addPet() {
               ),
             ),
             Divider(),
-            // Phần thông tin thú cưng
             Padding(
+              padding: const EdgeInsets.all(20), 
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Name: ${ (widget.profile!.name == null ? 'N/A': widget.profile!.name )}',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Birthday: ${ (widget.profile!.birthday == null ? 'N/A': widget.profile!.birthday )}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Address: ${ (widget.profile!.address == null ? 'N/A': widget.profile!.address )}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Email: ${(widget.profile!.email == null ? 'N/A': widget.profile!.email )}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ) , 
+            ),
+            Divider(),
+            // Phần thông tin thú cưng
+            ////////////////////////////////////////////////////
+            ///
+            ///
+            ///
+            ///
+            accountType=='staff' ? SizedBox(width: 0,) : Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
