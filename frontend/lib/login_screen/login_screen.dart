@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ? AnimatedPositioned(
                   duration: Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
-                  top: MediaQuery.of(context).size.height * 0.3 - 55,
+                  top: MediaQuery.of(context).size.height * 0.3 - 28,
                   left: MediaQuery.of(context).size.width / 2 - 215,
                   child: ClipRect(
                     child: Align(
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
               : AnimatedPositioned(
                   duration: Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
-                  top: MediaQuery.of(context).size.height * 0.3 - 55,
+                  top: MediaQuery.of(context).size.height * 0.3 - 28,
                   left: MediaQuery.of(context).size.width / 2 - 45,
                   child: ClipRect(
                     child: Align(

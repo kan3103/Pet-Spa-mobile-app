@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/homepage/api/getProfile.dart';
 import 'package:frontend/homepage/home_screen.dart';
+import 'package:frontend/informationPage/manager/managerprofile.dart';
 import 'package:frontend/login_screen/api/google_sign_in.dart';
 import 'package:frontend/productPage/productScreen.dart';
 import 'package:frontend/login_screen/login_screen.dart';
@@ -80,7 +81,7 @@ class _managerHomePageState extends State<managerHomePage> {
         page = productScreen() ; // chỉnh
         break;
       case 4:
-        page =  GetStartedPage(); // Thay bằng màn hình Quản lí
+        page =  Managerprofile(profile: myprofile!); // Thay bằng màn hình Quản lí
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -99,7 +100,14 @@ class _managerHomePageState extends State<managerHomePage> {
         }
       },
       child: Scaffold(
-        body: page,
+        body: LoadProfile?const Center(
+        child: SizedBox(        
+          width: 30, 
+          height: 30, 
+          child: CircularProgressIndicator(
+            strokeWidth: 4.0, 
+          ),
+      )):page,
       
         bottomNavigationBar: Container(
           color: Colors.lightGreen,

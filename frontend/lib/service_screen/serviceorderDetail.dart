@@ -1,34 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/class_model/orderServiceDetail.dart';
 import 'package:frontend/class_model/service_item.dart';
+import 'package:frontend/service_screen/api/getService.dart';
 import 'package:frontend/service_screen/reService/editService.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class ServiceDetailPage extends StatefulWidget {
-  ServiceItem serviceItem;
-
+class orderServiceDetailPage extends StatefulWidget {
+  
+  final int id;
   // Constructor nhận các thông tin sản phẩm
-  ServiceDetailPage({
-    required this.serviceItem,
+  orderServiceDetailPage({
+    super.key,
+    required this.id
   });
 
   @override
-  State<ServiceDetailPage> createState() => _ServiceDetailPageState();
+  State<orderServiceDetailPage> createState() => _orderServiceDetailPageState();
 }
 
-class _ServiceDetailPageState extends State<ServiceDetailPage> {
- String accountType = 'customer';
-   void getType() async{
-    final prefs = await SharedPreferences.getInstance();
+class _orderServiceDetailPageState extends State<orderServiceDetailPage> {
+
+  orderServiceDetail? item;
+  void Loaditem() async{
+    orderServiceDetail getitem = await ServiceAPI.getorderdetail(widget.id.toString());
     setState(() {
-       accountType = prefs.getString('account')!;
+      item = getitem;
     });
-   
-    //print(accountType);
   }
   @override
   void initState() {
     // TODO: implement initState
-    getType();
+    Loaditem();
     super.initState();
   }
   @override
@@ -38,29 +39,6 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
         title: Text('Product Details',style: TextStyle(color: Colors.white),),
         backgroundColor: Color(0xFFF49FA4),
 
-        actions: [
-          accountType=="manager"?IconButton(
-                icon: Icon(Icons.edit),
-                color: Colors.white,
-                onPressed: () {
-                  // Mở popup chỉnh sửa khi nhấn nút sửa
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditServicePage(serviceItem: widget.serviceItem),
-                  ),
-                );
-                },
-              ):SizedBox(width: 0,),
-              accountType=="manager"?IconButton(
-                icon: Icon(Icons.delete),
-                color: Colors.white,
-                onPressed: () {
-                  // Xử lý hành động xóa
-
-                },
-              ):SizedBox(width: 0,),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -70,7 +48,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
-                widget.serviceItem.image!,
+                item!.image!,
                 height: 280,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -84,28 +62,34 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                   
                   // Tiêu đề sản phẩm
                   Text(
-                    widget.serviceItem.name!,
+                    item!.service!,
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 8),Text(
+                    item!.pet!,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 8),
-                  
+                  Text(
+                    item!.status==1?"Đang thực hiện":"N/A",
+                    style: TextStyle(fontSize: 16, color: Colors.yellowAccent, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 16),
                   // Mô tả sản phẩm
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
-                      widget.serviceItem.description!,
+                      item!.description!,
                       style: TextStyle(fontSize: 16),
                       textAlign: TextAlign.justify,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  
                   
                   // Giá sản phẩm
-                  Text(
-                    widget.serviceItem.price!.toString(),
-                    style: TextStyle(fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold),
-                  ),
+                  
                 ],
               ),
             ),

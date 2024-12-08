@@ -1,45 +1,19 @@
 from django.http import JsonResponse
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
-from django.conf import settings
 from .models import ServiceOrder, ProductOrder
 from profiles_and_pets.models import Pet
 from services_and_products.models import Service, Product
-from auths.models import Customer, Staff
-from functools import wraps
-import jwt
+from auths.models import Customer, Staff, MyUser
+from profiles_and_pets.models import Profile
+from utils.decorators import validate_jwt, permission_required
+from django.conf import settings
 import json
-def validate_jwt(func):
-    @wraps(func)
-    def wrapper(self, request, *args, **kwargs):
-        # Extract token from the Authorization header
-        token = request.headers.get('Authorization')
-        if not token:
-            return JsonResponse({'error': 'Authorization token missing'}, status=401)
-        if not token.startswith('Bearer '):
-            return JsonResponse({'error': 'Invalid token format'}, status=401)
-        
-        try:
-            # Decode the token
-            token = token[7:]  # Strip "Bearer " prefix
-            decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
-            request.user_id = decoded_token.get('user_id')
-            if not request.user_id:
-                return JsonResponse({'error': 'Invalid token payload'}, status=401)
-        except jwt.ExpiredSignatureError:
-            return JsonResponse({'error': 'Token has expired'}, status=401)
-        except jwt.InvalidTokenError:
-            return JsonResponse({'error': 'Invalid token'}, status=401)
-        
-        # Call the wrapped function
-        return func(self, request, *args, **kwargs)
-    return wrapper
+
 
 class ServiceOrderListView(View):
   @validate_jwt
   def get(self, request):
-    # print(request.user_id)
-    user = Customer.objects.get(id = request.user_id)
+    user = request.user
     orders = [{'id': order['id'], 'status': order['status'], 'pet': Pet.objects.get(id=order['pet_id']).name, 'service': Service.objects.get(id=order['service_id']).name} for order in list(ServiceOrder.objects.filter(user = user).values())]
 
     return_instance = {}
@@ -53,7 +27,7 @@ class ServiceOrderListView(View):
     if request.GET.get('done'):
       return_instance = {k:v for k,v in return_instance.items() if any(order['status'] == 2 for order in v['orders'])}
     else:
-      return_instance = {k:v for k,v in return_instance.items() if all(order['status'] == 1 for order in v['orders'])}
+      return_instance = {k:v for k,v in return_instance.items() if any(order['status'] == 1 for order in v['orders'])}
 
     return JsonResponse(return_instance, safe=False, status=200)
   
@@ -82,6 +56,7 @@ class ServiceOrderDetailView(View):
       return JsonResponse({'error': 'Order not found'}, status=404)
     
   @validate_jwt
+  # @permission_required(['manager', 'staff'])
   def put(self, request, order_id):
     try:
       order = ServiceOrder.objects.get(id=order_id)
@@ -123,14 +98,29 @@ class ProductOrderListView(View):
   
 
 class ServiceOrderViewManager(View):
+    @validate_jwt
+    # @permission_required(['manager'])
     def get(self, request):
+      print("HI")
       services = list(ServiceOrder.objects.values())
       return_instance = {}
       for order in services:
         usrname = Customer.objects.get(id=order['user_id']).username
         if usrname not in return_instance:
           return_instance[usrname] = []
-        return_instance[usrname].append(order)
+        service = Service.objects.get(id=order['service_id'])
+        staff = None
+        try:
+          staff = MyUser.objects.get(id=order['staff_id'])
+        except:
+          pass
+        staff_namme = None
+        try:
+          staff_namme = Profile.objects.get(user=staff).name
+        except:
+          pass
+
+        return_instance[usrname].append({'id': order['id'], 'status': order['status'],'staff_id': order['staff_id'], 'staff_name': staff_namme ,  'pet': Pet.objects.get(id=order['pet_id']).name, 'service': service.name, 'service_img': settings.HOSTNAME + service.image.url})
 
       return JsonResponse(return_instance, safe=False)
   

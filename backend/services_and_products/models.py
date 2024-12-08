@@ -1,12 +1,5 @@
 from django.db import models
-from rest_framework.permissions import  IsAuthenticated, BasePermission
-from auths.views import IsManager
 
-class IsManagerOrReadOnly(BasePermission):
-    def has_permission(self, request, view):
-        if request.method in ['GET', 'HEAD', 'OPTIONS']:
-            return IsAuthenticated().has_permission(request, view)
-        return IsManager().has_permission(request, view)
 
 # Create your models here.
 class Service(models.Model):

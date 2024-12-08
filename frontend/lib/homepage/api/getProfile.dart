@@ -16,7 +16,7 @@ class ProfileAPI {
     String? refresh_token = prefs.getString('refresh_token');
 
     var response = await http.get(
-      Uri.parse('$url/'),
+      Uri.parse('$url/me/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $access_token',
@@ -35,7 +35,7 @@ class ProfileAPI {
       // Retry the request with the new access token
       access_token = prefs.getString('access_token');
       response = await http.get(
-        Uri.parse(url),
+        Uri.parse('$url/me/'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $access_token',
@@ -54,6 +54,49 @@ class ProfileAPI {
     }
   }
 
+  static Future<Profile> getUserProfile(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? access_token = prefs.getString('access_token');
+    String? refresh_token = prefs.getString('refresh_token');
+
+    var response = await http.get(
+      Uri.parse('$url/$id/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $access_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      dynamic data = json.decode(response.body);
+      print(data);
+      Profile profile = Profile.fromJson(data); 
+      return profile;
+    } else if (response.statusCode == 401) {
+      // Refresh the access token using the refresh token
+      await TokenStorage.getaccessToken(refresh_token!);
+
+      // Retry the request with the new access token
+      access_token = prefs.getString('access_token');
+      response = await http.get(
+        Uri.parse('$url/$id/'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $access_token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        dynamic data = json.decode(response.body);
+        Profile profile = Profile.fromJson(data); 
+        return profile;
+      } else {
+        throw Exception("Failed to get profile after retrying with new token");
+      }
+    } else {
+      throw Exception("Failed to get profile");
+    }
+  }
 
   static Future<Profile> UpdateProfile(Profile profile) async{
     final prefs = await SharedPreferences.getInstance();
@@ -79,7 +122,7 @@ class ProfileAPI {
     }
   print(requestBody);
     var response = await http.put(
-      Uri.parse('$url/'),
+      Uri.parse('$url/me/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $access_token',
@@ -114,7 +157,7 @@ class ProfileAPI {
       // Retry the request with the new access token
       access_token = prefs.getString('access_token');
       var response = await http.put(
-        Uri.parse('$url/'),
+        Uri.parse('$url/me/'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $access_token',

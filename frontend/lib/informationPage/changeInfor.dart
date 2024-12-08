@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:frontend/class_model/uSer.dart';
 import 'package:frontend/homepage/api/getProfile.dart';
 import 'package:frontend/homepage/customer_homepage.dart';
+import 'package:frontend/homepage/manager_homepage.dart';
+import 'package:frontend/homepage/staff_homepage.dart';
 import 'package:frontend/informationPage/inforScreen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileEditingPage extends StatefulWidget {
   final Profile profile;
@@ -21,11 +25,23 @@ class _ProfileEditingPageState extends State<ProfileEditingPage> {
   late TextEditingController _addressController;
   late TextEditingController _emailController;
 
+  String accountType = 'customer';
+  
+
+  void getType() async{
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+       accountType = prefs.getString('account')!;
+    });
+   
+    //print(accountType);
+  }
   File? _avatar;
 
   @override
   void initState() {
     super.initState();
+    getType();
     _nameController = TextEditingController(text: widget.profile.name);
     _birthdayController = TextEditingController(text: widget.profile.birthday);
     _addressController = TextEditingController(text: widget.profile.address);
@@ -51,7 +67,7 @@ class _ProfileEditingPageState extends State<ProfileEditingPage> {
     Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => customerHomePage(selected: 4,), 
+                      builder: (context) => ( accountType == 'customer' ? customerHomePage(selected: 4,) : ( accountType == 'manager' ? managerHomePage(selected: 4) : staffHomePage(selected: 4) )         )  , 
                     ),
                   );
     
