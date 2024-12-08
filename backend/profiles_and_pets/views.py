@@ -1,4 +1,5 @@
 import json
+from django.conf import settings
 from django.forms import ValidationError
 from django.http import HttpResponse, JsonResponse
 from rest_framework import generics
@@ -101,7 +102,7 @@ class StaffListView(View):
                 "id": staff.id,
                 "username": staff.username,
                 "email": staff.email,
-                "image": profile.avatar.url if profile.avatar else None,
+                "image": f"{settings.HOSTNAME}/"+ profile.avatar.url if profile.avatar else None,
             })
         return JsonResponse(data, safe=False)
     

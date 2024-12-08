@@ -34,6 +34,7 @@ class _customerHomePageState extends State<customerHomePage> {
   Profile? myprofile;
   void getMyProfile() async{
     myprofile = await ProfileAPI.getMyProfile();
+    print(myprofile);
     setState(() {
       LoadProfile = false;
       selectedIndex = widget.selected;

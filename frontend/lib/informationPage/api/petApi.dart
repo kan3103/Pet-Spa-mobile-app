@@ -7,13 +7,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../service_screen/models/Pet.dart';
 import 'package:path/path.dart'; // Để lấy tên file từ đường dẫn
-import 'package:mime/mime.dart'; // Để xác định loại MIME của file
-import 'package:http_parser/http_parser.dart';
+
 
 class PetAPI {
   static const String url = "${BackUrls.urlsbackend}/orders/services";
   
-  
+  static String PetType(int type){
+  if (type == 1) return "Dog";
+  else if(type == 2)
+  return "Cat";
+  else if(type == 3)
+  return "Rabbit";
+  return "Hamster";
+}
 
   static void addPet(Pet pet) async{
     

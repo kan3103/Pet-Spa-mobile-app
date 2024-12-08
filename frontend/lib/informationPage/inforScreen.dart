@@ -6,7 +6,7 @@ import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/informationPage/api/petApi.dart';
 import 'package:frontend/informationPage/changeInfor.dart';
 import 'package:frontend/service_screen/models/Pet.dart';
-import 'package:frontend/service_screen/newOrder_screen.dart';
+import 'package:frontend/service_screen/models/petCard.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:frontend/login_screen/login_screen.dart';
 import 'dart:io';
@@ -47,7 +47,7 @@ class _InforscreenState extends State<Inforscreen> {
   TextEditingController _nameController = TextEditingController();
   String accountType = 'staff';
   String? userName = "John Doe";
-  String? userImage = "assets/images/image 1.png"; // Thêm ảnh avatar người dùng
+  String? userImage = ""; // Thêm ảnh avatar người dùng
   String? birthday = "John Doe";
   String? address = "John Doe";
   String petImage = "";
@@ -79,7 +79,7 @@ class _InforscreenState extends State<Inforscreen> {
         userName = widget.profile!.name;
         birthday = widget.profile!.birthday ==null ? '' :widget.profile!.birthday  ;
         address = widget.profile!.address == null ? '' : widget.profile!.address;
-       //userImage = widget.profile!.avatar; 
+       userImage = widget.profile!.avatar; 
       });
     }
   }
@@ -244,6 +244,10 @@ void addPet() {
                       onTap: () async {
                         final ImagePicker _picker = ImagePicker();
                         final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+                        setState(() {
+                          petimage = image!.path;
+                        });
+                        print(petimage);
                       },
                       child: Container(
                         height: 200,
@@ -328,7 +332,7 @@ void addPet() {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage(userImage!),
+                    backgroundImage: userImage!=""?NetworkImage(userImage!):AssetImage("assets/images/image 1.png"),
                   ),
                   SizedBox(width: 20),
                   Column(
@@ -474,8 +478,8 @@ void addPet() {
                         child: PetCard(
                           imageUrl: pets[index].image?.isEmpty ?? true ? 'assets/images/image 1.png' : pets[index].image!, 
                           name: pets[index].name!, 
-                          dob: "10kg", 
-                          petType: "nothing",
+                          dob: pets[index].dob ?? '', 
+                          petType: PetAPI.PetType(pets[index].petType!),
                           onSelected: _onPetSelected,
                         ),
                         /*Card(

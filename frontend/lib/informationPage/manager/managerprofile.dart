@@ -17,7 +17,7 @@ class Managerprofile extends StatefulWidget {
 
 class _ManagerprofileState extends State<Managerprofile> {
   String? userName = "John Doe";
-  String? userImage = "assets/images/image 1.png";
+  String? userImage = "";
   bool isload = true;
   
   List<Staff>? staffs;
@@ -41,8 +41,10 @@ class _ManagerprofileState extends State<Managerprofile> {
     if (widget.profile != null) {
       setState(() {
         userName = widget.profile!.name;
-       //userImage = widget.profile!.avatar; 
+       userImage = widget.profile!.avatar; 
+      
       });
+       print(userImage);
     }
   }
 
@@ -83,7 +85,7 @@ class _ManagerprofileState extends State<Managerprofile> {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage(userImage!),
+                    backgroundImage: userImage!=""?NetworkImage(userImage!):AssetImage("assets/images/image 1.png"),
                   ),
                   SizedBox(width: 20),
                   Text(

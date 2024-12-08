@@ -11,7 +11,7 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileEditingPage extends StatefulWidget {
-  final Profile profile;
+  Profile profile;
 
   ProfileEditingPage({required this.profile});
 
@@ -36,8 +36,14 @@ class _ProfileEditingPageState extends State<ProfileEditingPage> {
    
     //print(accountType);
   }
-  File? _avatar;
-
+  String? _avatar;
+  void loadImg() async{
+    if (widget.profile.avatar != null) {
+      setState(() {
+        _avatar = widget.profile.avatar!;
+      });
+    }
+  }
   @override
   void initState() {
     super.initState();
@@ -46,30 +52,28 @@ class _ProfileEditingPageState extends State<ProfileEditingPage> {
     _birthdayController = TextEditingController(text: widget.profile.birthday);
     _addressController = TextEditingController(text: widget.profile.address);
     _emailController = TextEditingController(text: widget.profile.email);
-    if (widget.profile.avatar != null) {
-      _avatar = File(widget.profile.avatar!);
-    }
+    loadImg();
   }
 
   // Hàm chọn ảnh từ thư viện
   Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
       setState(() {
-        _avatar = File(pickedFile.path);
+        _avatar = image.path;
+        print(_avatar);
       });
     }
   }
   void prepareScreen() async{
     // InforscreenKey.currentState?.reloadPage();
-    await ProfileAPI.UpdateProfile(widget.profile);
-    Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ( accountType == 'customer' ? customerHomePage(selected: 4,) : ( accountType == 'manager' ? managerHomePage(selected: 4) : staffHomePage(selected: 4) )         )  , 
-                    ),
-                  );
+    print(widget.profile.avatar);
+    Profile getprofile = await ProfileAPI.UpdateProfile(widget.profile);
+    setState(() {
+      widget.profile = getprofile;
+    });
+   
     
   }
 
@@ -90,7 +94,7 @@ class _ProfileEditingPageState extends State<ProfileEditingPage> {
                 child: CircleAvatar(
                   radius: 50,
                   backgroundImage: _avatar != null
-                      ? FileImage(_avatar!) 
+                      ? FileImage(File(_avatar!))
                       : AssetImage('assets/images/default_avatar.png') as ImageProvider,
                   child: _avatar == null
                       ? Icon(Icons.camera_alt, color: Colors.white)
@@ -141,15 +145,25 @@ class _ProfileEditingPageState extends State<ProfileEditingPage> {
 
               // Nút lưu
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   // Cập nhật lại profile
-                  widget.profile.name = _nameController.text;
-                  widget.profile.birthday = _birthdayController.text;
-                  widget.profile.address = _addressController.text;
-                  widget.profile.email = _emailController.text;
-                  widget.profile.avatar = _avatar?.path;
+                  setState(() {
+                    widget.profile.name = _nameController.text;
+                    widget.profile.birthday = _birthdayController.text;
+                    widget.profile.address = _addressController.text;
+                    widget.profile.email = _emailController.text;
+                    widget.profile.avatar = _avatar;
+                  });
+                  
                   
                   prepareScreen();
+                  await Future.delayed(Duration(seconds: 1));
+                   Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ( accountType == 'customer' ? customerHomePage(selected: 4,) : ( accountType == 'manager' ? managerHomePage(selected: 4) : staffHomePage(selected: 4) )         )  , 
+                    ),
+                  );
                   // Navigator.pop(context);
                   // // Xử lý lưu hoặc gửi API tại đây
                   // ScaffoldMessenger.of(context).showSnackBar(

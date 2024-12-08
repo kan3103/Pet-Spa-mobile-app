@@ -50,10 +50,15 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
   // ];
   List<Pet> pets =[];
   List<Pet> choose = [];
-  void _onPetSelected(bool selected) {
+  void _onPetSelected(bool selected,Pet pet) {
     setState(() {
       isPetSelected = selected;
     });
+    if(selected){
+      choose.add(pet);
+    }else{
+      choose.remove(pet);
+    }
   }
   void loadPet() async{
     List<Pet> pet = await ServiceAPI.getPetnow();
@@ -119,6 +124,7 @@ String PetType(int type){
                 itemBuilder: (context, index) {
                   final pet = pets![index];
                   return PetCard(
+                    pet: pet,
                     imageUrl: pet.image == null?"https://s3-alpha-sig.figma.com/img/5962/56b3/457374b16b2eafb3702028ca2627d093?Expires=1733702400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QoMDZUHMN-3SuTHypcgDZvr0Tf-n7mUptmwdWyQvIp1OahXgTSG4sHBoP1ZyzAKixVcbkf0w8Dp8zuR17TWOrRecGkC6jALXXYAcGD1Oqc3w7-a3hzG75KQBP~QuERGdczJMHE00ljyvt0qETAX7mG7lTTkiezK7vsTt61ywesisaNufD-5vPKCuWGbeq2tjdezUib4~3zDjDXYgJMYvmXo5sijGZw42rWTZueunaqAJ6gkgVr~sihYfN-CdvqczZKlsU8nH1QXBIPWu2uXjpPnkwcHurkBwJWhjkRi~zbjGqyT-Zg3YBo78HcEoxbWqdLhO3-Dpwrmsbqas1nvjVQ__":pet.image!,
                     name: pet.name!,
                     dob: pet.dob == null?"":pet.dob!,
@@ -137,7 +143,7 @@ String PetType(int type){
                 
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SelectServiceScreen(pets: pets, check: 0,listpet: [],sum: 0,)),
+                  MaterialPageRoute(builder: (context) => SelectServiceScreen(pets: choose, check: 0,listpet: [],sum: 0,)),
                 );
                 
                 //Navigator.pop(context);
@@ -163,14 +169,16 @@ String PetType(int type){
 
 
 class PetCard extends StatefulWidget {
+  final Pet pet;
   final String imageUrl;
   final String name;
   final String dob;
   final String petType;
-  final Function(bool) onSelected;
+  final Function(bool,Pet) onSelected;
 
   const PetCard({
     Key? key,
+    required this.pet,
     required this.imageUrl,
     required this.name,
     required this.dob,
@@ -188,7 +196,7 @@ class _PetCardState extends State<PetCard> {
   void _toggleSelection() {
     setState(() {
       isSelected = !isSelected;
-      widget.onSelected(isSelected);
+      widget.onSelected(isSelected,widget.pet);
     });
   }
 

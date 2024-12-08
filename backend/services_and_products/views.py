@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+import json
 from django.views import View
 from .models import Service
 from utils.decorators import validate_jwt, permission_required
@@ -15,13 +16,23 @@ class ServiceListCreateView(View):
     @validate_jwt
     @permission_required(['manager'])
     def post(self, request):
-        data = request.POST
-        service = Service.objects.create(
-            name=data.get('name'),
-            price=data.get('price'),
-            image=request.FILES.get('image'),
-            description=data.get('description')
-        )
+        data = json.loads(request.body.replace(b'\n',b''))
+        service = None
+        if not request.FILES.get('image'):
+            service = Service.objects.create(
+                name=data.get('name'),
+                price=data.get('price'),
+                description=data.get('description')
+            )
+        else:
+            service = Service.objects.create(
+                name=data.get('name'),
+                price=data.get('price'),
+                image=request.FILES.get('image'),
+                description=data.get('description')
+            )
+        if not service:
+            return JsonResponse({'error': 'Service not created'}, status=400)
         return JsonResponse({'service': service.id}, status=201)
 
 
