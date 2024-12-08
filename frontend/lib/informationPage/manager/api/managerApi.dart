@@ -62,7 +62,7 @@ class ManagerAPI {
         throw Exception("Failed to get profile after retrying with new token");
       }
     } else {
-      throw Exception("Failed to add Pet");
+      throw Exception("Failed to add Staff");
     }
   }
 }

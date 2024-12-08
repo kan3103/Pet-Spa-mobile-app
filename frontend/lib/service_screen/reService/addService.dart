@@ -45,7 +45,7 @@ class _AddServicePageState extends State<AddServicePage> {
   }
 
   // Hàm để lưu thông tin dịch vụ
-  void _saveService() {
+  void _saveService() async {
     String title = _titleController.text;
     String description = _descriptionController.text;
     

@@ -109,6 +109,7 @@ class _StaffServiceDetailState extends State<StaffServiceDetail> {
                 ],
               ),
             ),
+            FloatingActionButton(onPressed: (){}, child: const Icon(Icons.person_add_alt_1),),
           ],
         ),
       ),

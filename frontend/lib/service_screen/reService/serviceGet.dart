@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GetService {
-  static const String url = "${BackUrls.urlsbackend}/store/services/";
+  static const String url = "${BackUrls.urlsbackend}/store/services";
 
   static Future<List<ServiceItem>> GetAllService() async {
     final prefs = await SharedPreferences.getInstance();
@@ -17,7 +17,7 @@ class GetService {
     String? refresh_token = prefs.getString('refresh_token');
   
     var response = await http.get(
-      Uri.parse('$url'),
+      Uri.parse('$url/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         'Authorization': 'Bearer $access_token',
@@ -35,7 +35,7 @@ class GetService {
       // Retry the request with the new access token
       access_token = prefs.getString('access_token');
       response = await http.get(
-        Uri.parse(url),
+        Uri.parse('$url/'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $access_token',
@@ -55,11 +55,17 @@ class GetService {
   }
 
 
-  static void PostService(String name,int price,String description) async {
+  static Future<void> PostService(String name,int price,String description) async {
     final prefs = await SharedPreferences.getInstance();
     String? access_token = prefs.getString('access_token');
     String? refresh_token = prefs.getString('refresh_token');
 
+    print(name);
+    print(json.encode(<String,dynamic>{
+        "name":name,
+        "price":price,
+        "description":description
+      }));
     var response = await http.post(
       Uri.parse('$url/'),
       headers: <String, String>{
@@ -72,7 +78,7 @@ class GetService {
         "description":description
       }),
     );
-
+    print(response.body);
     if (response.statusCode == 201) {
       return;
     } else if (response.statusCode == 401) {
@@ -82,7 +88,7 @@ class GetService {
       // Retry the request with the new access token
       access_token = prefs.getString('access_token');
       response = await http.get(
-        Uri.parse(url),
+        Uri.parse('$url/'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $access_token',

@@ -7,26 +7,31 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../../service_screen/models/Pet.dart';
 import 'package:path/path.dart'; // Để lấy tên file từ đường dẫn
-import 'package:mime/mime.dart'; // Để xác định loại MIME của file
-import 'package:http_parser/http_parser.dart';
+
 
 class PetAPI {
   static const String url = "${BackUrls.urlsbackend}/orders/services";
   
-  
+  static String PetType(int type){
+  if (type == 1) return "Dog";
+  else if(type == 2)
+  return "Cat";
+  else if(type == 3)
+  return "Rabbit";
+  return "Hamster";
+}
 
   static void addPet(Pet pet) async{
     
     final prefs = await SharedPreferences.getInstance();
     String? access_token = prefs.getString('access_token');
     String? refresh_token = prefs.getString('refresh_token');
-    String filePath = pet.image!;
-    File imageFile = File(filePath);
-
+    String filePath = "";
+    if(pet.image!=null) filePath  = pet.image!;
 
 
     var request = http.MultipartRequest('POST', Uri.parse("${BackUrls.urlsbackend}/profiles/pet/register/"));
-    request.files.add(await http.MultipartFile.fromPath(
+    if(filePath!="")request.files.add(await http.MultipartFile.fromPath(
       'image',
       filePath,
       filename: basename(filePath),

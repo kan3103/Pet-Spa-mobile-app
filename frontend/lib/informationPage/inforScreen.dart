@@ -6,7 +6,7 @@ import 'package:frontend/homepage/customer_homepage.dart';
 import 'package:frontend/informationPage/api/petApi.dart';
 import 'package:frontend/informationPage/changeInfor.dart';
 import 'package:frontend/service_screen/models/Pet.dart';
-import 'package:frontend/service_screen/newOrder_screen.dart';
+import 'package:frontend/service_screen/models/petCard.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:frontend/login_screen/login_screen.dart';
 import 'dart:io';
@@ -47,7 +47,7 @@ class _InforscreenState extends State<Inforscreen> {
   TextEditingController _nameController = TextEditingController();
   String accountType = 'staff';
   String? userName = "John Doe";
-  String? userImage = "assets/images/image 1.png"; // Thêm ảnh avatar người dùng
+  String? userImage = ""; // Thêm ảnh avatar người dùng
   String? birthday = "John Doe";
   String? address = "John Doe";
   String petImage = "";
@@ -79,7 +79,7 @@ class _InforscreenState extends State<Inforscreen> {
         userName = widget.profile!.name;
         birthday = widget.profile!.birthday ==null ? '' :widget.profile!.birthday  ;
         address = widget.profile!.address == null ? '' : widget.profile!.address;
-       //userImage = widget.profile!.avatar; 
+       userImage = widget.profile!.avatar; 
       });
     }
   }
@@ -102,7 +102,34 @@ class _InforscreenState extends State<Inforscreen> {
     }
   }
 
-
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0), // Khoảng cách giữa các hàng
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600, // In đậm nhãn
+            ),
+          ),
+          SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black87, // Màu chữ chính
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
   void _editName() {
     // Gán giá trị hiện tại của tên vào controller
     _nameController.text = userName! ;
@@ -217,16 +244,10 @@ void addPet() {
                       onTap: () async {
                         final ImagePicker _picker = ImagePicker();
                         final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-                        File imageFile = File(image!.path);
-                        final bytes = await image.readAsBytes();
-                        final base64Image = base64Encode(bytes);
-
-                        if (image != null) {
-                          setState(() {
-                            petimage = image.path;
-                            petImage = base64Image;
-                          });
-                        }
+                        setState(() {
+                          petimage = image!.path;
+                        });
+                        print(petimage);
                       },
                       child: Container(
                         height: 200,
@@ -311,35 +332,17 @@ void addPet() {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: AssetImage(userImage!),
+                    backgroundImage: userImage!=""?NetworkImage(userImage!):AssetImage("assets/images/image 1.png"),
                   ),
                   SizedBox(width: 20),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         userName!,
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left:15.0),
-                        child: Text(
-                          birthday!,
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left:15.0),
-                        child: Text(
-                          (address!.length > 15 ? address!.substring(0, 15) + '...' : address!),
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
                         ),
                       ),
                     ],
@@ -349,36 +352,40 @@ void addPet() {
             ),
             Divider(),
             Padding(
-              padding: const EdgeInsets.all(20), 
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Name: ${ (widget.profile!.name == null ? 'N/A': widget.profile!.name )}',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Birthday: ${ (widget.profile!.birthday == null ? 'N/A': widget.profile!.birthday )}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Address: ${ (widget.profile!.address == null ? 'N/A': widget.profile!.address )}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Email: ${(widget.profile!.email == null ? 'N/A': widget.profile!.email )}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
+              padding: const EdgeInsets.all(7.0), // Thêm padding đồng đều
+              child: Card(
+                elevation: 4, // Hiệu ứng nổi để tạo sự tách biệt
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), // Bo góc card
                 ),
-              ) , 
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0), // Padding bên trong card
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Thông tin cá nhân',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: const Color.fromARGB(255, 99, 4, 4), // Tô màu tiêu đề
+                        ),
+                      ),
+                      Divider(thickness: 1, color: Colors.grey.shade300), // Dòng phân cách
+                      SizedBox(height: 10),
+                      _buildInfoRow('Họ và tên:', widget.profile?.name ?? 'N/A'),
+                      _buildInfoRow('Ngày sinh:', widget.profile?.birthday ?? 'N/A'),
+                      _buildInfoRow('Địa chỉ:', widget.profile?.address ?? 'N/A'),
+                      _buildInfoRow('Email:', widget.profile?.email ?? 'N/A'),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            Divider(),
+
+// Helper widget to format information rows
+          Divider(),
             // Phần thông tin thú cưng
             ////////////////////////////////////////////////////
             ///
@@ -471,8 +478,8 @@ void addPet() {
                         child: PetCard(
                           imageUrl: pets[index].image?.isEmpty ?? true ? 'assets/images/image 1.png' : pets[index].image!, 
                           name: pets[index].name!, 
-                          dob: "10kg", 
-                          petType: "nothing",
+                          dob: pets[index].dob ?? '', 
+                          petType: PetAPI.PetType(pets[index].petType!),
                           onSelected: _onPetSelected,
                         ),
                         /*Card(
