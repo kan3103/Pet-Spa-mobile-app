@@ -16,18 +16,10 @@ class _StaffServiceDetailState extends State<StaffServiceDetail> {
   Map<String, dynamic>? selectedPet;
 
   Future<void> getService() async {
-    try {
       List<Map<String, dynamic>> listService = await ServiceAPI.getList();
       setState(() {
         pets = listService;
-        selectedPet = pets.firstWhere(
-              (pet) => pet['id'] == widget.order['pet_id'], // Match based on `pet_id`
-          orElse: () => {"description": "Unknown", "name": widget.order['pet_id']},
-        );
       });
-    } catch (e) {
-      print("Error fetching services: $e");
-    }
   }
 
   @override
@@ -54,6 +46,7 @@ class _StaffServiceDetailState extends State<StaffServiceDetail> {
             Container(
               height: 320,
               width: MediaQuery.of(context).size.width,
+              // replace by widget.order['image'] when available
               child: Image.network(
                 "https://via.placeholder.com/600x320.png?text=Pet+Spa",
                 fit: BoxFit.cover,
