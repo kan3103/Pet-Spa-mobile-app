@@ -156,6 +156,7 @@ class _OrderManagerState extends State<OrderManager> {
                               },
                             );
                           } 
+                          , child: Icon(Icons.person_add_alt_1),
                           ),
                         /*
                         Container(

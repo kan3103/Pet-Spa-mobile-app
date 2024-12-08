@@ -73,9 +73,9 @@ class _MyServiceScreenState extends State<MyServiceScreen> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = (accountType == 'customer' ? userService() : (accountType == 'manager' ? OrderManager() : (accountType == 'staff' ? staffService() : userService())));
+        page = (accountType == 'customer' ? userService() : (accountType == 'manager' ? OrderManager() : staffService()));
     case 1:
-        page = (accountType == 'customer'? Allservice(): (accountType == 'manager' ? reServicePage() : (accountType == 'staff' ? StaffAllService() : userService()) ) );
+        page = (accountType == 'customer'? Allservice(): (accountType == 'manager' ? reServicePage() : Allservice() ) );
         //myBlogs(myprofile: widget.myprofile, isProfile: false);
     default:
     throw UnimplementedError('no widget for $selectedIndex');

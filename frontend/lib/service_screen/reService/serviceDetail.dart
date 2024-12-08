@@ -109,6 +109,7 @@ class _ServiceDetailPageState extends State<ServiceDetailPage> {
                 ],
               ),
             ),
+            
           ],
         ),
       ),
