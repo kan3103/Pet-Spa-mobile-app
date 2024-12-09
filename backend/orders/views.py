@@ -87,17 +87,14 @@ class ServiceOrderViewManager(View):
     @validate_jwt
     # @permission_required(['manager'])
     def get(self, request):
-      services = list(ServiceOrder.objects.values())
+      services = list(ServiceOrder.objects.filter(status = 1).values())
       return_instance = {}
-      print(services)
-      for s in services:
-        print(Service.objects.get(id=s['service_id']).image)
+
       for order in services:
         usrname = Customer.objects.get(id=order['user_id']).username
         if usrname not in return_instance:
           return_instance[usrname] = []
         service = Service.objects.get(id=order['service_id'])
-        print(service)
         staff = None
         try:
           staff = MyUser.objects.get(id=order['staff_id'])
