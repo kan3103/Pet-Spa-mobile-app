@@ -80,10 +80,10 @@ class _customerHomePageState extends State<customerHomePage> {
         
         break;
       case 2:
-        page = productScreen(); // Thay bằng màn hình Thanh toán
+        page = Cartorderpage()  ; // Thay bằng màn hình Thanh toán
         break;
       case 3:
-        page = Cartorderpage();
+        page = productScreen();
         break;
       case 4:
         page =  Inforscreen(profile:  myprofile,); // Thay bằng màn hình Cài đặt
@@ -130,16 +130,16 @@ class _customerHomePageState extends State<customerHomePage> {
                   label: 'Calendar',
                 ),
                 BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_cart),
+                  label: 'Cart',
+                ),
+                BottomNavigationBarItem(
                   icon: Icon(Icons.shopping_bag),
                   label: 'Shopping',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.person),
                   label: 'Profile',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  label: 'Setting',
                 ),
               ],
               currentIndex: selectedIndex,

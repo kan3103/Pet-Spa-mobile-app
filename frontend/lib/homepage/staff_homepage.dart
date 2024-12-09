@@ -79,9 +79,6 @@ class _staffHomePageState extends State<staffHomePage> {
         page = productScreen(); // Thay bằng màn hình Thông báo công việc
         break;
       case 3:
-        page = productScreen() ;
-        break;
-      case 4:
         page =  Inforscreen(profile: myprofile); // Thay bằng màn hình Hồ sơ
         break;
       default:
@@ -132,10 +129,6 @@ class _staffHomePageState extends State<staffHomePage> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
                 label: 'Profile',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'Setting',
               ),
             ],
             currentIndex: selectedIndex,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/productPage/cartItem.dart/api/cartApi.dart';
 import 'package:frontend/productPage/cartItem.dart/cartServicemodel.dart';
 
 class cartOrderItem extends StatelessWidget {
@@ -88,8 +89,9 @@ class cartOrderItem extends StatelessWidget {
 class TotalPrice extends StatelessWidget {
   final double totalAmount;
   final int itemCount;
+  final List<Cartservicemodel> order;
 
-  TotalPrice({required this.totalAmount, required this.itemCount});
+  TotalPrice({required this.totalAmount, required this.itemCount , required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +127,13 @@ class TotalPrice extends StatelessWidget {
           ),
           SizedBox(height: 8),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              List<int> payment = [];
+              order.forEach((item) {
+                payment.add(item.id!);
+              });
+              Cartapi.Payment(payment);
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFFF49FA4),
               padding: EdgeInsets.symmetric(vertical: 16.0),
