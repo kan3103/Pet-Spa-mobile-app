@@ -35,7 +35,7 @@ class ServiceOrderListView(View):
         return_instance = {k:v for k,v in return_instance.items() if any(order['status'] == 1 for order in v['orders'])}
     else:
       staff = Staff.objects.get(id = request.user_id)
-      orders = [{'id': order['id'], 'status': order['status'], 'pet': Pet.objects.get(id=order['pet_id']).name, 'service': Service.objects.get(id=order['service_id']).name} for order in list(ServiceOrder.objects.filter(staff = staff, status = 1).values())]
+      orders = [{'id': order['id'], 'status': order['status'], 'pet': Pet.objects.get(id=order['pet_id']).name, 'pet_id': order['pet_id'], 'service': Service.objects.get(id=order['service_id']).name,'service_id':order['service_id'],'service_image':settings.HOSTNAME + Service.objects.get(id=order['service_id']).image.url} for order in list(ServiceOrder.objects.filter(staff = staff, status = 1).values())]
       return_instance['orders'] = orders
     return JsonResponse(return_instance, safe=False, status=200)
   
@@ -69,8 +69,8 @@ class ServiceOrderDetailView(View):
     try:
       order = ServiceOrder.objects.get(id=order_id)
       data = json.loads(request.body.replace(b'\n',b''))
-      print(data)
       if 'status' in data:
+        print(data['status'])
         order.status = data['status']
       if 'staff' in data:
         order.staff = Staff.objects.get(id=data['staff'])

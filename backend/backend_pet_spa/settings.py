@@ -132,7 +132,7 @@ TEMPLATES = [
     },
 ]
 
-HOSTNAME = 'http://192.168.10.11:8000'
+HOSTNAME = 'http://172.16.0.222:8000'
 
 WSGI_APPLICATION = 'backend_pet_spa.wsgi.application'
 
