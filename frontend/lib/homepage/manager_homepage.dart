@@ -78,9 +78,6 @@ class _managerHomePageState extends State<managerHomePage> {
         page = productScreen(); // Thay bằng màn hình Thông báo
         break;
       case 3:
-        page = productScreen() ; // chỉnh
-        break;
-      case 4:
         page =  Managerprofile(profile: myprofile!); // Thay bằng màn hình Quản lí
         break;
       default:
@@ -127,10 +124,6 @@ class _managerHomePageState extends State<managerHomePage> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.shopping_bag),
                 label: 'Shopping',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),

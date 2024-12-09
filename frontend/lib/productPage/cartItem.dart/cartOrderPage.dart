@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/productPage/cartItem.dart/api/cartApi.dart';
 import 'package:frontend/productPage/cartItem.dart/cartOrder.dart';
 import 'package:frontend/productPage/cartItem.dart/cartServicemodel.dart';
 
@@ -10,24 +11,24 @@ class Cartorderpage extends StatefulWidget {
 class _CartorderpageState extends State<Cartorderpage> {
   // Danh sách sản phẩm trong giỏ hàng
   late List<Cartservicemodel> cartItems = [
-     Cartservicemodel(
-        id: 1,
-        pet: 'Khangly', 
-        image: '',
-        service: 'Lam gi do',
-        price: 150000 
-      
-    ),
-    Cartservicemodel(
-        id: 1,
-        pet: 'Khangly', 
-        image: '',
-        service: 'Lam gi do',
-        price: 180000 
-    ),
   ] ;
 
-  // Tính tổng tiền
+  void loadCartItems() async {
+    // Lấy danh sách sản phẩm từ API
+    List<Cartservicemodel> getlist=  await Cartapi.getOrderCart();
+    setState(() {
+      cartItems = getlist;
+    });
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    loadCartItems();
+
+    super.initState();
+  }
+  
   double calculateTotal() {
     return cartItems.fold(
         0, (sum, cartItem) => sum + (cartItem.price! ));
@@ -75,6 +76,7 @@ class _CartorderpageState extends State<Cartorderpage> {
           TotalPrice(
             totalAmount: calculateTotal(),
             itemCount: cartItems.length,
+            order: cartItems,
           ),
         ],
       ),

@@ -7,10 +7,6 @@ import 'package:http/http.dart' as http;
 
 
 class ManagerAPI {
-
-  
-  
-
   static void addStaff(String username, String password, String email, String lastname, String firstname) async{
     final prefs = await SharedPreferences.getInstance();
     String? access_token = prefs.getString('access_token');
