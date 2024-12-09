@@ -18,8 +18,9 @@ class ServiceOrderListView(View):
       user = Customer.objects.get(id = request.user_id)
       if request.GET.get('unpaid'):
         orders = list(ServiceOrder.objects.filter(user = request.user_id, status = 2).values())
-        orders = [{'id': order['id'],'price':Service.objects.get(id=order['service_id']).price  ,'pet': Pet.objects.get(id=order['pet_id']).name , 'service': Service.objects.get(id=order['service_id']).name, 'image': Service.objects.get(order['service_id']).image.url} for order in orders]
-        JsonResponse(orders, safe=False, status=200)
+        data = [{'id': order['id'],'price': Service.objects.get(id=order['service_id']).price, 'pet': Pet.objects.get(id=order['pet_id']).name, 'service': Service.objects.get(id=order['service_id']).name, 'image': settings.HOSTNAME + Service.objects.get(id=order['service_id']).image.url} for order in orders]
+        # orders = [{'id' : order['id'],'price':Service.objects.get(id=order['service_id']).price  ,'pet': Pet.objects.get(id=order['pet_id']).name , 'service': Service.objects.get(id=order['service_id']).name, 'image': Service.objects.get(order['service_id']).image.url} for order in orders]
+        return JsonResponse({"orders": data}, status=200)
 
       orders = [{'id': order['id'], 'status': order['status'], 'pet': Pet.objects.get(id=order['pet_id']).name ,'image_pet':settings.HOSTNAME + Pet.objects.get(id=order['pet_id']).image.url, 'service': Service.objects.get(id=order['service_id']).name} for order in list(ServiceOrder.objects.filter(user = user).values())]
       for order in orders:
