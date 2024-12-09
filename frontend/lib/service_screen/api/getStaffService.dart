@@ -25,8 +25,11 @@ String PetType(int type){
         return {
           "id": order['id'],
           "status": order['status'],
-          "pet_id": order['pet'],
-          "service_id": order['service'],
+          "pet": order['pet'],
+          "pet_id": order['pet_id'],
+          "service": order['service'],
+          "service_id":order['service_id'],
+          "service_image": order['service_image'],
         };
       }).toList(),
     };

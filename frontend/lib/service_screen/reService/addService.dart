@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/homepage/homepage.dart';
+import 'package:frontend/homepage/manager_homepage.dart';
 import 'package:frontend/service_screen/reService/serviceGet.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -54,7 +55,8 @@ class _AddServicePageState extends State<AddServicePage> {
 
     // Tại đây bạn có thể lưu giá trị vào database hoặc làm gì đó với dữ liệu
     print('Title: $title, Price: $price, Description: $description',);
-    GetService.PostService(title, price, description);
+    await GetService.PostService(title, price, description);
+    
   }
 
   @override
@@ -110,7 +112,10 @@ class _AddServicePageState extends State<AddServicePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton(
-                            onPressed: _saveService,
+                            onPressed: () async {_saveService();
+                            // delay 1s
+                            await Future.delayed(const Duration(seconds: 1), () {});
+                            Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => managerHomePage(selected: 1,)));},
                             child: Text('Save Service'),
                           ),
                         ],
