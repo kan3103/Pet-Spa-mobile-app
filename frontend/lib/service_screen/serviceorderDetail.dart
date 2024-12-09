@@ -55,18 +55,46 @@ class _orderServiceDetailPageState extends State<orderServiceDetailPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(5),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 16),
-                  
+                  Row(children: [
+                    Text(
+                      'Thông tin dịch vụ: ',
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    ),
+                    
+                  ],),
                   // Tiêu đề sản phẩm
-                  Text(
-                    item!.service!,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Text(
+                          "Order ID: ",
+                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          item!.id.toString(),
+                          style: TextStyle(fontSize: 20),
+                        ),
+                    ],
                   ),
-                  SizedBox(height: 8),Text(
+                  Row(
+                    children: [
+                      Text(
+                          "Service: ",
+                          style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                        ),
+                      Text(
+                        item!.service!,
+                        style: TextStyle(fontSize: 20,),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                  Text(
                     item!.pet!,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
@@ -74,7 +102,7 @@ class _orderServiceDetailPageState extends State<orderServiceDetailPage> {
                   SizedBox(height: 8),
                   Text(
                     item!.status==1?"Đang thực hiện":"N/A",
-                    style: TextStyle(fontSize: 16, color: Colors.yellowAccent, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 16, color: const Color.fromARGB(255, 139, 24, 11), fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 16),
                   // Mô tả sản phẩm

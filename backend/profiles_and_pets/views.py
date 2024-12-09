@@ -54,9 +54,13 @@ class PetDetailView(generics.RetrieveUpdateDestroyAPIView):
         return Pet.objects.filter(owner=customer)
     def get_object(self):
         namePet = self.kwargs.get('name')
-        customer = Customer.objects.get(id=self.request.user.id)
-        pet = Pet.objects.get(name=namePet,owner=customer)
-        return pet
+        if Customer.objects.filter(id=self.request.user.id).exists():
+            customer = Customer.objects.get(id=self.request.user.id)
+            pet = Pet.objects.get(name=namePet,owner=customer)
+            return pet
+        else:
+            pet = Pet.objects.get(id=namePet)
+            return pet
         
 
   
