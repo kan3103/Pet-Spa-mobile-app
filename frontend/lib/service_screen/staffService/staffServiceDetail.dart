@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/class_model/orderItem.dart';
+import 'package:frontend/homepage/staff_homepage.dart';
+import 'package:frontend/informationPage/api/petApi.dart';
 import 'package:frontend/service_screen/api/getService.dart';
 import 'package:frontend/service_screen/models/Pet.dart';
 
@@ -12,16 +15,19 @@ class StaffServiceDetail extends StatefulWidget {
 }
 
 class _StaffServiceDetailState extends State<StaffServiceDetail> {
-  List<Map<String, dynamic>> pets = [];
+  bool loadPet = true;
+  Pet? pet ;
   Map<String, dynamic>? selectedPet;
 
   Future<void> getService() async {
-      List<Map<String, dynamic>> listService = await ServiceAPI.getList();
-      setState(() {
-        pets = listService;
-      });
+    pet = await PetAPI.getPetdetail(widget.order['pet_id'].toString());
+    setState(() {
+      loadPet = false;
+    });
   }
-
+  Future<void> updateOrder(int service) async{
+    await AllServiceAPI.PutDoneOrder(service);
+  }
   @override
   void initState() {
     super.initState();
@@ -38,7 +44,16 @@ class _StaffServiceDetailState extends State<StaffServiceDetail> {
         ),
         backgroundColor: const Color(0xFFF49FA4),
       ),
-      body: SingleChildScrollView(
+      body: loadPet? 
+      const Center(
+        child: SizedBox(        
+          width: 30, 
+          height: 30, 
+          child: CircularProgressIndicator(
+            strokeWidth: 4.0, 
+          ),
+      ))
+      : SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -48,7 +63,7 @@ class _StaffServiceDetailState extends State<StaffServiceDetail> {
               width: MediaQuery.of(context).size.width,
               // replace by widget.order['image'] when available
               child: Image.network(
-                "https://via.placeholder.com/600x320.png?text=Pet+Spa",
+                widget.order['service_image'],
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return const Center(child: Text("Failed to load image"));
@@ -87,8 +102,8 @@ class _StaffServiceDetailState extends State<StaffServiceDetail> {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/serviceScreen/pet_2.png'),
+                      image: DecorationImage(
+                        image: NetworkImage(pet!.image.toString()),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(8),
@@ -101,7 +116,7 @@ class _StaffServiceDetailState extends State<StaffServiceDetail> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Tên thú cưng: ${widget.order['pet_id']}',
+                        'Tên thú cưng: ${widget.order['pet']}',
                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -109,7 +124,17 @@ class _StaffServiceDetailState extends State<StaffServiceDetail> {
                 ],
               ),
             ),
-            FloatingActionButton(onPressed: (){}, child: const Icon(Icons.person_add_alt_1),),
+            ElevatedButton(onPressed: (){
+              updateOrder(widget.order['id']);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder:(context) => staffHomePage(selected: 1),));
+            }, child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.check),
+                const Text('Hoàn thành'),
+              ],
+            ),),
           ],
         ),
       ),

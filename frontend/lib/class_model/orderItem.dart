@@ -210,6 +210,52 @@ class AllServiceAPI {
       throw Exception("Failed to get profile");
     }
   }
+
+  static Future<void> PutDoneOrder(int service) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? access_token = prefs.getString('access_token');
+    String? refresh_token = prefs.getString('refresh_token');
+    var response = await http.put(
+      Uri.parse('${BackUrls.urlsbackend}/orders/services/${service}/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $access_token',
+      },
+      body: json.encode({
+        "status": 2, // Gửi toàn bộ danh sách service
+      }),
+
+    );
+
+    if (response.statusCode == 200) {
+      return;
+    } else if (response.statusCode == 401) {
+      // Refresh the access token using the refresh token
+      await TokenStorage.getaccessToken(refresh_token!);
+
+      // Retry the request with the new access token
+      access_token = prefs.getString('access_token');
+      var response = await http.put(
+      Uri.parse('${BackUrls.urlsbackend}/orders/services/${service}/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer $access_token',
+      },
+      body: json.encode({
+        "status": 2, // Gửi toàn bộ danh sách service
+      }),
+
+    );
+
+      if (response.statusCode == 200) {
+        return;
+      } else {
+        throw Exception("Failed to get profile after retrying with new token");
+      }
+    } else {
+      throw Exception("Failed to get profile");
+    }
+  }
   /*
   static Future<List<Pet>> getPetnow() async {
     final prefs = await SharedPreferences.getInstance();

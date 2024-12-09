@@ -12,7 +12,7 @@ class BottomSheetPopup extends StatelessWidget {
 
   void putStaff(int id, int service) async{
     await AllServiceAPI.PutStaff(id, service);
-    print("oke");
+
   }
 
   @override

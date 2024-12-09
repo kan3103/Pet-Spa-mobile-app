@@ -23,7 +23,6 @@ class _reServicePageState extends State<reServicePage> {
     services = await GetService.GetAllService();
     setState(() {
       isLoaded = true;
-      print(isLoaded);
     });
   }
   @override

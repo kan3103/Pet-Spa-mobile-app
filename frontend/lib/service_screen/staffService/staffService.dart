@@ -19,6 +19,7 @@ class _staffServiceState extends State<staffService> {
     setState(() {
       orders = listService;
     });
+    print(orders);
   }
 
   @override
@@ -46,13 +47,13 @@ class _staffServiceState extends State<staffService> {
                   height: 50,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/serviceScreen/pet_2.png'),
+                      image: NetworkImage(order['service_image']),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                title: Text(order['service_id'].toString()),
+                title: Text(order['service'].toString()),
                 subtitle: Text(order['status']?.toString() ?? 'Unknown Status'),
                 trailing: IconButton(
                   icon: Icon(Icons.arrow_forward),
