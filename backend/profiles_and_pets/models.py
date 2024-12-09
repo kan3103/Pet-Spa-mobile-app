@@ -13,7 +13,7 @@ class Pet(models.Model):
     owner = models.ForeignKey(Customer, on_delete=models.CASCADE)
     dob = models.DateField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='pets/', default='pets/default.jpg')
+    image = models.ImageField(upload_to='pets/', default='pets/default.png')
     vaccinated = models.BooleanField(default=False)
     pet_type = models.IntegerField(choices=PetType.choices)
     
@@ -32,7 +32,7 @@ class Profile(models.Model):
     user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, default='')  
     birthday = models.DateField(blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.jpg')
+    avatar = models.ImageField(upload_to='avatars/', default='avatars/default.png')
     address = models.TextField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
